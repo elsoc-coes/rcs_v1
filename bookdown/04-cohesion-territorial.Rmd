@@ -56,100 +56,17 @@ voto_salida <- elsoc_long_2016_2022 %>%
                           ))  %>%
   select(idencuesta, voto_salida)
 
-
 ```
 
 ### Conflicto territorial y seguridad
 
-```{r}
-elsoc_long_2016_2022.prueba <- elsoc_long_2016_2022 %>%
-  mutate(pleb = case_when(c55 == 4 ~ 5,
-                          c55 == 1 ~ 1,
-                          c55 == 2 ~ 2,
-                          c55 == 3 ~ 3,
-                          c55 == -999 ~ 5,
-                          c55 == -888 ~ 5,
-                          c55 == -777 ~ 5,
-                          c55 == -666 ~ 5,
-                          c56 == -999 ~ 5,
-                          c56 == -888 ~ 5,
-                          c56 == -777 ~ 5,
-                          c56 == -666 ~ 5,
-                          c56 == 2 ~ 4,
-                          c57 == 1 ~ 1,
-                          c57 == 2 ~ 2,
-                          c57 == 3 ~ 3,
-                          c57 == -999 ~ 5,
-                          c57 == -888 ~ 5,
-                          c57 == -777 ~ 5,
-                          c57 == -666 ~ 5))  %>%  
-  group_by(idencuesta) %>%
-  mutate(salida = ifelse(length(na.omit(pleb)) == 0, NA, max(pleb, na.rm = T))) %>%
-  ungroup()
-
-elsoc_long_2016_2022.prueba %>%
-  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
-  as_label(ola) %>%
-  filter(!is.na(t10), !is.na(salida)) %>%  
-  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
-                       levels = 1:3,
-                       labels = c("Apruebo", "Rechazo", "Otros"))) %>%
-  prop(t10 %in% 1:2, by = c(ola, salida), na.rm = T)  %>%
-  ggplot(aes(y = prop, x = ola, color = salida, group = salida,
-             label = scales::percent(prop, accuracy = .1))) +
-  theme_bw() + 
-  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
-  geom_point(size = 1.75) + 
-  geom_line() + 
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top',
-        legend.title = element_blank()) + 
-  ggtitle('Percepción de inseguridad barrial, según voto en plebiscito de salida',
-          subtitle = 'Porcentaje que se siente Inseguro o Muy Inseguro en su barrio')
-
-
-elsoc_long_2016_2022.prueba %>%
-  group_by(ola) %>% 
-  sjmisc::frq(t10)
-
-elsoc_long_2016_2022.prueba %>%
-  sjlabelled::as_label(ola) %>%
-  filter(tipo_atricion %in% c(1, 33)) %>%  
-  filter(!is.na(t10), !is.na(salida)) %>%
-  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
-                       levels = 1:3,
-                       labels = c("Apruebo", "Rechazo", "Otros"))) %>%
-  prop(t10 %in% 1:2, by = c(ola, salida), na.rm = TRUE)  %>%
-  # filter(!is.na(salida), salida %in% c('Apruebo', 'Rechazo')) %>% 
-  ggplot(aes(y = prop, x = ola, color = salida, group = salida,
-             label = scales::percent(prop, accuracy = .1))) +
-  theme_bw() + 
-  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
-  geom_point(size = 1.75) + 
-  geom_line() + 
-  scale_y_continuous(labels = scales::percent, limits = c(0, .5)) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_color_viridis_d(begin = .1, end = .66, option = 'viridis') +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top',
-        legend.title = element_blank()) + 
-  ggtitle('Percepción de inseguridad barrial, según voto en plebiscito de salida',
-          subtitle = 'Porcentaje que se siente Inseguro o Muy Inseguro en su barrio')
-  
-
-```
 
 ```{r}
 
 elsoc_long_2016_2022 %>%
   left_join(voto_salida, by = 'idencuesta') %>% 
   sjlabelled::as_label(ola) %>%
-  filter(tipo_atricion %in% c(1, 33)) %>%  
+  filter(!is.na(t10), tipo_atricion %in% c(1, 33)) %>%  
   mutate(voto_salida = factor(car::recode(voto_salida, "1 = 1; 2 = 2; 3:5 = 3"), 
                        levels = 1:3,
                        labels = c("Apruebo", "Rechazo", "Otros"))) %>%
@@ -179,7 +96,7 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>%
   left_join(voto_salida, by = 'idencuesta') %>% 
   sjlabelled::as_label(ola) %>%
-  filter(!is_nsnr(t10), tipo_atricion %in% c(1, 33)) %>%  
+  filter(!is.na(t10), tipo_atricion %in% c(1, 33)) %>%  
   mutate(voto_salida = factor(car::recode(voto_salida, "1 = 1; 2 = 2; 3:5 = 3"), 
                        levels = 1:3,
                        labels = c("Apruebo", "Rechazo", "Otros")),
@@ -208,6 +125,8 @@ elsoc_long_2016_2022 %>%
   
 ```
 
+
+
 ### Conflicto indígena
 
 
@@ -216,7 +135,7 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>%
   left_join(voto_salida, by = 'idencuesta') %>% 
   sjlabelled::as_label(ola) %>%
-  filter(!is_nsnr(c06_05), !is.na(c06_05), tipo_atricion %in% c(1, 33)) %>%  
+  filter(!is.na(c06_05), tipo_atricion %in% c(1, 33)) %>%  
   mutate(voto_salida = factor(car::recode(voto_salida, "1 = 1; 2 = 2; 3:5 = 3"), 
                        levels = 1:3,
                        labels = c("Apruebo", "Rechazo", "Otros"))) %>%
@@ -246,7 +165,7 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>%
   left_join(voto_salida, by = 'idencuesta') %>% 
   sjlabelled::as_label(ola) %>%
-  filter(!is_nsnr(c06_05), !is.na(c06_05), tipo_atricion %in% c(1, 33)) %>%  
+  filter(!is.na(c06_05), tipo_atricion %in% c(1, 33)) %>%  
   mutate(voto_salida = factor(car::recode(voto_salida, "1 = 1; 2 = 2; 3:5 = 3"), 
                        levels = 1:3,
                        labels = c("Apruebo", "Rechazo", "Otros")),
@@ -283,7 +202,7 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>%
   left_join(voto_salida, by = 'idencuesta') %>% 
   sjlabelled::as_label(ola) %>%
-  filter(!is_nsnr(r16), !is.na(r16), tipo_atricion %in% c(1, 33)) %>%  
+  filter(!is.na(r16), tipo_atricion %in% c(1, 33)) %>%  
   mutate(voto_salida = factor(car::recode(voto_salida, "1 = 1; 2 = 2; 3:5 = 3"), 
                        levels = 1:3,
                        labels = c("Apruebo", "Rechazo", "Otros"))) %>%
@@ -312,7 +231,7 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>%
   left_join(voto_salida, by = 'idencuesta') %>% 
   sjlabelled::as_label(ola) %>%
-  filter(!is_nsnr(r16), !is.na(r16), tipo_atricion %in% c(1, 33)) %>%  
+  filter(!is.na(r16), tipo_atricion %in% c(1, 33)) %>%  
   mutate(voto_salida = factor(car::recode(voto_salida, "1 = 1; 2 = 2; 3:5 = 3"), 
                        levels = 1:3,
                        labels = c("Apruebo", "Rechazo", "Otros")),
