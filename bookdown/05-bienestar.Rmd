@@ -1,0 +1,54 @@
+
+# Bienestar (nombre temporal)
+
+
+```{r cargar-paquetes-5}
+rm(list=ls())
+
+library(knitr)
+library(tidyverse)
+library(sjmisc)
+library(sjlabelled)
+library(ggrepel)
+library(ggalluvial)
+library(survey)
+library(elsoc)
+library(lubridate)
+library(viridis)
+library(statar)
+```
+
+
+```{r cargar-datos-5}
+
+load(file.path('..', 'inputs', 'ELSOC_Long_2016_2022_v1.00_R.RData'))
+load(file.path('..', 'inputs', 'ELSOC_Wide_2016_2022_v1.00_R.RData'))
+
+elsoc_long.0 <- elsoc_long_2016_2022
+elsoc_long_2016_2022 <- elsoc_long.0 %>%
+  mutate(pleb = case_when(c55 == 4 ~ 5,
+                          c55 == 1 ~ 1,
+                          c55 == 2 ~ 2,
+                          c55 == 3 ~ 3,
+                          c55 == -999 ~ 5,
+                          c55 == -888 ~ 5,
+                          c55 == -777 ~ 5,
+                          c55 == -666 ~ 5,
+                          c56 == -999 ~ 5,
+                          c56 == -888 ~ 5,
+                          c56 == -777 ~ 5,
+                          c56 == -666 ~ 5,
+                          c56 == 2 ~ 4,
+                          c57 == 1 ~ 1,
+                          c57 == 2 ~ 2,
+                          c57 == 3 ~ 3,
+                          c57 == -999 ~ 5,
+                          c57 == -888 ~ 5,
+                          c57 == -777 ~ 5,
+                          c57 == -666 ~ 5))  %>%  
+  group_by(idencuesta) %>%
+  mutate(salida = ifelse(length(na.omit(pleb)) == 0, NA, max(pleb, na.rm = T))) %>%
+  ungroup()
+
+```
+
