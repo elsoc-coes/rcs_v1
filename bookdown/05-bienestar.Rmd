@@ -116,36 +116,7 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r depre-olas-sexo, fig.cap = 'Porcentaje que presenta síntomas de depresión moderados a severos, según sexo y ola'}
 
-# elsoc::load_elsoc('long')
-
-elsoc_long_2016_2022 %>% 
-  purrr::map_at(.at = vars(starts_with('s11_0')), 
-                .f = function(s) car::recode(s, "1 = 0; 2 = 1; 3 = 2; c(4, 5) = 3; c(-888, -999) = NA")) %>%
-  as.data.frame() %>%  
-  mutate(phq9 = (s11_01 + s11_02 + s11_03 + s11_04 + s11_05 + s11_06 + s11_07 + s11_08 + s11_09)) %>% 
-  dplyr::filter(tipo_atricion == 1) %>% 
-
-  prop(phq9 >= 10 , by = c(ola, m0_sexo), na.rm = TRUE) %>% 
-  sjlabelled::as_label(ola, m0_sexo) %>% 
-  ggplot(aes(y = prop, x = ola, color = m0_sexo, group = m0_sexo,
-             label = scales::percent(prop, accuracy = .1))) + 
-  theme_bw() + 
-  geom_point(size = 1.75) + 
-  geom_line() +
-  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
-  scale_y_continuous(labels = scales::percent, limits = 0:1) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_color_viridis_d(begin = .33, end = .66) +
-    theme(plot.caption = element_text(hjust = 0),
-          legend.position = 'top',
-        legend.title = element_blank()) +
-  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=7.565 (1.513 individuos)')
-
-
-```
 
 
 ```{r depre-2021, fig.cap = 'Porcentaje que presenta síntomas de depresión (2022)'}
@@ -222,15 +193,74 @@ elsoc_long_2016_2022 %>%
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 ```
+```{r depre-olas-sexo, fig.cap = 'Porcentaje que presenta síntomas de depresión moderados a severos, según sexo y ola'}
 
+# elsoc::load_elsoc('long')
+
+elsoc_long_2016_2022 %>% 
+  purrr::map_at(.at = vars(starts_with('s11_0')), 
+                .f = function(s) car::recode(s, "1 = 0; 2 = 1; 3 = 2; c(4, 5) = 3; c(-888, -999) = NA")) %>%
+  as.data.frame() %>%  
+  mutate(phq9 = (s11_01 + s11_02 + s11_03 + s11_04 + s11_05 + s11_06 + s11_07 + s11_08 + s11_09)) %>% 
+  dplyr::filter(tipo_atricion == 1) %>% 
+
+  prop(phq9 >= 10 , by = c(ola, m0_sexo), na.rm = TRUE) %>% 
+  sjlabelled::as_label(ola, m0_sexo) %>% 
+  ggplot(aes(y = prop, x = ola, color = m0_sexo, group = m0_sexo,
+             label = scales::percent(prop, accuracy = .1))) + 
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  scale_y_continuous(labels = scales::percent, limits = 0:1) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .33, end = .66) +
+    theme(plot.caption = element_text(hjust = 0),
+          legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+
+
+```
 
 
 # Seguridad Económica y Laboral
 
+```{r laboral-plebiscito, fig.cap = 'Situación Laboral, según voto en plebiscito'}
 
+# elsoc::load_elsoc('long')
+
+miau = elsoc_long_2016_2022 %>% 
+  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
+                       levels = 1:3,
+                       labels = c("Apruebo", "Rechazo", "Otros")),
+         sit_laboral = factor(car::recode(m02, "1:3 = 1; 6 = 2; c(4,5,7,8,9) = 3"),
+                              levels = 1:3,
+                              labels = c("Ocupados","Desocupados","Inactivos")))%>%
+  filter(ola == 6,!is.na(salida)) %>% 
+  prop(salida, by = c(sit_laboral), na.rm = TRUE) %>% 
+  sjlabelled::as_label(salida, m02) %>% 
+  ggplot(aes(y = prop, x = m02, fill = fct_rev(salida), 
+             label = scales::percent(prop, accuracy = .1))) + 
+  theme_bw() + 
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(begin = 0, end = .85, option = 'viridis') +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3, 
+            color = rep(rep(c('black', 'white'), each = 2), 9)) + 
+    theme(plot.caption = element_text(hjust = 0),
+          legend.position = 'top',
+        legend.title = element_blank()) + 
+  guides(fill = guide_legend(reverse = TRUE)) +
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+
+```
 
 # Movilidad Social
-
 
 
 
