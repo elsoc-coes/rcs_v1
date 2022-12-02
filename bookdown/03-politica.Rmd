@@ -283,7 +283,7 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   ggtitle('Nueva constitución según voto en plebiscito de salida',
-          subtitle = 'De acuerdo o muy de acuerdo con cambiar la constitución...')
+          subtitle = 'De acuerdo o muy de acuerdo con cambiar la constitución')
 
 ```
 
@@ -310,7 +310,7 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) +
   ggtitle('Confianza en la Convención Constitucional según voto en plebiscito de salida',
-          subtitle = 'Confía mucho o bastante...')
+          subtitle = 'Bastante o mucha confianza')
 
 ```
 
@@ -367,7 +367,7 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   ggtitle('Satisfacción democrática, según voto en plebiscito de salida',
-          subtitle = 'Bastante o muy satisfecho...')
+          subtitle = 'Bastante o muy satisfecho')
 
 
 ```
@@ -396,7 +396,7 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   ggtitle('Interés en la política, según voto en plebiscito de salida',
-          subtitle = 'Bastante o muy interesado...')
+          subtitle = 'Bastante o muy interesado')
 
 ```
 
@@ -424,7 +424,7 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   ggtitle('Partidismo, según voto en plebiscito de salida',
-          subtitle = 'Porcentaje que es miembro de un partido o movimiento')
+          subtitle = 'Porcentaje que es miembro de un partido o movimiento político')
 
 ```
 
@@ -548,7 +548,41 @@ elsoc_long_2016_2022 %>%
   filter(!is.na(salida)) %>%
   ggplot(aes(y = prop, x = ola, color = salida, group = salida,
              label = scales::percent(prop, accuracy = .1))) +
-  facet_grid(~ name) +
+  facet_wrap(~ name) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, .4)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Confianza en instituciones políticas, según voto en plebiscito de salida',
+          subtitle = 'Bastante o mucha confianza' )
+
+```
+
+```{r graf-mov-tipo}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c20)) %>%
+  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
+                       levels = 1:3,
+                       labels = c("Apruebo", "Rechazo", "Otros"))) %>%
+  mutate(movsoc = car::recode(c20, "1:5 = 1; 8:10 = 1; 6:7 = 2; 11:12 = 3"),
+       movsoc = factor(movsoc, levels = 1:3,
+                       labels = c('Mov. sociales progresistas', 'Mov. sociales conservadores', 'Ninguno'))) %>%
+  prop(movsoc, by = c(salida, ola), na.rm = TRUE) %>% 
+  filter(!is.na(salida)) %>%
+  ggplot(aes(y = prop, x = ola, color = salida, group = salida,
+             label = scales::percent(prop, accuracy = .1))) +
+  facet_wrap(~ movsoc) +
   theme_bw() + 
   geom_point(size = 1.75) + 
   geom_line() + 
@@ -561,9 +595,8 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Confianza en instituciones políticas, según voto en plebiscito de salida',
-          subtitle = 'Bastante o mucha confianza' )
-
+  ggtitle('Valoración de movimientos sociales, según voto en plebiscito de salida',
+          subtitle = 'Tipo de movimiento social más valorado' )
 
 ```
 
@@ -572,28 +605,146 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>%
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
   as_label(ola) %>%
-  filter(!is.na(c22), !is.na(salida)) %>%  
+  filter(!is.na(c08_02), !is.na(salida)) %>%
   mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
                        levels = 1:3,
                        labels = c("Apruebo", "Rechazo", "Otros"))) %>%
-  prop(c22 %in% 4:5, by = c(ola, salida), na.rm = T)  %>%
+  prop(c08_02 %in% 4:5, by = c(ola, salida), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = salida, group = salida,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
-  scale_y_continuous(labels = scales::percent, limits = c(0,.25)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.2)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  ggtitle('Participación en movimiento social más valorado, según voto en plebiscito de salida',
-          subtitle = 'Participa frecuente o muy frecuentemente...')
+  ggtitle('Participación en marchas o manifestaciones, según voto en plebiscito de salida',
+          subtitle = 'Frecuente o muy frecuentemente')
 
 ```
+
+```{r graf-autoritarismo}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c18_04), !is.na(c18_05), !is.na(c18_06), !is.na(c18_07)) %>%
+  select(c18_04, c18_05, c18_06, c18_07, ola, ponderador02, segmento_disenno, estrato_disenno, salida) %>% 
+  pivot_longer(cols = c(c18_04, c18_05, c18_06, c18_07)) %>% 
+  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
+                       levels = 1:3,
+                       labels = c("Apruebo", "Rechazo", "Otros"))) %>%
+  mutate(name = factor(name,
+                       levels = c('c18_04', 'c18_05', 'c18_06', 'c18_07'),
+                       labels = c(' En vez de tanta preocupación\npor los derechos de las personas,\nlo que este país necesita es un gobierno firme',
+                                  ' Lo que nuestro país necesita es un mandatario/a fuerte\ncon la determinación para\nllevarnos por el camino correcto',
+                                  ' La obediencia y el respeto por\nla autoridad son los valores más importantes\nque los niños debieran aprender',
+                                  ' Las verdaderas claves para tener\nuna buena vida son la obediencia y la disciplina'))) %>%
+  prop(value %in% 4:5, by = c(salida, ola, name), na.rm = TRUE) %>% 
+  filter(!is.na(salida)) %>%
+  ggplot(aes(y = prop, x = ola, color = salida, group = salida,
+             label = scales::percent(prop, accuracy = .1))) +
+  facet_wrap(~ name) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, 1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Actitudes autoritarias, según voto en plebiscito de salida',
+          subtitle = 'De acuerdo o totalmente de acuerdo' )
+
+
+```
+
+```{r graf-op-valores}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c37_01), !is.na(c37_02)) %>%
+  select(c37_01, c37_02,  ola, ponderador02, segmento_disenno, estrato_disenno, salida) %>% 
+  pivot_longer(cols = c(c37_01, c37_02)) %>% 
+  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
+                       levels = 1:3,
+                       labels = c("Apruebo", "Rechazo", "Otros"))) %>%
+  mutate(name = factor(name,
+                       levels = c('c37_01', 'c37_02'),
+                       labels = c('Las parejas homosexuales deberían\npoder adoptar hijos',
+                                  'El aborto debe ser legal bajo\ncualquier circunstancia'))) %>%
+  prop(value %in% 4:5, by = c(salida, ola, name), na.rm = TRUE) %>% 
+  filter(!is.na(salida)) %>%
+  ggplot(aes(y = prop, x = ola, color = salida, group = salida,
+             label = scales::percent(prop, accuracy = .1))) +
+  facet_wrap(~ name) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, 1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Actitudes valóricas, según voto en plebiscito de salida',
+          subtitle = 'De acuerdo o totalmente de acuerdo' )
+
+
+```
+
+```{r graf-op-contingente}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c37_03), !is.na(c37_04), !is.na(c37_05)) %>%
+  select(c37_03, c37_04, c37_05,  ola, ponderador02, segmento_disenno, estrato_disenno, salida) %>% 
+  pivot_longer(cols = c(c37_03, c37_04, c37_05)) %>% 
+  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
+                       levels = 1:3,
+                       labels = c("Apruebo", "Rechazo", "Otros"))) %>%
+  mutate(name = factor(name,
+                       levels = c('c37_03', 'c37_04', 'c37_05'),
+                       labels = c('El Estado de Chile, más que\nlos privados, debería ser el principal\nproveedor de educación',
+                                  'Cada persona debiera asegurarse\npor si mismo su futura pensión\npara la tercera edad',
+                                  'Chile debería tomar medidas más\ndrásticas para impedir el ingreso\nde inmigrantes al país'))) %>%
+  prop(value %in% 4:5, by = c(salida, ola, name), na.rm = TRUE) %>% 
+  filter(!is.na(salida)) %>%
+  ggplot(aes(y = prop, x = ola, color = salida, group = salida,
+             label = scales::percent(prop, accuracy = .1))) +
+  facet_wrap(~ name) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, 1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Opinón pública sobre temas contingentes, según voto en plebiscito de salida',
+          subtitle = 'De acuerdo o totalmente de acuerdo' )
+
+
+```
+
 
 ```{r graf-justviolencia1-ola}
 
@@ -614,7 +765,7 @@ elsoc_long_2016_2022 %>%
   filter(!is.na(salida)) %>%
   ggplot(aes(y = prop, x = ola, color = salida, group = salida,
              label = scales::percent(prop, accuracy = .1))) +
-  facet_grid(~ name) +
+  facet_wrap(~ name) +
   theme_bw() + 
   geom_point(size = 1.75) + 
   geom_line() + 
@@ -653,7 +804,7 @@ elsoc_long_2016_2022 %>%
   filter(!is.na(salida)) %>%
   ggplot(aes(y = prop, x = ola, color = salida, group = salida,
              label = scales::percent(prop, accuracy = .1))) +
-  facet_grid(~ name) +
+  facet_wrap(~ name) +
   theme_bw() + 
   geom_point(size = 1.75) + 
   geom_line() + 
