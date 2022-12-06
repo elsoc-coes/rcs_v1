@@ -227,31 +227,34 @@ elsoc_long_2016_2022 %>%
 
 # Seguridad Económica y Laboral
 
+
+
 ```{r laboral-plebiscito, fig.cap = 'Situación Laboral, según voto en plebiscito'}
 
 # elsoc::load_elsoc('long')
 
-miau = elsoc_long_2016_2022 %>% 
+p = elsoc_long_2016_2022 %>% 
   mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
                        levels = 1:3,
                        labels = c("Apruebo", "Rechazo", "Otros")),
          sit_laboral = factor(car::recode(m02, "1:3 = 1; 6 = 2; c(4,5,7,8,9) = 3"),
                               levels = 1:3,
-                              labels = c("Ocupados","Desocupados","Inactivos")))%>%
-  filter(ola == 6,!is.na(salida)) %>% 
+                              labels = c("Ocupados","Desocupados","Inactivos"))) %>%
+  filter(ola==1,!is.na(salida),!is.na(sit_laboral)) %>% 
   prop(salida, by = c(sit_laboral), na.rm = TRUE) %>% 
-  sjlabelled::as_label(salida, m02) %>% 
-  ggplot(aes(y = prop, x = m02, fill = fct_rev(salida), 
+  sjlabelled::as_label(salida, sit_laboral) %>% 
+  ggplot(aes(y = prop, x = sit_laboral, fill = fct_rev(salida), 
              label = scales::percent(prop, accuracy = .1))) + 
   theme_bw() + 
-  geom_col(position = 'Stack') +
+  geom_col(position = 'Stack') 
+
+  p +
   scale_y_continuous(labels = scales::percent) +
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_fill_viridis_d(begin = 0, end = .85, option = 'viridis') +
   geom_text(position = position_stack(vjust = .5),
-            size = 3, 
-            color = rep(rep(c('black', 'white'), each = 2), 9)) + 
+            size = 3) + 
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) + 
