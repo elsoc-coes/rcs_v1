@@ -16,6 +16,7 @@ library(elsoc)
 library(lubridate)
 library(viridis)
 library(statar)
+library(tidyverse)
 ```
 
 ```{r cargar-datos-3}
