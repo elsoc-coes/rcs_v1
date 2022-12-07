@@ -12,11 +12,13 @@ pacman::p_load(readxl, data.table, lubridate, stringr, tidyverse, labelled, ggpl
 
 Sys.setlocale("LC_ALL","ES_ES.UTF-8")
 
-setwd("/Users/rsalaslewin/Dropbox/ELSOC (1)/4_Presentaciones_Publicas/30_RCS2022/rcs_v1/inputs")
+setwd("/Users/rsalaslewin/Dropbox/ELSOC Personal/Reporte_2022/rcs_v1/inputs")
 
 load("ELSOC_Wide_2016_2022_v1.00_R.RData")
 
 #DATABASE FOR LCA.
+
+set.seed(1)
 
 perfiles <- elsoc_wide_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
