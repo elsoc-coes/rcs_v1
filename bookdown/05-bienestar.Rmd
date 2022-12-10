@@ -1,5 +1,5 @@
 
-# Bienestar (nombre temporal)
+### Bienestar (nombre temporal)
 
 
 ```{r cargar-paquetes-5}
@@ -20,60 +20,18 @@ library(statar)
 
 
 ```{r cargar-datos-5}
-
-load(file.path('..', 'inputs', 'ELSOC_Long_2016_2022_v1.00_R.RData'))
-load(file.path('..', 'inputs', 'ELSOC_Wide_2016_2022_v1.00_R.RData'))
-
-elsoc_long.0 <- elsoc_long_2016_2022
-elsoc_long_2016_2022 <- elsoc_long.0 %>%
-  mutate(pleb = case_when(c55 == 4 ~ 5,
-                          c55 == 1 ~ 1,
-                          c55 == 2 ~ 2,
-                          c55 == 3 ~ 3,
-                          c55 == -999 ~ 5,
-                          c55 == -888 ~ 5,
-                          c55 == -777 ~ 5,
-                          c55 == -666 ~ 5,
-                          c56 == -999 ~ 5,
-                          c56 == -888 ~ 5,
-                          c56 == -777 ~ 5,
-                          c56 == -666 ~ 5,
-                          c56 == 2 ~ 4,
-                          c57 == 1 ~ 1,
-                          c57 == 2 ~ 2,
-                          c57 == 3 ~ 3,
-                          c57 == -999 ~ 5,
-                          c57 == -888 ~ 5,
-                          c57 == -777 ~ 5,
-                          c57 == -666 ~ 5))  %>%  
-  group_by(idencuesta) %>%
-  mutate(salida = ifelse(length(na.omit(pleb)) == 0, NA, max(pleb, na.rm = T))) %>%
-  ungroup()%>% 
-  purrr::map_at(.at = vars(starts_with('s11_0')), 
-                .f = function(s) car::recode(s, "1 = 0; 2 = 1; 3 = 2; c(4, 5) = 3; c(-888, -999) = NA")) %>%
-  as.data.frame() %>%  
-  mutate(phq9 = (s11_01 + s11_02 + s11_03 + s11_04 + s11_05 + s11_06 + s11_07 + s11_08 + s11_09),
-         depr = factor(car::recode(phq9, "0:4 = 1; 5:9 = 2; 10:14 = 3; 15:27 = 4"), 
-                       levels = c(1,2,3,4),
-                       labels = c('Sin sintomas o síntomas\nde depresión mínima', 
-                                  'Síntomas de\ndepresion media', 
-                                  'Síntomas de\ndepresion moderada', 
-                                  'Síntomas de depresion\nmoderada-severa\no severa')),
-         salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
-                       levels = 1:3,
-                       labels = c("Apruebo", "Rechazo", "Otros")),
-         sit_laboral = factor(car::recode(m02, "1:3 = 1; 6 = 2; c(4,5,7,8,9) = 3"),
-                              levels = 1:3,
-                              labels = c("Ocupados","Desocupados","Inactivos")))
-
+elsoc_long_2016_2022<-  readRDS("../inputs/Bienestar/base_bienestar.RDS")
 ```
 
-# Salud Mental y Bienestar 
+
+
+### Salud Mental y Bienestar 
 
 ```{r salud-bienestar, fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva (ola 2022)'}
 
 elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & ola ==5 & !is_nsnr(s01, s02, s03)) %>% 
+  filter(tipo_atricion == 1 & ola ==5) %>%
+drop_na(s01,s02,s03)%>%
 
   prop_list(s01 %in% 4:5, s02 %in% 4:5, s03 %in% 4:5, na.rm = TRUE) %>% 
   mutate(name = factor(name,
@@ -106,7 +64,8 @@ elsoc_long_2016_2022 %>%
 
 
 elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & !is_nsnr(s01, s02, s03)) %>% 
+  filter(tipo_atricion == 1) %>%
+  drop_na(s01,s02,s03)%>%
   sjlabelled::as_label(ola) %>%
 
   prop_list(s01 %in% 4:5, s02 %in% 4:5, s03 %in% 4:5, by = ola, na.rm = TRUE) %>% 
@@ -165,6 +124,7 @@ elsoc_long_2016_2022 %>%
 # elsoc::load_elsoc('long')
 
 elsoc_long_2016_2022  %>%
+  
   filter(ola == 6,!is.na(salida)) %>% 
   prop(depr, by = c(salida), na.rm = TRUE) %>% 
   sjlabelled::as_label(depr, salida) %>% 
@@ -214,12 +174,10 @@ elsoc_long_2016_2022 %>%
 ```
 
 
-# Seguridad Económica y Laboral
+### Seguridad Económica y Laboral
 ```{r laboral-historica, fig.cap = 'Situación Laboral, evolución histórica'}
-
-# elsoc::load_elsoc('long')
-p = elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1, !is_nsnr(m02)) %>% 
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1, !is.na(m02)) %>% 
   mutate(sit_laboral = factor(car::recode(m02, "1:3 = 1; 6 = 2; c(4,5,7,8,9) = 3"),
                               levels = 1:3)) %>%
   
@@ -245,7 +203,7 @@ p = elsoc_long_2016_2022 %>%
         legend.title = element_blank()) +
   ggtitle(NULL, 'Situación Laboral por Ola') +
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
-p
+
 ```
 
 
@@ -278,11 +236,18 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+### Confianza interpersonal
+
+```{r conf inter voto}
+gf_conf_inter <- readRDS("../inputs/Bienestar/graficos/gf_conf_inter.RDS")
+gf_conf_inter
+```
 
 
-
-
-# Movilidad Social
+```{r conf inter perfiles}
+gf_conf_inter_perfiles <- readRDS("../inputs/Bienestar/graficos/gf_conf_inter_perfiles.RDS")
+gf_conf_inter_perfiles
+```
 
 
 

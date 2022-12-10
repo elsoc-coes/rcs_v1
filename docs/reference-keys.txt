@@ -10,3 +10,13 @@ conflicto-territorial-y-seguridad
 conflicto-indígena
 conflicto-migratorio
 bienestar-nombre-temporal
+fig:salud-bienestar
+fig:salud-bienestar-olas
+fig:depre-2021
+fig:depre-plebiscito
+fig:depre-olas-sexo
+fig:laboral-historica
+fig:laboral-plebiscito
+salud-mental-y-bienestar
+seguridad-económica-y-laboral
+confianza-interpersonal
