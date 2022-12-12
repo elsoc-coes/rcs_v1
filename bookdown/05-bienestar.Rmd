@@ -2,7 +2,7 @@
 ### Bienestar (nombre temporal)
 
 
-```{r cargar-paquetes-5}
+```{r cargar-paquetes-5,include=FALSE}
 rm(list=ls())
 
 library(knitr)
@@ -16,7 +16,16 @@ library(elsoc)
 library(lubridate)
 library(viridis)
 library(statar)
+
+
+
+library(bookdown)
+library(knitr)
+
+knitr::opts_chunk$set(cache=FALSE, warning=FALSE, message=FALSE, echo=FALSE, fig.topcaption = TRUE, fig.align = 'center')
+Sys.setlocale("LC_ALL","ES_ES.UTF-8")
 ```
+
 
 
 ```{r cargar-datos-5}
@@ -198,9 +207,11 @@ elsoc_long_2016_2022 %>%
 
 elsoc_long_2016_2022  %>%
   
-  filter(ola == 6,!is.na(salida)) %>% 
-  prop(depr, by = c(salida), na.rm = TRUE) %>% 
-  sjlabelled::as_label(depr, salida) %>% 
+  filter(ola %in% 4:6,!is.na(salida)) %>% 
+  prop(depr, by = c(salida,ola), na.rm = TRUE) %>% 
+  sjlabelled::as_label(depr, salida, ola) %>% 
+  mutate(ola = ifelse(ola==4,2019,
+                      ifelse(ola==5,2021,2022))) %>%
   ggplot(aes(y = prop, x = salida, fill = fct_rev(depr), 
              label = scales::percent(prop, accuracy = .1))) + 
   theme_bw() + 
@@ -210,12 +221,12 @@ elsoc_long_2016_2022  %>%
   xlab(label = NULL) +
   scale_fill_viridis_d(begin = 0, end = .85, option = 'viridis') +
   geom_text(position = position_stack(vjust = .5),
-            size = 3, 
-            color = rep(rep(c('black', 'white'), each = 2), 3)) + 
+            size = 3) + 
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) +
+  facet_wrap(~ola)+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 ```
@@ -247,6 +258,7 @@ elsoc_long_2016_2022 %>%
 
 
 ```
+
 ```{r depre-olas-sexo, fig.cap = 'Porcentaje que presenta síntomas de depresión moderados a severos, según voto y ola'}
 
 # elsoc::load_elsoc('long')
@@ -308,6 +320,8 @@ elsoc_long_2016_2022  %>%
   facet_wrap(~ola)
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 ```
+
+
 ```{r econsalud-olas-tipovotante, fig.cap = 'Porcentaje que está de acuerdo con cuarentenas según votante}
 
 # elsoc::load_elsoc('long')
@@ -335,7 +349,7 @@ elsoc_long_2016_2022  %>%
           legend.position = 'top',
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) +
-  facet_wrap(~ola)
+  facet_wrap(~ola)+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
   
 ```
@@ -450,12 +464,10 @@ elsoc_long_2016_2022 %>%
 
 # elsoc::load_elsoc('long')
 elsoc_long_2016_2022 %>% 
-  mutate(ola = ifelse(ola==1,"2016",
-         ifelse(ola==6,"2022",ola))) %>%
-  filter(ola==2016|ola==2022,muestra==1,!is.na(salida),!is.na(sit_laboral)) %>% 
-  prop(salida, by = c(ola,sit_laboral), na.rm = TRUE) %>% 
-  sjlabelled::as_label(salida, sit_laboral) %>% 
-  ggplot(aes(y = prop, x = sit_laboral, fill = fct_rev(salida), 
+  filter(ola %in% 4:6,tipo_atricion %in% c(1,33),!is.na(salida),!is.na(sit_laboral)) %>% 
+  prop(sit_laboral, by = c(ola,salida), na.rm = TRUE) %>% 
+  sjlabelled::as_label(salida, sit_laboral,ola) %>% 
+  ggplot(aes(y = prop, x = salida, fill = fct_rev(sit_laboral), 
              label = scales::percent(prop, accuracy = .1))) + 
   theme_bw() + 
   geom_col(position = 'Stack') +   
@@ -469,7 +481,7 @@ elsoc_long_2016_2022 %>%
           legend.position = 'top',
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) + 
-    facet_grid(~ola) + 
+    facet_wrap(~ola) + 
     labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.') 
   
 
@@ -488,5 +500,86 @@ gf_conf_inter_perfiles <- readRDS("../inputs/Bienestar/graficos/gf_conf_inter_pe
 gf_conf_inter_perfiles
 ```
 
+
+### Meritocracia
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_esfuerzo_voto.RDS"))
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_esfuerzo_perfiles.RDS"))
+```
+
+
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_inteligencia_voto.RDS"))
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_inteligencia_perfiles.RDS"))
+
+```
+
+
+### Justicia Distributiva
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_educacion_voto.RDS"))
+
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_educacion_perfiles.RDS"))
+```
+
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_salud_voto.RDS"))
+
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_salud_perfiles.RDS"))
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_pensiones_voto.RDS"))
+
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_pensiones_perfiles.RDS"))
+```
+
+
+### Percepción de desigualdad
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_desigualdad_ingreso_perfiles.RDS"))
+
+```
+
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_desigualdad_ingreso_voto.RDS"))
+
+```
+
+
+### Identidad Nacional
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_orgullo_chile_voto.RDS"))
+
+```
+
+
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_orgullo_chile_perfiles.RDS"))
+
+```
 
 

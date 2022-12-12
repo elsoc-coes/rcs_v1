@@ -52,70 +52,6 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -138,6 +74,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="0.0.2" data-path=""><a href="#salud-mental-y-bienestar"><i class="fa fa-check"></i><b>0.0.2</b> Salud Mental y Bienestar</a></li>
 <li class="chapter" data-level="0.0.3" data-path=""><a href="#seguridad-económica-y-laboral"><i class="fa fa-check"></i><b>0.0.3</b> Seguridad Económica y Laboral</a></li>
 <li class="chapter" data-level="0.0.4" data-path=""><a href="#confianza-interpersonal"><i class="fa fa-check"></i><b>0.0.4</b> Confianza interpersonal</a></li>
+<li class="chapter" data-level="0.0.5" data-path=""><a href="#meritocracia"><i class="fa fa-check"></i><b>0.0.5</b> Meritocracia</a></li>
+<li class="chapter" data-level="0.0.6" data-path=""><a href="#justicia-distributiva"><i class="fa fa-check"></i><b>0.0.6</b> Justicia Distributiva</a></li>
+<li class="chapter" data-level="0.0.7" data-path=""><a href="#percepción-de-desigualdad"><i class="fa fa-check"></i><b>0.0.7</b> Percepción de desigualdad</a></li>
+<li class="chapter" data-level="0.0.8" data-path=""><a href="#identidad-nacional"><i class="fa fa-check"></i><b>0.0.8</b> Identidad Nacional</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/edgardo-cerda/reporte-elsoc-2021" target="blank"> Ver fuente <i class="fa fa-github"></i></a></li>
 
@@ -162,243 +102,85 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!--bookdown:title:start-->
 <div id="bienestar-nombre-temporal" class="section level3 hasAnchor" number="0.0.1">
 <h3><span class="header-section-number">0.0.1</span> Bienestar (nombre temporal)<a href="#bienestar-nombre-temporal" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjmisc)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjlabelled)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggalluvial)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(elsoc)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(statar)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>elsoc_long_2016_2022<span class="ot">&lt;-</span>  <span class="fu">readRDS</span>(<span class="st">&quot;../inputs/Bienestar/base_bienestar.RDS&quot;</span>)</span></code></pre></div>
 </div>
 <div id="salud-mental-y-bienestar" class="section level3 hasAnchor" number="0.0.2">
 <h3><span class="header-section-number">0.0.2</span> Salud Mental y Bienestar<a href="#salud-mental-y-bienestar" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>elsoc_long_2016_2022 <span class="sc">%&gt;%</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tipo_atricion <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> ola <span class="sc">==</span><span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">drop_na</span>(s01,s02,s03)<span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop_list</span>(s01 <span class="sc">%in%</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>, s02 <span class="sc">%in%</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>, s03 <span class="sc">%in%</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">factor</span>(name,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&#39;s01 %in% 4:5&#39;</span>, <span class="st">&#39;s02 %in% 4:5&#39;</span>, <span class="st">&#39;s03 %in% 4:5&#39;</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&#39;Esta satisfecho o muy</span><span class="sc">\n</span><span class="st">satisfecho con su vida&#39;</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&#39;Su vida se acerca o se acerca</span><span class="sc">\n</span><span class="st">completamente a su ideal&#39;</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&#39;Su salud es muy buena</span><span class="sc">\n</span><span class="st">o Excelente&#39;</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> prop, <span class="at">x =</span> name, <span class="at">fill =</span> name,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(prop, <span class="at">accuracy =</span> .<span class="dv">1</span>))) <span class="sc">+</span> </span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(.<span class="dv">9</span>), </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="sc">-</span>.<span class="dv">5</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span>  </span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">end =</span> .<span class="dv">75</span>, <span class="at">option =</span> <span class="st">&#39;viridis&#39;</span>) <span class="sc">+</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>),</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">&#39;none&#39;</span>) <span class="sc">+</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="cn">NULL</span>, <span class="st">&#39;Porcentaje que responde que...&#39;</span>) <span class="sc">+</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">&#39;Fuente: Elaboración propia en base a datos ELSOC 2016-2022. Los números se omiten por confidencialidad.&#39;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:salud-bienestar"></span>
-<img src="05-bienestar_files/figure-html/salud-bienestar-1.png" alt="Satisfacción con la vida, ideal de vida y salud subjetiva (ola 2022)" width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:salud-bienestar"></span>
 <p class="caption">
 Figura 1: Satisfacción con la vida, ideal de vida y salud subjetiva (ola 2022)
 </p>
+<img src="05-bienestar_files/figure-html/salud-bienestar-1.png" alt="Satisfacción con la vida, ideal de vida y salud subjetiva (ola 2022)" width="672" />
 </div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># elsoc::load_elsoc(&#39;long&#39;)</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>elsoc_long_2016_2022 <span class="sc">%&gt;%</span> </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tipo_atricion <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(s01,s02,s03)<span class="sc">%&gt;%</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  sjlabelled<span class="sc">::</span><span class="fu">as_label</span>(ola) <span class="sc">%&gt;%</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop_list</span>(s01 <span class="sc">%in%</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>, s02 <span class="sc">%in%</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>, s03 <span class="sc">%in%</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">by =</span> ola, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">factor</span>(name,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&#39;s01 %in% 4:5&#39;</span>, <span class="st">&#39;s02 %in% 4:5&#39;</span>, <span class="st">&#39;s03 %in% 4:5&#39;</span>),</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&#39;Esta satisfecho o muy</span><span class="sc">\n</span><span class="st">satisfecho con su vida&#39;</span>,</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&#39;Su vida se acerca o se acerca</span><span class="sc">\n</span><span class="st">completamente a su ideal&#39;</span>,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&#39;Su salud es muy buena</span><span class="sc">\n</span><span class="st">o Excelente&#39;</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> prop, <span class="at">x =</span> ola, <span class="at">group =</span> name, <span class="at">color =</span> name,</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(prop, <span class="at">accuracy =</span> .<span class="dv">1</span>))) <span class="sc">+</span> </span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.75</span>) <span class="sc">+</span> </span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">nudge_y =</span> .<span class="dv">025</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span>  </span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> .<span class="dv">75</span>, <span class="at">option =</span> <span class="st">&#39;viridis&#39;</span>) <span class="sc">+</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>),</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">&#39;top&#39;</span>,</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="cn">NULL</span>, <span class="st">&#39;Porcentaje que responde que...&#39;</span>) <span class="sc">+</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">&#39;Fuente: Elaboración propia en base a datos ELSOC 2016-2022.&#39;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:salud-bienestar-olas"></span>
-<img src="05-bienestar_files/figure-html/salud-bienestar-olas-1.png" alt="Satisfacción con la vida, ideal de vida y salud subjetiva, según ola" width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:salud-bienestar-olas"></span>
 <p class="caption">
 Figura 2: Satisfacción con la vida, ideal de vida y salud subjetiva, según ola
 </p>
+<img src="05-bienestar_files/figure-html/salud-bienestar-olas-1.png" alt="Satisfacción con la vida, ideal de vida y salud subjetiva, según ola" width="672" />
 </div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>elsoc_long_2016_2022 <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tipo_atricion <span class="sc">==</span> <span class="dv">1</span>, ola <span class="sc">==</span> <span class="dv">5</span>)  <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop</span>(depr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> prop, <span class="at">x =</span> depr, <span class="at">fill =</span> depr, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(prop, <span class="at">accuracy =</span> .<span class="dv">1</span>))) <span class="sc">+</span> </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&#39;dodge2&#39;</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent, <span class="at">limits =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Porcentaje que presenta síntomas depresivos &quot;</span>)<span class="sc">+</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">begin =</span> <span class="dv">0</span>, <span class="at">end =</span> .<span class="dv">85</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">position =</span> <span class="fu">position_dodge2</span>(.<span class="dv">9</span>),</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">3</span>, </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="sc">-</span>.<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>),</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">&#39;none&#39;</span>) <span class="sc">+</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">&#39;Fuente: Elaboración propia en base a datos ELSOC 2016-2022.&#39;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:depre-2021"></span>
-<img src="05-bienestar_files/figure-html/depre-2021-1.png" alt="Porcentaje que presenta síntomas de depresión (2022)" width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:depre-2021"></span>
 <p class="caption">
 Figura 3: Porcentaje que presenta síntomas de depresión (2022)
 </p>
+<img src="05-bienestar_files/figure-html/depre-2021-1.png" alt="Porcentaje que presenta síntomas de depresión (2022)" width="672" />
 </div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># elsoc::load_elsoc(&#39;long&#39;)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>elsoc_long_2016_2022  <span class="sc">%&gt;%</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ola <span class="sc">==</span> <span class="dv">6</span>,<span class="sc">!</span><span class="fu">is.na</span>(salida)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop</span>(depr, <span class="at">by =</span> <span class="fu">c</span>(salida), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  sjlabelled<span class="sc">::</span><span class="fu">as_label</span>(depr, salida) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> prop, <span class="at">x =</span> salida, <span class="at">fill =</span> <span class="fu">fct_rev</span>(depr), </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(prop, <span class="at">accuracy =</span> .<span class="dv">1</span>))) <span class="sc">+</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&#39;Stack&#39;</span>) <span class="sc">+</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">begin =</span> <span class="dv">0</span>, <span class="at">end =</span> .<span class="dv">85</span>, <span class="at">option =</span> <span class="st">&#39;viridis&#39;</span>) <span class="sc">+</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> .<span class="dv">5</span>),</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">3</span>, </span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&#39;black&#39;</span>, <span class="st">&#39;white&#39;</span>), <span class="at">each =</span> <span class="dv">2</span>), <span class="dv">3</span>)) <span class="sc">+</span> </span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>),</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">&#39;top&#39;</span>,</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">&#39;Fuente: Elaboración propia en base a datos ELSOC 2016-2022.&#39;</span>)</span></code></pre></div>
-<pre><code>## 2 cases with missing weights. Droped from survey design.</code></pre>
-<div class="figure"><span style="display:block;" id="fig:depre-plebiscito"></span>
-<img src="05-bienestar_files/figure-html/depre-plebiscito-1.png" alt="Porcentaje que presenta síntomas de depresión, según voto en plebiscito" width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:depre-plebiscito"></span>
 <p class="caption">
 Figura 4: Porcentaje que presenta síntomas de depresión, según voto en plebiscito
 </p>
+<img src="05-bienestar_files/figure-html/depre-plebiscito-1.png" alt="Porcentaje que presenta síntomas de depresión, según voto en plebiscito" width="672" />
 </div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># elsoc::load_elsoc(&#39;long&#39;)</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>elsoc_long_2016_2022 <span class="sc">%&gt;%</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(tipo_atricion <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop</span>(phq9 <span class="sc">&gt;=</span> <span class="dv">10</span> , <span class="at">by =</span> <span class="fu">c</span>(ola, m0_sexo), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  sjlabelled<span class="sc">::</span><span class="fu">as_label</span>(ola, m0_sexo) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> prop, <span class="at">x =</span> ola, <span class="at">color =</span> m0_sexo, <span class="at">group =</span> m0_sexo,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(prop, <span class="at">accuracy =</span> .<span class="dv">1</span>))) <span class="sc">+</span> </span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.75</span>) <span class="sc">+</span> </span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">nudge_y =</span> .<span class="dv">025</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent, <span class="at">limits =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">begin =</span> .<span class="dv">33</span>, <span class="at">end =</span> .<span class="dv">66</span>) <span class="sc">+</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>),</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">&#39;top&#39;</span>,</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">&#39;Fuente: Elaboración propia en base a datos ELSOC 2016-2022.&#39;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:depre-olas-sexo"></span>
-<img src="05-bienestar_files/figure-html/depre-olas-sexo-1.png" alt="Porcentaje que presenta síntomas de depresión moderados a severos, según sexo y ola" width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:depre-olas-sexo"></span>
 <p class="caption">
 Figura 5: Porcentaje que presenta síntomas de depresión moderados a severos, según sexo y ola
 </p>
+<img src="05-bienestar_files/figure-html/depre-olas-sexo-1.png" alt="Porcentaje que presenta síntomas de depresión moderados a severos, según sexo y ola" width="672" />
 </div>
 </div>
 <div id="seguridad-económica-y-laboral" class="section level3 hasAnchor" number="0.0.3">
 <h3><span class="header-section-number">0.0.3</span> Seguridad Económica y Laboral<a href="#seguridad-económica-y-laboral" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>elsoc_long_2016_2022 <span class="sc">%&gt;%</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tipo_atricion <span class="sc">==</span> <span class="dv">1</span>, <span class="sc">!</span><span class="fu">is.na</span>(m02)) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sit_laboral =</span> <span class="fu">factor</span>(car<span class="sc">::</span><span class="fu">recode</span>(m02, <span class="st">&quot;1:3 = 1; 6 = 2; c(4,5,7,8,9) = 3&quot;</span>),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  sjlabelled<span class="sc">::</span><span class="fu">as_label</span>(ola) <span class="sc">%&gt;%</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop_list</span>(sit_laboral<span class="sc">==</span><span class="dv">1</span>, sit_laboral<span class="sc">==</span><span class="dv">2</span>, sit_laboral<span class="sc">==</span><span class="dv">3</span>, <span class="at">by =</span> ola, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">factor</span>(name,</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&#39;sit_laboral == 1&#39;</span>, <span class="st">&#39;sit_laboral == 2&#39;</span>, <span class="st">&#39;sit_laboral == 3&#39;</span>),</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&#39;Ocupados&#39;</span>,</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&#39;Desocupados&#39;</span>,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&#39;Inactivos&#39;</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> prop, <span class="at">x =</span> ola, <span class="at">group =</span> name, <span class="at">color =</span> name,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(prop, <span class="at">accuracy =</span> .<span class="dv">1</span>))) <span class="sc">+</span> </span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.75</span>) <span class="sc">+</span> </span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">nudge_y =</span> .<span class="dv">025</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>) <span class="sc">+</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span>  </span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> .<span class="dv">75</span>, <span class="at">option =</span> <span class="st">&#39;viridis&#39;</span>) <span class="sc">+</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>),</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">&#39;top&#39;</span>,</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="cn">NULL</span>, <span class="st">&#39;Situación Laboral por Ola&#39;</span>) <span class="sc">+</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">&#39;Fuente: Elaboración propia en base a datos ELSOC 2016-2022.&#39;</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:laboral-historica"></span>
-<img src="05-bienestar_files/figure-html/laboral-historica-1.png" alt="Situación Laboral, evolución histórica" width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:laboral-historica"></span>
 <p class="caption">
 Figura 6: Situación Laboral, evolución histórica
 </p>
+<img src="05-bienestar_files/figure-html/laboral-historica-1.png" alt="Situación Laboral, evolución histórica" width="672" />
 </div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># elsoc::load_elsoc(&#39;long&#39;)</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>elsoc_long_2016_2022 <span class="sc">%&gt;%</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ola =</span> <span class="fu">ifelse</span>(ola<span class="sc">==</span><span class="dv">1</span>,<span class="st">&quot;2016&quot;</span>,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(ola<span class="sc">==</span><span class="dv">6</span>,<span class="st">&quot;2022&quot;</span>,ola))) <span class="sc">%&gt;%</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ola<span class="sc">==</span><span class="dv">2016</span><span class="sc">|</span>ola<span class="sc">==</span><span class="dv">2022</span>,muestra<span class="sc">==</span><span class="dv">1</span>,<span class="sc">!</span><span class="fu">is.na</span>(salida),<span class="sc">!</span><span class="fu">is.na</span>(sit_laboral)) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop</span>(salida, <span class="at">by =</span> <span class="fu">c</span>(ola,sit_laboral), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  sjlabelled<span class="sc">::</span><span class="fu">as_label</span>(salida, sit_laboral) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> prop, <span class="at">x =</span> sit_laboral, <span class="at">fill =</span> <span class="fu">fct_rev</span>(salida), </span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(prop, <span class="at">accuracy =</span> .<span class="dv">1</span>))) <span class="sc">+</span> </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&#39;Stack&#39;</span>) <span class="sc">+</span>   </span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="at">label =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">begin =</span> <span class="dv">0</span>, <span class="at">end =</span> .<span class="dv">85</span>, <span class="at">option =</span> <span class="st">&#39;viridis&#39;</span>) <span class="sc">+</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> .<span class="dv">5</span>),</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>),</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">&#39;top&#39;</span>,</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span> </span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="sc">~</span>ola) <span class="sc">+</span> </span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">&#39;Fuente: Elaboración propia en base a datos ELSOC 2016-2022.&#39;</span>) </span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:laboral-plebiscito"></span>
-<img src="05-bienestar_files/figure-html/laboral-plebiscito-1.png" alt="Situación Laboral, según voto en plebiscito" width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:laboral-plebiscito"></span>
 <p class="caption">
 Figura 7: Situación Laboral, según voto en plebiscito
 </p>
+<img src="05-bienestar_files/figure-html/laboral-plebiscito-1.png" alt="Situación Laboral, según voto en plebiscito" width="672" />
 </div>
 </div>
 <div id="confianza-interpersonal" class="section level3 hasAnchor" number="0.0.4">
 <h3><span class="header-section-number">0.0.4</span> Confianza interpersonal<a href="#confianza-interpersonal" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gf_conf_inter <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;../inputs/Bienestar/graficos/gf_conf_inter.RDS&quot;</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>gf_conf_inter</span></code></pre></div>
-<p><img src="05-bienestar_files/figure-html/conf%20inter%20voto-1.png" width="672" /></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>gf_conf_inter_perfiles <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;../inputs/Bienestar/graficos/gf_conf_inter_perfiles.RDS&quot;</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gf_conf_inter_perfiles</span></code></pre></div>
-<p><img src="05-bienestar_files/figure-html/conf%20inter%20perfiles-1.png" width="672" /></p>
+<p><img src="05-bienestar_files/figure-html/conf%20inter%20voto-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/conf%20inter%20perfiles-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="meritocracia" class="section level3 hasAnchor" number="0.0.5">
+<h3><span class="header-section-number">0.0.5</span> Meritocracia<a href="#meritocracia" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="justicia-distributiva" class="section level3 hasAnchor" number="0.0.6">
+<h3><span class="header-section-number">0.0.6</span> Justicia Distributiva<a href="#justicia-distributiva" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="percepción-de-desigualdad" class="section level3 hasAnchor" number="0.0.7">
+<h3><span class="header-section-number">0.0.7</span> Percepción de desigualdad<a href="#percepción-de-desigualdad" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="identidad-nacional" class="section level3 hasAnchor" number="0.0.8">
+<h3><span class="header-section-number">0.0.8</span> Identidad Nacional<a href="#identidad-nacional" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="05-bienestar_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
             </section>
 
