@@ -60,11 +60,211 @@ gf_conf_inter_perfiles <- elsoc_bienestar%>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank())+
-  ggtitle('Confianza interpersonal, según tipo de votante')+
+  ggtitle('Confianza interpersonal, según tipo de votante',
+          subtitle="Porcentaje de confianza baja")+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 saveRDS(gf_conf_inter_perfiles,file="inputs/Bienestar/graficos/gf_conf_inter_perfiles.RDS")
 
+# ALTRUISMO SOCIAL GENERALIZADO
+
+attr(elsoc_bienestar$c03,"label")<- "Las personas tratan de ayudar a los demás"
+grafo_prop_var("c03","salida","Grado de acuerdo según tipo voto", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_altruismo_voto",
+               imprimir = FALSE)
+
+
+grafo_prop_var("c03","pp_4","Grado de acuerdo según perfil votante", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_altruismo_perfiles",
+               imprimir = FALSE)
+
+# JUSTICIA SOCIAL
+attr(elsoc_bienestar$c04,"label")<- "Las personas tratan de ser justas"
+
+grafo_prop_var("c04","salida","Grado de acuerdo según tipo voto", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_justicia_social_voto",
+               imprimir = FALSE)
+
+
+grafo_prop_var("c04","pp_4","Grado de acuerdo según perfil votante", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_justicia_social_perfiles",
+               imprimir = FALSE)
+
+# CONFIANZA SOCIAL GENERALIZADA
+
+attr(elsoc_bienestar$c02,"label")<- "Se puede confiar en las personas"
+
+grafo_prop_var("c02","salida","Grado de acuerdo según tipo voto", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_confianza_social_voto",
+               imprimir = FALSE)
+
+grafo_prop_var("c02","pp_4","Grado de acuerdo según tipo voto", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_confianza_social_perfiles",
+               imprimir = FALSE)
+
+
+
+
+
+# MERITOCRACIA ------------------------------------------------------------
+
+
+# PERSONAS SON RECOMEPENSADAS POR SU ESFUERZO
+gf_meritocracia_esfuerzo_voto <- grafo_prop_var("c18_09","salida",
+                                                titulo = 'Grado de acuerdo según voto',
+                                                limy_sup = .60)
+
+
+saveRDS(gf_meritocracia_esfuerzo_voto,
+        file="inputs/Bienestar/graficos/gf_meritocracia_esfuerzo_voto.RDS")
+
+# PERSONAS SON RECOMEPENSADAS POR SU ESFUERZO
+gf_meritocracia_esfuerzo_perfiles <- grafo_prop_var("c18_09","pp_4",
+                                    titulo = 'Grado de acuerdo según perfil votante',
+                                     limy_sup =  .60)
+
+saveRDS(gf_meritocracia_esfuerzo_perfiles,file="inputs/Bienestar/graficos/gf_meritocracia_esfuerzo_perfiles.RDS")
+
+
+
+
+# PERSONAS RECOMPENSADAS POR SU INTELIGENCIA
+gf_meritocracia_inteligencia_voto <-grafo_prop_var("c18_10","salida",
+                                                   titulo = 'Grado de acuerdo según voto',
+                                                   limy_sup =  .60)
+
+
+saveRDS(gf_meritocracia_inteligencia_voto,
+        file="inputs/Bienestar/graficos/gf_meritocracia_inteligencia_voto.RDS")
+
+gf_meritocracia_inteligencia_perfiles <- grafo_prop_var("c18_10","pp_4",
+                                                        titulo = 'Grado de acuerdo según perfil votante',
+                                                        limy_sup =  .75)
+
+
+saveRDS(gf_meritocracia_inteligencia_perfiles,
+        file="inputs/Bienestar/graficos/gf_meritocracia_inteligencia_perfiles.RDS")
+
+
+
+# PERCEPCION DE DESIGUALDAD -----------------------------------------------
+
+grafo_prop_var("c18_11","salida",
+               titulo = "Grado de acuerdo según voto",
+               limy_low = .50,
+               guardar = TRUE,
+               guardar_como ="gf_desigualdad_ingreso_voto",
+               imprimir = FALSE)
+
+
+grafo_prop_var("c18_11","pp_4",
+               titulo = "Grado de acuerdo según perfiles",
+               limy_low = .50,
+               guardar = TRUE,
+               guardar_como ="gf_desigualdad_ingreso_perfiles",
+               imprimir = FALSE)
+
+
+# IDENTIDAD NACIONAL ------------------------------------------------------
+
+grafo_prop_var("c32_01",
+               "pp_4",
+               titulo = "Grado de acuerdo según perfiles",
+               limy_low = .5,
+               guardar = TRUE,
+               guardar_como = "gf_orgullo_chile_perfiles",
+               imprimir = FALSE)
+
+
+grafo_prop_var("c32_01",
+               "salida",
+               titulo = "Grado de acuerdo según voto",
+               limy_low = .5,
+               guardar = TRUE,
+               guardar_como = "gf_orgullo_chile_voto",
+               imprimir = FALSE)
+
+
+
+# JUSTICIA DISTRIBUTIVA ---------------------------------------------------
+
+grafo_prop_var("c32_01",
+               "pp_4",
+               titulo = "Grado de acuerdo según perfiles",
+               limy_low = .5,
+               guardar = TRUE,
+               guardar_como = "gf_orgullo_chile_voto",
+               imprimir = FALSE)
+
+
+grafo_prop_var("d02_01",
+               "salida",
+               titulo = "Grado de acuerdo según voto",
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_distributiva_pensiones_voto",
+               imprimir = FALSE)
+
+grafo_prop_var("d02_01",
+               "pp_4",
+               titulo = "Grado de acuerdo según perfiles",
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_distributiva_pensiones_perfiles",
+               imprimir = FALSE)
+
+
+
+grafo_prop_var("d02_02",
+               "salida",
+               titulo = "Grado de acuerdo según voto",
+               limy_sup = .4,
+               guardar = TRUE,
+               guardar_como = "gf_distributiva_educacion_voto",
+               imprimir = FALSE)
+
+grafo_prop_var("d02_02",
+               "pp_4",
+               titulo = "Grado de acuerdo según perfiles",
+               limy_sup = .4,
+               guardar = TRUE,
+               guardar_como = "gf_distributiva_educacion_perfiles",
+               imprimir = FALSE)
+
+
+grafo_prop_var("d02_03",
+               "salida",
+               titulo = "Grado de acuerdo según voto",
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_distributiva_salud_voto",
+               imprimir = FALSE)
+
+grafo_prop_var("d02_03",
+               "pp_4",
+               titulo = "Grado de acuerdo según perfiles",
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_distributiva_salud_perfiles",
+               imprimir = FALSE)
 
 
 # MERITOCRACIA ------------------------------------------------------------
