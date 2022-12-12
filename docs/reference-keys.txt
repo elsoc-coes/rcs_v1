@@ -10,3 +10,8 @@ conflicto-territorial-y-seguridad
 conflicto-indígena
 conflicto-migratorio
 bienestar-nombre-temporal
+cohesión-socio-territorial
+conflicto-barrial
+criminalidad-barrial
+inseguridad-barrial
+confianza-en-vecinos
