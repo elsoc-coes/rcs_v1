@@ -10,8 +10,18 @@ conflicto-territorial-y-seguridad
 conflicto-indígena
 conflicto-migratorio
 bienestar-nombre-temporal
+<<<<<<< Updated upstream
 cohesión-socio-territorial
 conflicto-barrial
 criminalidad-barrial
 inseguridad-barrial
 confianza-en-vecinos
+=======
+participación-electoral-y-proceso-constituyente
+actitudes-hacia-la-democracia
+identidad-e-involucramiento-político
+confianza-institucional
+movilización-social
+opinión-pública-y-contingencia
+justificación-de-la-violencia
+>>>>>>> Stashed changes
