@@ -60,10 +60,67 @@ gf_conf_inter_perfiles <- elsoc_bienestar%>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank())+
-  ggtitle('Confianza interpersonal, según tipo de votante')+
+  ggtitle('Confianza interpersonal, según tipo de votante',
+          subtitle="Porcentaje de confianza baja")+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 saveRDS(gf_conf_inter_perfiles,file="inputs/Bienestar/graficos/gf_conf_inter_perfiles.RDS")
+
+# ALTRUISMO SOCIAL GENERALIZADO
+
+attr(elsoc_bienestar$c03,"label")<- "Las personas tratan de ayudar a los demás"
+grafo_prop_var("c03","salida","Grado de acuerdo según tipo voto", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_altruismo_voto",
+               imprimir = FALSE)
+
+
+grafo_prop_var("c03","pp_4","Grado de acuerdo según perfil votante", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_altruismo_perfiles",
+               imprimir = FALSE)
+
+# JUSTICIA SOCIAL
+attr(elsoc_bienestar$c04,"label")<- "Las personas tratan de ser justas"
+
+grafo_prop_var("c04","salida","Grado de acuerdo según tipo voto", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_justicia_social_voto",
+               imprimir = FALSE)
+
+
+grafo_prop_var("c04","pp_4","Grado de acuerdo según perfil votante", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_justicia_social_perfiles",
+               imprimir = FALSE)
+
+# CONFIANZA SOCIAL GENERALIZADA
+
+attr(elsoc_bienestar$c02,"label")<- "Se puede confiar en las personas"
+
+grafo_prop_var("c02","salida","Grado de acuerdo según tipo voto", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_confianza_social_voto",
+               imprimir = FALSE)
+
+grafo_prop_var("c02","pp_4","Grado de acuerdo según tipo voto", 
+               umbral = 1,
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_confianza_social_perfiles",
+               imprimir = FALSE)
+
+
 
 
 

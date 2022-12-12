@@ -2,7 +2,7 @@
 ### Bienestar (nombre temporal)
 
 
-```{r cargar-paquetes-5}
+```{r cargar-paquetes-5,include=FALSE}
 rm(list=ls())
 
 library(knitr)
@@ -16,7 +16,16 @@ library(elsoc)
 library(lubridate)
 library(viridis)
 library(statar)
+
+
+
+library(bookdown)
+library(knitr)
+
+knitr::opts_chunk$set(cache=FALSE, warning=FALSE, message=FALSE, echo=FALSE, fig.topcaption = TRUE, fig.align = 'center')
+Sys.setlocale("LC_ALL","ES_ES.UTF-8")
 ```
+
 
 
 ```{r cargar-datos-5}
@@ -249,5 +258,86 @@ gf_conf_inter_perfiles <- readRDS("../inputs/Bienestar/graficos/gf_conf_inter_pe
 gf_conf_inter_perfiles
 ```
 
+
+### Meritocracia
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_esfuerzo_voto.RDS"))
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_esfuerzo_perfiles.RDS"))
+```
+
+
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_inteligencia_voto.RDS"))
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_inteligencia_perfiles.RDS"))
+
+```
+
+
+### Justicia Distributiva
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_educacion_voto.RDS"))
+
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_educacion_perfiles.RDS"))
+```
+
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_salud_voto.RDS"))
+
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_salud_perfiles.RDS"))
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_pensiones_voto.RDS"))
+
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_pensiones_perfiles.RDS"))
+```
+
+
+### Percepción de desigualdad
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_desigualdad_ingreso_perfiles.RDS"))
+
+```
+
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_desigualdad_ingreso_voto.RDS"))
+
+```
+
+
+### Identidad Nacional
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_orgullo_chile_voto.RDS"))
+
+```
+
+
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_orgullo_chile_perfiles.RDS"))
+
+```
 
 
