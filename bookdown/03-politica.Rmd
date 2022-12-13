@@ -859,6 +859,37 @@ elsoc_long_2016_2022 %>%
 
 ## Actitudes hacia la democracia
 
+```{r leg-dem-olas}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
+  filter(!is.na(c25)) %>%
+  mutate(c25 = factor(c25, 
+                      levels = 1:3,
+                      labels = c("La democracia es preferible\na cualquier otra forma\nde gobierno",
+                                 "En algunas circunstancias,\nun gobierno autoritario\npuede ser preferible", 
+                                 "A la gente como uno,\nnos da lo mismo"))) %>%
+  sjlabelled::as_label(ola) %>% 
+  prop(x = c25, by = ola, na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, fill = fct_rev(c25), 
+             label = as.character(scales::percent(prop, accuracy = .1)))) + 
+  theme_bw() + 
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3, 
+            color = rep(c('black', 'white', 'white'), 6)) + 
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top', 
+        legend.title = element_blank()) +
+  ggtitle('Legitimidad democrática según ola')
+
+```
+
 ```{r graf-leg-dem}
 
 elsoc_long_2016_2022 %>%
@@ -913,6 +944,37 @@ elsoc_long_2016_2022 %>%
   ggtitle('Legitimidad democrática, según tipo de votante',
           subtitle = 'Porcentaje que prefiere la democracia a cualquier otra forma de gobierno')
 
+
+```
+
+```{r satis-dem-olas}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
+  filter(!is.na(c01)) %>%
+  mutate(c01 = factor(car::recode(c01, "1:2 = 1; 3 = 2; 4:5 = 3"), 
+                      levels = 1:3,
+                      labels = c("Nada o\npoco satisfecho",
+                                 "Algo satisfecho", 
+                                 "Bastante o\nmuy satisfecho"))) %>%
+  sjlabelled::as_label(ola) %>% 
+  prop(x = c01, by = ola, na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, fill = fct_rev(c01), 
+             label = as.character(scales::percent(prop, accuracy = .1)))) + 
+  theme_bw() + 
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3, 
+            color = rep(c('black', 'white', 'white'), 6)) + 
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top', 
+        legend.title = element_blank()) +
+  ggtitle('Satisfacción democrática según ola')
 
 ```
 
@@ -1053,6 +1115,36 @@ elsoc_long_2016_2022 %>%
 ```
 
 ## Identidad e involucramiento político
+
+```{r posicion-pol-olas}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
+  filter(!is.na(c15)) %>%
+  mutate(c15 = factor(car::recode(c15, "0:4 = 1; 5 = 2; 6:10 = 3; 11 = 4; 12 = 5"), 
+                       levels = 1:5,
+                       labels = c("Izquierda", "Centro", "Derecha",
+                                  "Independiente", "Ninguna"))) %>%
+  sjlabelled::as_label(ola) %>% 
+  prop(x = c15, by = ola, na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, fill = fct_rev(c15), 
+             label = as.character(scales::percent(prop, accuracy = .1)))) + 
+  theme_bw() + 
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3, 
+            color = rep(c('black', 'black', 'black', 'white', 'white'), 6)) + 
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top', 
+        legend.title = element_blank()) +
+  ggtitle('Pocisión política según ola')
+
+```
 
 ```{r graf-posicion-pol}
 
@@ -1231,6 +1323,37 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r interes-olas}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
+  filter(!is.na(c13)) %>%
+  mutate(c13 = factor(car::recode(c13, "1:2 = 1; 3 = 2; 4:5 = 3"), 
+                       levels = 1:3,
+                       labels = c("Nada o\npoco interesado", 
+                                  "Algo\ninteresado", 
+                                  "Batsatante o\nmuy interesado"))) %>%
+  sjlabelled::as_label(ola) %>% 
+  prop(x = c13, by = ola, na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, fill = fct_rev(c13), 
+             label = as.character(scales::percent(prop, accuracy = .1)))) + 
+  theme_bw() + 
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3, 
+            color = rep(c('black', 'white', 'white'), 6)) + 
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top', 
+        legend.title = element_blank()) +
+  ggtitle('Interés en la política según ola')
+
+```
+
 ```{r graf-interes}
 
 elsoc_long_2016_2022 %>%
@@ -1286,6 +1409,36 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r partido-olas}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
+  filter(!is.na(c13)) %>%
+  mutate(c13 = factor(car::recode(c13, "1 = 1; 2:3 = 2"), 
+                       levels = 1:2,
+                       labels = c("Miembro activo\n o inactivo", 
+                                  "No miembro"))) %>%
+  sjlabelled::as_label(ola) %>% 
+  prop(x = c13, by = ola, na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, fill = fct_rev(c13), 
+             label = as.character(scales::percent(prop, accuracy = .1)))) + 
+  theme_bw() + 
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3, 
+            color = rep(c('black', 'white'), 6)) + 
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top', 
+        legend.title = element_blank()) +
+  ggtitle('Membresía con un partido político según ola')
+
+```
+
 ```{r graf-partido}
 
 elsoc_long_2016_2022 %>%
@@ -1338,6 +1491,36 @@ elsoc_long_2016_2022 %>%
         legend.title = element_blank()) + 
   ggtitle('Partidismo, según tipo de votante',
           subtitle = 'Porcentaje que es miembro de un partido o movimiento político')
+
+```
+
+```{r id-partido-olas}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
+  filter(!is.na(c16)) %>%
+  mutate(c16 = factor(car::recode(c16, "15 = 1; 1:14 = 2; 16:19 = 2"), 
+                       levels = 1:2,
+                       labels = c("No se\nidentifica", 
+                                  "Se identifica\ncon un partido"))) %>%
+  sjlabelled::as_label(ola) %>% 
+  prop(x = c16, by = ola, na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, fill = fct_rev(c16), 
+             label = as.character(scales::percent(prop, accuracy = .1)))) + 
+  theme_bw() + 
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3, 
+            color = rep(c('black', 'white'), 5)) + 
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top', 
+        legend.title = element_blank()) +
+  ggtitle('Partidismo según ola')
 
 ```
 
@@ -1691,6 +1874,37 @@ elsoc_long_2016_2022 %>%
         legend.title = element_blank()) +
   ggtitle('Valoración de movimientos sociales, según tipo de votante',
           subtitle = 'Tipo de movimiento social más valorado' )
+
+```
+
+```{r parti-mov-olas}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
+  filter(!is.na(c08_02)) %>%
+  mutate(c08_02 = factor(car::recode(c08_02, "1:2 = 1; 3 = 2; 4:5 = 3"), 
+                       levels = 1:3,
+                       labels = c("Nunca o\ncasi nunca", 
+                                  "A veces",
+                                  "Frecuente o\nmuy frecuentemente"))) %>%
+  sjlabelled::as_label(ola) %>% 
+  prop(x = c08_02, by = ola, na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, fill = fct_rev(c08_02), 
+             label = as.character(scales::percent(prop, accuracy = .1)))) + 
+  theme_bw() + 
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3, 
+            color = rep(c('black', 'white', 'white'), 6)) + 
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top', 
+        legend.title = element_blank()) +
+  ggtitle('Participación en marchas o manifestaciones según ola')
 
 ```
 
