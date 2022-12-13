@@ -265,8 +265,6 @@ grafo_prop_var("d02_03",
                guardar = TRUE,
                guardar_como = "gf_distributiva_salud_perfiles",
                imprimir = FALSE)
-
-
 # Clase social subjetiva --------------------------------------------------
 
 
@@ -299,7 +297,10 @@ grafo_prop_var("c34","salida",umbral = c(4,5),atricion = c(33),
                titulo="Grado de acuerdo según votante")
 
 
-#MOVILIDAD SOCIAL
+
+# MOVILIDAD SOCIAL --------------------------------------------------------
+
+
 lapply(1:length(vars_clase_sub), function(i){
   
   elsoc_bienestar%>%
@@ -355,11 +356,6 @@ lapply(1:length(vars_clase_sub), function(i){
         legend.position = "top")+
   ggtitle('Ubicación en la sociedad chilena según perfil de voto')+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
-
-
-
-
-
 
 # SEGURIDAD ECONOMMICA ----------------------------------------------------
 
@@ -495,4 +491,5 @@ lapply(1:length(salario_justo),function(i){
         legend.position = 'top',
         legend.title = element_blank())+
   ggtitle("Salario justo según voto en Plebiscito")
+
 
