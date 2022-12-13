@@ -267,3 +267,232 @@ grafo_prop_var("d02_03",
                imprimir = FALSE)
 
 
+# Clase social subjetiva --------------------------------------------------
+
+
+elsoc_bienestar%>%
+  filter(tipo_atricion %in% c(33))%>%
+  sjlabelled::as_label(ola) %>%
+  prop_list(clase_sub,by=c(ola,salida),na.rm=TRUE)%>%
+  drop_na()%>%
+  filter(salida != "Otros")%>%
+  ggplot(aes(x=ola,y=prop,color=value,group=value,
+             label = scales::percent(prop, accuracy = .1)))+
+  geom_line()+
+  geom_point()+
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  facet_wrap(~salida)+
+  theme_bw()+
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .85, option = 'viridis')+
+  scale_y_continuous(labels = scales::percent)+
+  theme(plot.caption = element_text(hjust = 0),
+        legend.title = element_blank(),
+        legend.position = "top")+
+  ggtitle('Clase social subjetiva, según voto en plebiscito de salida')+
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+
+
+#IDENTIFICACION CON CLASE SUBJETIVA
+grafo_prop_var("c34","salida",umbral = c(4,5),atricion = c(33),
+               titulo="Grado de acuerdo según votante")
+
+
+#MOVILIDAD SOCIAL
+lapply(1:length(vars_clase_sub), function(i){
+  
+  elsoc_bienestar%>%
+    filter(tipo_atricion %in% c(1))%>%
+    sjlabelled::as_label(ola) %>%
+    stats(!!rlang::sym(vars_clase_sub[i]),by=c(ola,salida),stat="mean",na.rm=TRUE)%>%
+    drop_na()%>%
+    filter(salida!="Otros")%>%
+    mutate(variable=names(vars_clase_sub)[i])
+})%>%
+  bind_rows()
+ggplot(aes(x=ola,y=stat,color=variable,group=variable,label=round(stat,2)))+
+  geom_point()+
+  geom_line()+
+  geom_point()+
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  facet_wrap(~salida)+
+  theme_bw()+
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .85, option = 'viridis')+
+  theme(plot.caption = element_text(hjust = 0),
+        legend.title = element_blank(),
+        legend.position = "top")+
+  ggtitle('Ubicación en la sociedad chilena según voto en plebiscito de salida')+
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+
+
+
+lapply(1:length(vars_clase_sub), function(i){
+  
+  elsoc_bienestar%>%
+    filter(tipo_atricion %in% c(1))%>%
+    sjlabelled::as_label(ola) %>%
+    stats(!!rlang::sym(vars_clase_sub[i]),by=c(ola,pp_4),stat="mean",na.rm=TRUE)%>%
+    drop_na()%>%
+    filter(pp_4 %in% c("Votante\nCrónico","No-Votante\nCrónico" ))%>%
+    mutate(variable=names(vars_clase_sub)[i])
+})%>%
+  bind_rows()%>%
+  ggplot(aes(x=ola,y=stat,color=variable,group=variable,label=round(stat,2)))+
+  geom_point()+
+  geom_line()+
+  geom_point()+
+  facet_wrap(~pp_4)+
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  theme_bw()+
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .85, option = 'viridis')+
+  theme(plot.caption = element_text(hjust = 0),
+        legend.title = element_blank(),
+        legend.position = "top")+
+  ggtitle('Ubicación en la sociedad chilena según perfil de voto')+
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+
+
+
+
+
+
+# SEGURIDAD ECONOMMICA ----------------------------------------------------
+
+attr(elsoc_bienestar$m44,"label")<- "Mi hogar NO tendría ahorros suficientes para arreglárselas durante los próximos tres meses \n sin que algún miembro del hogar trabaje"
+
+grafo_prop_var("m44","salida",umbral = c(1),
+               titulo="Grado de acuerdo según votante",limy_sup = .75)
+
+grafo_prop_var("m44","pp_4",umbral = c(1),
+               titulo="Grado de acuerdo según perfil",limy_sup = .75)
+
+
+grafo_prop_var("m43","salida",umbral = c(3,4,5),
+               titulo="Grado de acuerdo según votante",limy_sup = .75)
+
+
+grafo_prop_var("m43","pp_4",umbral = c(3,4,5),
+               titulo="Grado de acuerdo según perfil de votante",limy_sup = .60)
+
+
+
+
+
+
+# PERCEPCION SALARIOS -----------------------------------------------------
+
+
+
+salario_percibido <- c("d03_01","d03_02")
+names(salario_percibido)<- c("Empresario","Obrero")
+
+
+lapply(1:length(salario_percibido),function(i){
+  elsoc_bienestar%>%
+    filter(tipo_atricion %in% c(1))%>%
+    sjlabelled::as_label(ola) %>%
+    mutate(log_salario=log(!!rlang::sym(salario_percibido[i])))%>%
+    stats(log_salario,by=c(ola,pp_4),stat="mean",na.rm=TRUE)%>%
+    drop_na()%>%
+    mutate(variable=names(salario_percibido[i]))})%>%
+  bind_rows()%>%
+  filter(pp_4 %in% c("Votante\nCrónico","No-Votante\nCrónico"))%>%
+  ggplot(aes(x=ola,y=stat,color=variable,group=variable,label=round(stat,2)))+
+  geom_line()+
+  geom_point()+
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  theme_bw()+
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .85, option = 'viridis')+
+  facet_wrap(~pp_4)+
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank())+
+  ggtitle("Percepcion salario según tipo de votante")
+
+
+lapply(1:length(salario_percibido),function(i){
+  elsoc_bienestar%>%
+    filter(tipo_atricion %in% c(1))%>%
+    sjlabelled::as_label(ola) %>%
+    mutate(log_salario=log(!!rlang::sym(salario_percibido[i])))%>%
+    stats(log_salario,by=c(ola,salida),stat="mean",na.rm=TRUE)%>%
+    drop_na()%>%
+    mutate(variable=names(salario_percibido[i]))})%>%
+  bind_rows()%>%
+  filter(salida %in% c("Apruebo","Rechazo"))%>%
+  ggplot(aes(x=ola,y=stat,color=variable,group=variable,label=round(stat,2)))+
+  geom_line()+
+  geom_point()+
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  theme_bw()+
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .85, option = 'viridis')+
+  facet_wrap(~salida)+
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank())+
+  ggtitle("Percepcion salario según voto en Plebiscito")
+
+
+salario_justo <- c("d04_01","d04_02")
+names(salario_justo)<- c("Empresario","Obrero")
+
+
+
+lapply(1:length(salario_justo),function(i){
+  elsoc_bienestar%>%
+    filter(tipo_atricion %in% c(1))%>%
+    sjlabelled::as_label(ola) %>%
+    mutate(log_salario=log(!!rlang::sym(salario_justo[i])))%>%
+    stats(log_salario,by=c(ola,pp_4),stat="mean",na.rm=TRUE)%>%
+    drop_na()%>%
+    mutate(variable=names(salario_justo[i]))})%>%
+  bind_rows()%>%
+  filter(pp_4 %in% c("Votante\nCrónico","No-Votante\nCrónico"))%>%
+  ggplot(aes(x=ola,y=stat,color=variable,group=variable,label=round(stat,2)))+
+  geom_line()+
+  geom_point()+
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  theme_bw()+
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .85, option = 'viridis')+
+  facet_wrap(~pp_4)+
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank())+
+  ggtitle("Salario justo según tipo de votante")
+
+
+lapply(1:length(salario_justo),function(i){
+  elsoc_bienestar%>%
+    filter(tipo_atricion %in% c(1))%>%
+    sjlabelled::as_label(ola) %>%
+    mutate(log_salario=log(!!rlang::sym(salario_justo[i])))%>%
+    stats(log_salario,by=c(ola,salida),stat="mean",na.rm=TRUE)%>%
+    drop_na()%>%
+    mutate(variable=names(salario_justo[i]))})%>%
+  bind_rows()%>%
+  filter(salida %in% c("Apruebo","Rechazo"))%>%
+  ggplot(aes(x=ola,y=stat,color=variable,group=variable,label=round(stat,2)))+
+  geom_line()+
+  geom_point()+
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  theme_bw()+
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .85, option = 'viridis')+
+  facet_wrap(~salida)+
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank())+
+  ggtitle("Salario justo según voto en Plebiscito")
+

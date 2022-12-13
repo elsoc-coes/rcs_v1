@@ -1,3 +1,4 @@
+library(tidyverse)
 load('inputs/ELSOC_Long_2016_2022_v1.00_R.RData')
 load('inputs/perfiles.RData')
 
@@ -45,7 +46,11 @@ elsoc_long_2016_2022 <- elsoc_long_2016_2022 %>%
                               labels = c("Ocupados","Desocupados","Inactivos")),
          conf_inter = factor(car::recode((c02==1)+(c03==1)+(c04==2),
                                          "0=0;1=1;c(2,3)=2"),
-                             labels = c("Baja","Media","Alta")))%>%
+                             labels = c("Baja","Media","Alta")),
+         clase_sub=factor(case_when(c33 %in% c(1,2)~1,
+                             c33==3~2,
+                             c33 %in% c(4,5)~3),
+                          labels=c("Baja","Media","Alta")))%>%
   left_join(perfiles, by = "idencuesta")%>%
   mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,

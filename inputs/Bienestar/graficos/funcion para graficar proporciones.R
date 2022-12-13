@@ -1,9 +1,9 @@
 
 
-grafo_prop_var <- function(var_x,var_y,umbral=c(4,5),titulo,limy_low=0,
+grafo_prop_var <- function(var_x,var_y,umbral=c(4,5),titulo,atricion=1,limy_low=0,
                            limy_sup=1,guardar=FALSE,guardar_como="grafico",imprimir=TRUE){
   grafico<-  elsoc_bienestar%>%
-    filter(tipo_atricion==1)%>%
+    filter(tipo_atricion %in% atricion)%>%
     sjlabelled::as_label(ola) %>%
     mutate(esfuerzo=as.numeric(!!rlang::sym(var_x) %in% umbral))%>%
     prop_list(esfuerzo,by=c(ola,!!rlang::sym(var_y)),na.rm=TRUE)%>%
