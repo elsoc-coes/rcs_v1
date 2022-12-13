@@ -750,6 +750,37 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r consti-olas}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
+  filter(!is.na(c28)) %>%
+  mutate(c28 = factor(car::recode(c28, "1:2 = 1; 3 = 2; 4:5 = 3"), 
+                      levels = 1:3,
+                      labels = c("En desacuerdo o\ntotalmente en desacuerdo",
+                                 "Ni de acuerdo\nni en desacuerdo", 
+                                 "De acuerdo o\ntotalmente de acuerdo"))) %>%
+  sjlabelled::as_label(ola) %>% 
+  prop(x = c28, by = ola, na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, fill = fct_rev(c28), 
+             label = as.character(scales::percent(prop, accuracy = .1)))) + 
+  theme_bw() + 
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3, 
+            color = rep(c('black', 'white', 'white'), 4)) + 
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top', 
+        legend.title = element_blank()) +
+  ggtitle('Nueva constitución según ola')
+
+```
+
 ```{r graf-consti}
 
 elsoc_long_2016_2022 %>%
@@ -1031,6 +1062,41 @@ elsoc_long_2016_2022 %>%
         legend.title = element_blank()) + 
   ggtitle('Satisfacción democrática, según tipo de votante',
           subtitle = 'Bastante o muy satisfecho')
+
+
+```
+
+```{r autoritarismo-ola}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c18_04), !is.na(c18_05), !is.na(c18_06), !is.na(c18_07)) %>%
+  dplyr::select(c18_04, c18_05, c18_06, c18_07, ola, ponderador02, segmento_disenno, estrato_disenno) %>% 
+  pivot_longer(cols = c(c18_04, c18_05, c18_06, c18_07)) %>%
+  mutate(name = factor(name,
+                       levels = c('c18_04', 'c18_05', 'c18_06', 'c18_07'),
+                       labels = c(' Lo que este país\nnecesita es\nun gobierno firme',
+                                  ' Lo que nuestro\npaís necesita es\nun mandatario/a fuerte',
+                                  ' La obediencia y el\nrespeto por\nla autoridad son los valores\nmás importantes',
+                                  ' Las verdaderas claves\npara tener\nuna buena vida son\nla obediencia y la disciplina'))) %>%
+  prop(value %in% 4:5, by = c(ola, name), na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, color = name, group = name,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, 1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Actitudes autoritarias, según ola',
+          subtitle = 'De acuerdo o totalmente de acuerdo' )
 
 
 ```
@@ -1579,6 +1645,40 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r involv-pol-ola}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c14_01), !is.na(c14_02), !is.na(c08_04)) %>%
+  dplyr::select(c14_01, c14_02, c08_04, ola, ponderador02, segmento_disenno, estrato_disenno) %>% 
+  pivot_longer(cols = c(c14_01, c14_02, c08_04)) %>% 
+  mutate(name = factor(name,
+                       levels = c('c14_01', 'c14_02', 'c08_04'),
+                       labels = c('Habla de politica\ncon familiares o amigos',
+                                  'Se informa sobre politica\nen medios de comunicacion',
+                                  'Usa redes sociales para\nopinar en temas publicos'))) %>%
+  prop(value %in% 4:5, by = c(ola, name), na.rm = TRUE) %>%  
+  ggplot(aes(y = prop, x = ola, color = name, group = name,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, .6)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Involucramiento político, según ola',
+          subtitle = 'Frecuente o muy frecuentemente' )
+
+
+```
+
 ```{r graf-involv-poli}
 
 elsoc_long_2016_2022 %>% 
@@ -1658,6 +1758,41 @@ elsoc_long_2016_2022 %>%
 
 ## Confianza institucional
 
+```{r conf-pol-ola}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c05_01), !is.na(c05_02), !is.na(c05_07), !is.na(c05_08)) %>%
+  dplyr::select(c05_01, c05_02, c05_07, c05_08, ola, ponderador02, segmento_disenno, estrato_disenno) %>% 
+  pivot_longer(cols = c(c05_01, c05_02, c05_07, c05_08)) %>% 
+  mutate(name = factor(name,
+                       levels = c('c05_01', 'c05_02', 'c05_07', 'c05_08'),
+                       labels = c('Gobierno',
+                                  'Partidos políticos',
+                                  'Congreso',
+                                  'Presidente'))) %>%
+  prop(value %in% 4:5, by = c(ola, name), na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, color = name, group = name,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, .2)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Confianza en instituciones políticas, según ola',
+          subtitle = 'Bastante o mucha confianza' )
+
+
+```
+
 ```{r graf-conf-pol}
 
 elsoc_long_2016_2022 %>% 
@@ -1735,6 +1870,39 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r conf-ola}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c05_03), !is.na(c05_05)) %>%
+  dplyr::select(c05_03, c05_05, ola, ponderador02, segmento_disenno, estrato_disenno) %>% 
+  pivot_longer(cols = c(c05_03, c05_05)) %>% 
+  mutate(name = factor(name,
+                       levels = c('c05_03', 'c05_05'),
+                       labels = c('Carabineros',
+                                  'Poder Judicial'))) %>%
+  prop(value %in% 4:5, by = c(ola, name), na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, color = name, group = name,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, .5)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Confianza en instituciones, según ola',
+          subtitle = 'Bastante o mucha confianza' )
+
+
+```
+
 ```{r graf-conf-inst}
 
 elsoc_long_2016_2022 %>% 
@@ -1809,6 +1977,35 @@ elsoc_long_2016_2022 %>%
 ```
 
 ## Movilización social
+
+```{r graf-mov-olas}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c20)) %>%
+  mutate(movsoc = car::recode(c20, "1:5 = 1; 8:10 = 1; 6:7 = 2; 11:12 = 3"),
+       movsoc = factor(movsoc, levels = 1:3,
+                       labels = c('Mov. sociales progresistas', 'Mov. sociales conservadores', 'Ninguno'))) %>%
+  prop(movsoc, by = c(ola), na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, color = movsoc, group = movsoc,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, 1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Valoración de movimientos sociales, según ola',
+          subtitle = 'Tipo de movimiento social más valorado' )
+
+```
 
 ```{r graf-mov-tipo}
 
@@ -1965,6 +2162,39 @@ elsoc_long_2016_2022 %>%
 
 ## Opinión pública y contingencia
 
+```{r op-valores-ola}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c37_01), !is.na(c37_02)) %>%
+  dplyr::select(c37_01, c37_02,  ola, ponderador02, segmento_disenno, estrato_disenno) %>% 
+  pivot_longer(cols = c(c37_01, c37_02)) %>% 
+  mutate(name = factor(name,
+                       levels = c('c37_01', 'c37_02'),
+                       labels = c('Las parejas homosexuales deberían\npoder adoptar hijos',
+                                  'El aborto debe ser legal bajo\ncualquier circunstancia'))) %>%
+  prop(value %in% 4:5, by = c(ola, name), na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, color = name, group = name,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, .6)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Actitudes valóricas, según ola',
+          subtitle = 'De acuerdo o totalmente de acuerdo' )
+
+
+```
+
 ```{r graf-op-valores}
 
 elsoc_long_2016_2022 %>% 
@@ -2035,6 +2265,40 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) +
   ggtitle('Actitudes valóricas, según tipo de votante',
+          subtitle = 'De acuerdo o totalmente de acuerdo' )
+
+
+```
+
+```{r op-contingente-ola}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c37_03), !is.na(c37_04), !is.na(c37_05)) %>%
+  dplyr::select(c37_03, c37_04, c37_05,  ola, ponderador02, segmento_disenno, estrato_disenno) %>% 
+  pivot_longer(cols = c(c37_03, c37_04, c37_05)) %>% 
+  mutate(name = factor(name,
+                       levels = c('c37_03', 'c37_04', 'c37_05'),
+                       labels = c('El Estado de Chile, más que\nlos privados, debería ser el principal\nproveedor de educación',
+                                  'Cada persona debiera asegurarse\npor si mismo su futura pensión\npara la tercera edad',
+                                  'Chile debería tomar medidas más\ndrásticas para impedir el ingreso\nde inmigrantes al país'))) %>%
+  prop(value %in% 4:5, by = c(ola, name), na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, color = name, group = name,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, 1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Opinón pública sobre temas contingentes, según ola',
           subtitle = 'De acuerdo o totalmente de acuerdo' )
 
 
@@ -2119,6 +2383,39 @@ elsoc_long_2016_2022 %>%
 
 ## Justificación de la violencia
 
+```{r graf-justviolencia1-ola-ola}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(f05_02), !is.na(f05_01)) %>%
+  dplyr::select(f05_01, f05_02, ola, ponderador02, segmento_disenno, estrato_disenno) %>% 
+  pivot_longer(cols = c(f05_01, f05_02)) %>%
+  mutate(name = factor(name,
+                       levels = c('f05_01', 'f05_02'),
+                       labels = c('Personas persigan y golpeen a un delincuente\n que acaba de cometer un asalto',
+                                  'Personas amarren a un poste y desnuden a un\n delincuente que acaba de cometer un asalto'))) %>%
+  prop(value %in% 4:5, by = c(ola, name), na.rm = TRUE) %>%
+  ggplot(aes(y = prop, x = ola, color = name, group = name,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, .4)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Justificación de la violencia a manos de ciudadanos, según ola',
+          subtitle = 'Muchas veces o siempre se justifica' )
+
+
+```
+
 ```{r graf-justviolencia1-ola}
 
 elsoc_long_2016_2022 %>% 
@@ -2194,6 +2491,40 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r graf-justviolencia2-ola-ola}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(f05_03), !is.na(f05_04), !is.na(f05_07)) %>%
+  dplyr::select(f05_03, f05_04, f05_07, ola, ponderador02, segmento_disenno, estrato_disenno) %>% 
+  pivot_longer(cols = c(f05_03, f05_04, f05_07)) %>%
+  mutate(name = factor(name,
+                       levels = c('f05_03', 'f05_04', 'f05_07'),
+                       labels = c('Carabineros use la fuerza para\n reprimir manifestación pacífica',
+                                  'Carabineros desaloje a la fuerza\na estudiantes de liceo en toma',
+                                  'Estudiantes tiren piedras a Carabi-\nneros en marcha por la educación'))) %>%
+  prop(value %in% 4:5, by = c(ola, name), na.rm = TRUE) %>%
+  ggplot(aes(y = prop, x = ola, color = name, group = name,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, .3)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Justificación de la violencia, según ola',
+          subtitle = 'Muchas veces o siempre se justifica' )
+
+
+```
+
 ```{r graf-justviolencia2-ola}
 
 elsoc_long_2016_2022 %>% 
@@ -2227,7 +2558,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Justificación de la violencia a manos de ciudadanos, según voto en plebiscito de salida',
+  ggtitle('Justificación de la violencia, según voto en plebiscito de salida',
           subtitle = 'Muchas veces o siempre se justifica' )
 
 ```
@@ -2265,7 +2596,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Justificación de la violencia a manos de ciudadanos, según tipo de votante',
+  ggtitle('Justificación de la violencia, según tipo de votante',
           subtitle = 'Muchas veces o siempre se justifica' )
 
 ```
