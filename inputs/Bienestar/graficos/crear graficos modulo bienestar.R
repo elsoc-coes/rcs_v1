@@ -19,7 +19,7 @@ source("inputs/Bienestar/graficos/funcion para graficar proporciones.R")
 
 
 gf_conf_inter_voto<-  elsoc_bienestar%>%
-  filter(tipo_atricion==1,salida!="Otros")%>%
+  filter(tipo_atricion %in% c(1,33),salida!="Otros")%>%
   sjlabelled::as_label(ola) %>%
   prop_list(conf_inter,by=c(ola,salida),na.rm=TRUE)%>%
   ggplot(aes(x=factor(ola),y=prop,color=value,group=value,
@@ -42,7 +42,7 @@ scale_y_continuous(labels = scales::percent, limits = c(0, .75))+
 saveRDS(gf_conf_inter_voto,file="inputs/Bienestar/graficos/gf_conf_inter.RDS")
 
 gf_conf_inter_perfiles <- elsoc_bienestar%>%
-  filter(tipo_atricion==1)%>%
+  filter(tipo_atricion %in% c(1,33))%>%
   sjlabelled::as_label(ola) %>%
   prop_list(conf_inter,by=c(ola,pp_4),na.rm=TRUE)%>%
   filter(value=="Baja")%>%
@@ -71,6 +71,7 @@ saveRDS(gf_conf_inter_perfiles,file="inputs/Bienestar/graficos/gf_conf_inter_per
 attr(elsoc_bienestar$c03,"label")<- "Las personas tratan de ayudar a los demás"
 grafo_prop_var("c03","salida","Grado de acuerdo según tipo voto", 
                umbral = 1,
+               atricion = c(1,33),
                limy_sup = .5,
                guardar = TRUE,
                guardar_como = "gf_altruismo_voto",
@@ -79,6 +80,7 @@ grafo_prop_var("c03","salida","Grado de acuerdo según tipo voto",
 
 grafo_prop_var("c03","pp_4","Grado de acuerdo según perfil votante", 
                umbral = 1,
+               atricion = c(1,33),
                limy_sup = .5,
                guardar = TRUE,
                guardar_como = "gf_altruismo_perfiles",
@@ -89,6 +91,7 @@ attr(elsoc_bienestar$c04,"label")<- "Las personas tratan de ser justas"
 
 grafo_prop_var("c04","salida","Grado de acuerdo según tipo voto", 
                umbral = 1,
+               atricion = c(1,33),
                limy_sup = .5,
                guardar = TRUE,
                guardar_como = "gf_justicia_social_voto",
@@ -98,6 +101,7 @@ grafo_prop_var("c04","salida","Grado de acuerdo según tipo voto",
 grafo_prop_var("c04","pp_4","Grado de acuerdo según perfil votante", 
                umbral = 1,
                limy_sup = .5,
+               atricion = c(1,33),
                guardar = TRUE,
                guardar_como = "gf_justicia_social_perfiles",
                imprimir = FALSE)
@@ -109,6 +113,7 @@ attr(elsoc_bienestar$c02,"label")<- "Se puede confiar en las personas"
 grafo_prop_var("c02","salida","Grado de acuerdo según tipo voto", 
                umbral = 1,
                limy_sup = .5,
+               atricion = c(1,33),
                guardar = TRUE,
                guardar_como = "gf_confianza_social_voto",
                imprimir = FALSE)
@@ -116,6 +121,7 @@ grafo_prop_var("c02","salida","Grado de acuerdo según tipo voto",
 grafo_prop_var("c02","pp_4","Grado de acuerdo según tipo voto", 
                umbral = 1,
                limy_sup = .5,
+               atricion = c(1,33),
                guardar = TRUE,
                guardar_como = "gf_confianza_social_perfiles",
                imprimir = FALSE)
@@ -128,41 +134,42 @@ grafo_prop_var("c02","pp_4","Grado de acuerdo según tipo voto",
 
 
 # PERSONAS SON RECOMEPENSADAS POR SU ESFUERZO
-gf_meritocracia_esfuerzo_voto <- grafo_prop_var("c18_09","salida",
-                                                titulo = 'Grado de acuerdo según voto',
-                                                limy_sup = .60)
+grafo_prop_var("c18_09","salida",
+               titulo = 'Grado de acuerdo según voto',
+              limy_sup = .60,
+              atricion = c(1,33),
+              guardar = TRUE,
+              guardar_como="gf_meritocracia_esfuerzo_voto",
+              imprimir=FALSE)
 
 
-saveRDS(gf_meritocracia_esfuerzo_voto,
-        file="inputs/Bienestar/graficos/gf_meritocracia_esfuerzo_voto.RDS")
-
-# PERSONAS SON RECOMEPENSADAS POR SU ESFUERZO
-gf_meritocracia_esfuerzo_perfiles <- grafo_prop_var("c18_09","pp_4",
-                                    titulo = 'Grado de acuerdo según perfil votante',
-                                     limy_sup =  .60)
-
-saveRDS(gf_meritocracia_esfuerzo_perfiles,file="inputs/Bienestar/graficos/gf_meritocracia_esfuerzo_perfiles.RDS")
-
-
+ grafo_prop_var("c18_09","pp_4",
+    titulo = 'Grado de acuerdo según perfil votante',
+    limy_sup =  .60,
+    atricion = c(1,33),
+    guardar = TRUE,
+    guardar_como="gf_meritocracia_esfuerzo_perfiles",
+    imprimir=FALSE)
 
 
 # PERSONAS RECOMPENSADAS POR SU INTELIGENCIA
-gf_meritocracia_inteligencia_voto <-grafo_prop_var("c18_10","salida",
-                                                   titulo = 'Grado de acuerdo según voto',
-                                                   limy_sup =  .60)
+grafo_prop_var("c18_10","salida",
+               titulo = 'Grado de acuerdo según voto',
+               limy_sup =  .60,
+               atricion = c(1,33),
+               guardar = TRUE,
+               guardar_como="gf_meritocracia_inteligencia_voto",
+               imprimir=FALSE)
 
 
-saveRDS(gf_meritocracia_inteligencia_voto,
-        file="inputs/Bienestar/graficos/gf_meritocracia_inteligencia_voto.RDS")
 
-gf_meritocracia_inteligencia_perfiles <- grafo_prop_var("c18_10","pp_4",
-                                                        titulo = 'Grado de acuerdo según perfil votante',
-                                                        limy_sup =  .75)
-
-
-saveRDS(gf_meritocracia_inteligencia_perfiles,
-        file="inputs/Bienestar/graficos/gf_meritocracia_inteligencia_perfiles.RDS")
-
+grafo_prop_var("c18_10","pp_4",
+               titulo = 'Grado de acuerdo según perfil votante',
+               limy_sup =  .75,
+               atricion = c(1,33),
+               guardar = TRUE,
+               guardar_como="gf_meritocracia_inteligencia_perfiles",
+               imprimir=FALSE)
 
 
 # PERCEPCION DE DESIGUALDAD -----------------------------------------------
@@ -170,6 +177,7 @@ saveRDS(gf_meritocracia_inteligencia_perfiles,
 grafo_prop_var("c18_11","salida",
                titulo = "Grado de acuerdo según voto",
                limy_low = .50,
+               atricion = c(1,33),
                guardar = TRUE,
                guardar_como ="gf_desigualdad_ingreso_voto",
                imprimir = FALSE)
@@ -178,6 +186,7 @@ grafo_prop_var("c18_11","salida",
 grafo_prop_var("c18_11","pp_4",
                titulo = "Grado de acuerdo según perfiles",
                limy_low = .50,
+               atricion=c(1,33),
                guardar = TRUE,
                guardar_como ="gf_desigualdad_ingreso_perfiles",
                imprimir = FALSE)
@@ -189,6 +198,7 @@ grafo_prop_var("c32_01",
                "pp_4",
                titulo = "Grado de acuerdo según perfiles",
                limy_low = .5,
+               atricion = c(1,33),
                guardar = TRUE,
                guardar_como = "gf_orgullo_chile_perfiles",
                imprimir = FALSE)
@@ -198,6 +208,7 @@ grafo_prop_var("c32_01",
                "salida",
                titulo = "Grado de acuerdo según voto",
                limy_low = .5,
+               atricion=c(1,33),
                guardar = TRUE,
                guardar_como = "gf_orgullo_chile_voto",
                imprimir = FALSE)
@@ -211,6 +222,7 @@ grafo_prop_var("c32_01",
                titulo = "Grado de acuerdo según perfiles",
                limy_low = .5,
                guardar = TRUE,
+               atricion = c(1,33),
                guardar_como = "gf_orgullo_chile_voto",
                imprimir = FALSE)
 
@@ -220,6 +232,7 @@ grafo_prop_var("d02_01",
                titulo = "Grado de acuerdo según voto",
                limy_sup = .5,
                guardar = TRUE,
+               atricion=c(1,33),
                guardar_como = "gf_distributiva_pensiones_voto",
                imprimir = FALSE)
 
@@ -228,6 +241,7 @@ grafo_prop_var("d02_01",
                titulo = "Grado de acuerdo según perfiles",
                limy_sup = .5,
                guardar = TRUE,
+               atricion = c(1,33),
                guardar_como = "gf_distributiva_pensiones_perfiles",
                imprimir = FALSE)
 
@@ -238,6 +252,7 @@ grafo_prop_var("d02_02",
                titulo = "Grado de acuerdo según voto",
                limy_sup = .4,
                guardar = TRUE,
+               atricion=c(1,33),
                guardar_como = "gf_distributiva_educacion_voto",
                imprimir = FALSE)
 
@@ -246,6 +261,7 @@ grafo_prop_var("d02_02",
                titulo = "Grado de acuerdo según perfiles",
                limy_sup = .4,
                guardar = TRUE,
+               atricion = c(1,33),
                guardar_como = "gf_distributiva_educacion_perfiles",
                imprimir = FALSE)
 
@@ -255,6 +271,7 @@ grafo_prop_var("d02_03",
                titulo = "Grado de acuerdo según voto",
                limy_sup = .5,
                guardar = TRUE,
+               atricion = c(1,33),
                guardar_como = "gf_distributiva_salud_voto",
                imprimir = FALSE)
 
@@ -263,12 +280,14 @@ grafo_prop_var("d02_03",
                titulo = "Grado de acuerdo según perfiles",
                limy_sup = .5,
                guardar = TRUE,
+               atricion = c(1,33),
                guardar_como = "gf_distributiva_salud_perfiles",
                imprimir = FALSE)
+
 # Clase social subjetiva --------------------------------------------------
 
 
-elsoc_bienestar%>%
+gf_clase_subjetiva_salida <- elsoc_bienestar%>%
   filter(tipo_atricion %in% c(33))%>%
   sjlabelled::as_label(ola) %>%
   prop_list(clase_sub,by=c(ola,salida),na.rm=TRUE)%>%
@@ -289,29 +308,40 @@ elsoc_bienestar%>%
         legend.title = element_blank(),
         legend.position = "top")+
   ggtitle('Clase social subjetiva, según voto en plebiscito de salida')+
-  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nDatos correspondientes a la muestra de Refresco')
 
+
+saveRDS(gf_clase_subjetiva_salida,file="inputs/Bienestar/graficos/gf_clase_subjetiva_salida.RDS")
 
 #IDENTIFICACION CON CLASE SUBJETIVA
+
 grafo_prop_var("c34","salida",umbral = c(4,5),atricion = c(33),
-               titulo="Grado de acuerdo según votante")
+               titulo="Grado de acuerdo según votante",
+               guardar = TRUE,
+               guardar_como = "gf_identificacion_clase_subjetiva_salida",
+               imprimir = FALSE)
 
 
 
 # MOVILIDAD SOCIAL --------------------------------------------------------
 
+vars_clase_sub <- c("d01_01","d01_02","d01_03")
+names(vars_clase_sub)<- c("Entrevistado","Familia Origen","Hijos")
 
-lapply(1:length(vars_clase_sub), function(i){
+
+
+
+gf_ubicacion_social_salida <- lapply(1:length(vars_clase_sub), function(i){
   
   elsoc_bienestar%>%
-    filter(tipo_atricion %in% c(1))%>%
+    filter(tipo_atricion %in% c(1,33))%>%
     sjlabelled::as_label(ola) %>%
     stats(!!rlang::sym(vars_clase_sub[i]),by=c(ola,salida),stat="mean",na.rm=TRUE)%>%
     drop_na()%>%
     filter(salida!="Otros")%>%
     mutate(variable=names(vars_clase_sub)[i])
 })%>%
-  bind_rows()
+  bind_rows()%>%
 ggplot(aes(x=ola,y=stat,color=variable,group=variable,label=round(stat,2)))+
   geom_point()+
   geom_line()+
@@ -328,12 +358,12 @@ ggplot(aes(x=ola,y=stat,color=variable,group=variable,label=round(stat,2)))+
   ggtitle('Ubicación en la sociedad chilena según voto en plebiscito de salida')+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
+saveRDS(gf_ubicacion_social_salida, file="inputs/Bienestar/graficos/gf_ubicacion_social_salida.RDS")
 
-
-lapply(1:length(vars_clase_sub), function(i){
+gf_ubicacion_social_perfiles <-  lapply(1:length(vars_clase_sub), function(i){
   
   elsoc_bienestar%>%
-    filter(tipo_atricion %in% c(1))%>%
+    filter(tipo_atricion %in% c(1,33))%>%
     sjlabelled::as_label(ola) %>%
     stats(!!rlang::sym(vars_clase_sub[i]),by=c(ola,pp_4),stat="mean",na.rm=TRUE)%>%
     drop_na()%>%
@@ -357,26 +387,48 @@ lapply(1:length(vars_clase_sub), function(i){
   ggtitle('Ubicación en la sociedad chilena según perfil de voto')+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
+
+saveRDS(gf_ubicacion_social_perfiles,
+        file="inputs/Bienestar/graficos/gf_ubicacion_social_perfiles.RDS")
 # SEGURIDAD ECONOMMICA ----------------------------------------------------
 
 attr(elsoc_bienestar$m44,"label")<- "Mi hogar NO tendría ahorros suficientes para arreglárselas durante los próximos tres meses \n sin que algún miembro del hogar trabaje"
 
 grafo_prop_var("m44","salida",umbral = c(1),
-               titulo="Grado de acuerdo según votante",limy_sup = .75)
+               titulo="Grado de acuerdo según votante",
+               atricion = c(1,33),
+               limy_sup = .75,
+               guardar = TRUE,
+               guardar_como = "gf_ahorros_salida",
+               imprimir = FALSE)
 
 grafo_prop_var("m44","pp_4",umbral = c(1),
-               titulo="Grado de acuerdo según perfil",limy_sup = .75)
+               titulo="Grado de acuerdo según perfil",
+               limy_sup = .75,
+               atricion = c(1,33),
+               guardar = TRUE,
+               guardar_como = "gf_ahorros_perfiles",
+               imprimir=FALSE)
 
 
 grafo_prop_var("m43","salida",umbral = c(3,4,5),
-               titulo="Grado de acuerdo según votante",limy_sup = .75)
+               titulo="Grado de acuerdo según votante",
+               limy_sup = .75,
+               atricion = c(1,33),
+               guardar = TRUE,
+               guardar_como = "gf_sobrecarga_deuda_salida",
+               imprimir = FALSE)
+
+
 
 
 grafo_prop_var("m43","pp_4",umbral = c(3,4,5),
-               titulo="Grado de acuerdo según perfil de votante",limy_sup = .60)
-
-
-
+               titulo="Grado de acuerdo según perfil de votante",
+               limy_sup = .60,
+               atricion=c(1,33),
+               guardar = TRUE,
+               guardar_como = "gf_sobrecarga_deuda_salida",
+               imprimir = FALSE)
 
 
 
@@ -388,9 +440,9 @@ salario_percibido <- c("d03_01","d03_02")
 names(salario_percibido)<- c("Empresario","Obrero")
 
 
-lapply(1:length(salario_percibido),function(i){
+gf_salario_percibido_perfiles <- lapply(1:length(salario_percibido),function(i){
   elsoc_bienestar%>%
-    filter(tipo_atricion %in% c(1))%>%
+    filter(tipo_atricion %in% c(1,33))%>%
     sjlabelled::as_label(ola) %>%
     mutate(log_salario=log(!!rlang::sym(salario_percibido[i])))%>%
     stats(log_salario,by=c(ola,pp_4),stat="mean",na.rm=TRUE)%>%
@@ -412,10 +464,12 @@ lapply(1:length(salario_percibido),function(i){
         legend.title = element_blank())+
   ggtitle("Percepcion salario según tipo de votante")
 
+saveRDS(gf_salario_percibido_perfiles,
+        file="inputs/Bienestar/graficos/gf_salario_percibido_perfiles.RDS")
 
-lapply(1:length(salario_percibido),function(i){
+gf_salario_percibido_salida <-  lapply(1:length(salario_percibido),function(i){
   elsoc_bienestar%>%
-    filter(tipo_atricion %in% c(1))%>%
+    filter(tipo_atricion %in% c(1,33))%>%
     sjlabelled::as_label(ola) %>%
     mutate(log_salario=log(!!rlang::sym(salario_percibido[i])))%>%
     stats(log_salario,by=c(ola,salida),stat="mean",na.rm=TRUE)%>%
@@ -438,14 +492,15 @@ lapply(1:length(salario_percibido),function(i){
   ggtitle("Percepcion salario según voto en Plebiscito")
 
 
+saveRDS(gf_salario_percibido_salida,
+        file="inputs/Bienestar/graficos_gf_salario_percibido_salida.RDS")
+
 salario_justo <- c("d04_01","d04_02")
 names(salario_justo)<- c("Empresario","Obrero")
 
-
-
-lapply(1:length(salario_justo),function(i){
+gf_salario_justo_perfiles <- lapply(1:length(salario_justo),function(i){
   elsoc_bienestar%>%
-    filter(tipo_atricion %in% c(1))%>%
+    filter(tipo_atricion %in% c(1,33))%>%
     sjlabelled::as_label(ola) %>%
     mutate(log_salario=log(!!rlang::sym(salario_justo[i])))%>%
     stats(log_salario,by=c(ola,pp_4),stat="mean",na.rm=TRUE)%>%
@@ -467,10 +522,11 @@ lapply(1:length(salario_justo),function(i){
         legend.title = element_blank())+
   ggtitle("Salario justo según tipo de votante")
 
+saveRDS(gf_salario_justo_perfiles,file = "inputs/Bienestar/graficos/gf_salario_justo_perfiles.RDS")
 
-lapply(1:length(salario_justo),function(i){
+gf_salario_justo_salida <- lapply(1:length(salario_justo),function(i){
   elsoc_bienestar%>%
-    filter(tipo_atricion %in% c(1))%>%
+    filter(tipo_atricion %in% c(1,33))%>%
     sjlabelled::as_label(ola) %>%
     mutate(log_salario=log(!!rlang::sym(salario_justo[i])))%>%
     stats(log_salario,by=c(ola,salida),stat="mean",na.rm=TRUE)%>%
@@ -492,4 +548,4 @@ lapply(1:length(salario_justo),function(i){
         legend.title = element_blank())+
   ggtitle("Salario justo según voto en Plebiscito")
 
-
+saveRDS(gf_salario_justo_salida,file="inputs/Bienestar/graficos/gf_salario_justo_salida.RDS")
