@@ -19,6 +19,8 @@ library(statar)
 library(bookdown)
 library(knitr)
 
+knitr::opts_chunk$set(cache=FALSE, warning=FALSE, message=FALSE, echo=FALSE, fig.topcaption = TRUE, fig.align = 'center')
+Sys.setlocale("LC_ALL","ES_ES.UTF-8")
 ```
 
 
