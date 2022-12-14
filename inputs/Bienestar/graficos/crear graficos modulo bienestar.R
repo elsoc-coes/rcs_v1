@@ -99,7 +99,6 @@ grafo_prop_var("c04","salida","Grado de acuerdo según voto en plebiscito",
 
 grafo_prop_var("c04","pp_4","Grado de acuerdo según tipo de votante", 
                umbral = 1,
-
                atricion = c(1,33),
                guardar = TRUE,
                guardar_como = "gf_justicia_social_perfiles",
@@ -135,6 +134,7 @@ grafo_prop_var("c02","pp_4","Grado de acuerdo según tipo de votante",
 # PERSONAS SON RECOMEPENSADAS POR SU ESFUERZO
 grafo_prop_var("c18_09","salida",
                titulo = 'Grado de acuerdo según voto en plebiscito',
+
               limy_sup = .60,
               atricion = c(1,33),
               guardar = TRUE,
@@ -315,6 +315,7 @@ gf_clase_subjetiva_salida <- elsoc_bienestar%>%
         legend.title = element_blank(),
         legend.position = "top")+
   ggtitle('Clase social con la que se identifica el entrevistado,\nsegún voto en plebiscito de salida')+
+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nDatos correspondientes a la muestra de Refresco')
 
 
@@ -423,6 +424,7 @@ attr(elsoc_bienestar$m43,"label") <-"Porcentaje que se siente algo, bastante o m
 
 grafo_prop_var("m43","salida",umbral = c(3,4,5),
                titulo="Sobrecarga financiera según voto en plebiscito",
+
                limy_sup = .75,
                atricion = c(1,33),
                guardar = TRUE,
@@ -448,7 +450,6 @@ grafo_prop_var("m43","pp_4",umbral = c(3,4,5),
 
 salario_percibido <- c("d03_01","d03_02")
 names(salario_percibido)<- c("Empresario","Obrero")
-
 
 gf_salario_percibido_perfiles <- lapply(1:length(salario_percibido),
                                         function(i){
@@ -479,9 +480,9 @@ gf_salario_percibido_perfiles <- lapply(1:length(salario_percibido),
           subtitle = "¿Cuánto cree que gana un Empresario y un Obrero?")+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
-
 saveRDS(gf_salario_percibido_perfiles,
         file="inputs/Bienestar/graficos/gf_salario_percibido_perfiles.RDS")
+
 
 
 gf_salario_percibido_salida <-  lapply(1:length(salario_percibido),function(i){
@@ -518,16 +519,16 @@ saveRDS(gf_salario_percibido_salida,
         file="inputs/Bienestar/graficos/gf_salario_percibido_salida.RDS")
 
 
+saveRDS(gf_salario_percibido_salida,
+        file="inputs/Bienestar/graficos_gf_salario_percibido_salida.RDS")
+
 salario_justo <- c("d04_01","d04_02")
 names(salario_justo)<- c("Empresario","Obrero")
 
 
-
 gf_salario_justo_perfiles <- lapply(1:length(salario_justo),function(i){
   elsoc_bienestar%>%
-    mutate(d04_01 = ifelse(d04_01==0,1,d04_01),
-           d04_02 = ifelse(d04_02==0,1,d04_02)) %>%
-    filter(tipo_atricion %in% c(1,33),d04_01!=0)%>%
+    filter(tipo_atricion %in% c(1,33))%>%
     sjlabelled::as_label(ola) %>%
     mutate(log_salario=log(!!rlang::sym(salario_justo[i])))%>%
     stats(log_salario,by=c(ola,pp_4),stat="mean",na.rm=TRUE)%>%
@@ -555,10 +556,10 @@ saveRDS(gf_salario_justo_perfiles,file = "inputs/Bienestar/graficos/gf_salario_j
 
 
 
-gf_salario_justo_salida <- lapply(1:length(salario_justo),function(i){
+
+
+    gf_salario_justo_salida <- lapply(1:length(salario_justo),function(i){
   elsoc_bienestar%>%
-    mutate(d04_01 = ifelse(d04_01==0,1,d04_01),
-           d04_02 = ifelse(d04_02==0,1,d04_02)) %>%
     filter(tipo_atricion %in% c(1,33))%>%
     sjlabelled::as_label(ola) %>%
     mutate(log_salario=log(!!rlang::sym(salario_justo[i])))%>%
@@ -583,6 +584,5 @@ gf_salario_justo_salida <- lapply(1:length(salario_justo),function(i){
           subtitle = "¿Cuanto cree que debiese ganar un Obrero  y un Empresario?")+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
-
-
 saveRDS(gf_salario_justo_salida,file="inputs/Bienestar/graficos/gf_salario_justo_salida.RDS")
+
