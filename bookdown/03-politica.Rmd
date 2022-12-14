@@ -4,7 +4,7 @@
 
 ```{r cargar-paquetes-3}
 rm(list=ls())
-
+ 
 library(knitr)
 library(tidyverse)
 library(sjmisc)
