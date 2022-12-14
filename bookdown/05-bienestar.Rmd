@@ -1,5 +1,5 @@
 
-### Bienestar (nombre temporal)
+# Bienestar (nombre temporal)
 
 
 ```{r cargar-paquetes-5,include=FALSE}
@@ -103,7 +103,7 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r salud-bienestar-olas, fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva, según ola'}
+```{r , fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva, según ola'}
 
 # elsoc::load_elsoc('long')
 
@@ -140,7 +140,7 @@ elsoc_long_2016_2022 %>%
 ```
 
 
-```{r salud-bienestar-olas, fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva, según ola'}
+```{r , fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva, según ola'}
 
 # elsoc::load_elsoc('long')
 
@@ -259,7 +259,7 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r depre-olas-sexo, fig.cap = 'Porcentaje que presenta síntomas de depresión moderados a severos, según voto y ola'}
+```{r depre-olas-sexo-2, fig.cap = 'Porcentaje que presenta síntomas de depresión moderados a severos, según voto y ola'}
 
 # elsoc::load_elsoc('long')
 
@@ -289,9 +289,8 @@ elsoc_long_2016_2022 %>%
 ### Covid 19
 
 
-```{r cuarentenas-olas-salida, fig.cap = 'Porcentaje que está de acuerdo con las cuarentenas según tipo de voto}
+```{r cuarentenas-olas-salida, fig.cap = 'Porcentaje que está de acuerdo con las cuarentenas según tipo de voto'}
 
-# elsoc::load_elsoc('long')
 
 elsoc_long_2016_2022  %>%
   filter(ola %in% 5:6) %>% 
@@ -317,12 +316,12 @@ elsoc_long_2016_2022  %>%
           legend.position = 'top',
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) +
-  facet_wrap(~ola)
+  facet_wrap(~ola)+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 ```
 
 
-```{r econsalud-olas-tipovotante, fig.cap = 'Porcentaje que está de acuerdo con cuarentenas según votante}
+```{r econsalud-olas-tipovotante, fig.cap = 'Porcentaje que está de acuerdo con cuarentenas según votante'}
 
 # elsoc::load_elsoc('long')
 
@@ -355,7 +354,7 @@ elsoc_long_2016_2022  %>%
 ```
 
 
-```{r econsalud-olas-tipovotante, fig.cap = 'Porcentaje que está de acuerdo con priorizar la economía según tipo de voto}
+```{r econsalud-olas-tipovotante-2, fig.cap = 'Porcentaje que está de acuerdo con priorizar la economía según tipo de voto'}
 
 # elsoc::load_elsoc('long')
 
@@ -392,7 +391,7 @@ labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 
 
-```{r econsalud-olas-tipovotante, fig.cap = 'Porcentaje que está de acuerdo con priorizar la economía según votante}
+```{r econsalud-olas-tipovotante-3, fig.cap = 'Porcentaje que está de acuerdo con priorizar la economía según votante'}
 
 # elsoc::load_elsoc('long')
 
@@ -582,4 +581,64 @@ print(readRDS("../inputs/Bienestar/graficos/gf_orgullo_chile_perfiles.RDS"))
 
 ```
 
+
+### Clase social subjetiva
+
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_clase_subjetiva_salida.RDS"))
+
+```
+
+### Movilidad social
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_ubicacion_social_salida.RDS"))
+
+```
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_ubicacion_social_perfiles.RDS"))
+
+```
+
+### Seguridad Económica Ahorros
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_ahorros_salida.RDS"))
+```
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_ahorros_perfiles.RDS"))
+```
+
+### Seguridad Económica Sobrecarga de deuda
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_sobrecarga_deuda_salida.RDS"))
+```
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_sobrecarga_deuda_perfiles.RDS"))
+```
+
+### Percepción de diferencias salariales
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_salario_percibido_salida.RDS"))
+```
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_salario_percibido_perfiles.RDS"))
+```
+
+### Salarios Justos
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_salario_justo_salida.RDS"))
+```
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_salario_justo_perfiles.RDS"))
+```
 

@@ -427,7 +427,7 @@ grafo_prop_var("m43","pp_4",umbral = c(3,4,5),
                limy_sup = .60,
                atricion=c(1,33),
                guardar = TRUE,
-               guardar_como = "gf_sobrecarga_deuda_salida",
+               guardar_como = "gf_sobrecarga_deuda_perfiles",
                imprimir = FALSE)
 
 
@@ -440,14 +440,17 @@ salario_percibido <- c("d03_01","d03_02")
 names(salario_percibido)<- c("Empresario","Obrero")
 
 
-gf_salario_percibido_perfiles <- lapply(1:length(salario_percibido),function(i){
-  elsoc_bienestar%>%
-    filter(tipo_atricion %in% c(1,33))%>%
-    sjlabelled::as_label(ola) %>%
-    mutate(log_salario=log(!!rlang::sym(salario_percibido[i])))%>%
-    stats(log_salario,by=c(ola,pp_4),stat="mean",na.rm=TRUE)%>%
-    drop_na()%>%
-    mutate(variable=names(salario_percibido[i]))})%>%
+gf_salario_percibido_perfiles <- lapply(1:length(salario_percibido),
+                                        function(i){
+                                          elsoc_bienestar%>%
+                                            filter(tipo_atricion %in% c(1,33),d03_01!=0)%>%
+                                            mutate(d03_01 = ifelse(d03_01==0,1,d03_01),
+                                                   d03_02 = ifelse(d03_02==0,1,d03_02)) %>%
+                                            sjlabelled::as_label(ola) %>%
+                                            mutate(log_salario=log(!!rlang::sym(salario_percibido[i])))%>%
+                                            stats(log_salario,by=c(ola,pp_4),stat="mean",na.rm=TRUE)%>%
+                                            drop_na() %>%
+                                            mutate(variable=names(salario_percibido[i]))})%>%
   bind_rows()%>%
   filter(pp_4 %in% c("Votante\nCrónico","No-Votante\nCrónico"))%>%
   ggplot(aes(x=ola,y=stat,color=variable,group=variable,label=round(stat,2)))+
@@ -467,9 +470,12 @@ gf_salario_percibido_perfiles <- lapply(1:length(salario_percibido),function(i){
 saveRDS(gf_salario_percibido_perfiles,
         file="inputs/Bienestar/graficos/gf_salario_percibido_perfiles.RDS")
 
+
 gf_salario_percibido_salida <-  lapply(1:length(salario_percibido),function(i){
   elsoc_bienestar%>%
-    filter(tipo_atricion %in% c(1,33))%>%
+    mutate(d03_01 = ifelse(d03_01==0,1,d03_01),
+           d03_02 = ifelse(d03_02==0,1,d03_02)) %>%
+    filter(tipo_atricion %in% c(1,33),d03_01!=0)%>%
     sjlabelled::as_label(ola) %>%
     mutate(log_salario=log(!!rlang::sym(salario_percibido[i])))%>%
     stats(log_salario,by=c(ola,salida),stat="mean",na.rm=TRUE)%>%
@@ -495,12 +501,29 @@ gf_salario_percibido_salida <-  lapply(1:length(salario_percibido),function(i){
 saveRDS(gf_salario_percibido_salida,
         file="inputs/Bienestar/graficos_gf_salario_percibido_salida.RDS")
 
+
 salario_justo <- c("d04_01","d04_02")
 names(salario_justo)<- c("Empresario","Obrero")
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 gf_salario_justo_perfiles <- lapply(1:length(salario_justo),function(i){
   elsoc_bienestar%>%
-    filter(tipo_atricion %in% c(1,33))%>%
+    mutate(d04_01 = ifelse(d04_01==0,1,d04_01),
+           d04_02 = ifelse(d04_02==0,1,d04_02)) %>%
+    filter(tipo_atricion %in% c(1,33),d04_01!=0)%>%
     sjlabelled::as_label(ola) %>%
     mutate(log_salario=log(!!rlang::sym(salario_justo[i])))%>%
     stats(log_salario,by=c(ola,pp_4),stat="mean",na.rm=TRUE)%>%
@@ -524,8 +547,12 @@ gf_salario_justo_perfiles <- lapply(1:length(salario_justo),function(i){
 
 saveRDS(gf_salario_justo_perfiles,file = "inputs/Bienestar/graficos/gf_salario_justo_perfiles.RDS")
 
+
+
 gf_salario_justo_salida <- lapply(1:length(salario_justo),function(i){
   elsoc_bienestar%>%
+    mutate(d04_01 = ifelse(d04_01==0,1,d04_01),
+           d04_02 = ifelse(d04_02==0,1,d04_02)) %>%
     filter(tipo_atricion %in% c(1,33))%>%
     sjlabelled::as_label(ola) %>%
     mutate(log_salario=log(!!rlang::sym(salario_justo[i])))%>%
@@ -547,5 +574,7 @@ gf_salario_justo_salida <- lapply(1:length(salario_justo),function(i){
         legend.position = 'top',
         legend.title = element_blank())+
   ggtitle("Salario justo según voto en Plebiscito")
+
+
 
 saveRDS(gf_salario_justo_salida,file="inputs/Bienestar/graficos/gf_salario_justo_salida.RDS")
