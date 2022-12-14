@@ -16,14 +16,9 @@ library(elsoc)
 library(lubridate)
 library(viridis)
 library(statar)
-
-
-
 library(bookdown)
 library(knitr)
 
-knitr::opts_chunk$set(cache=FALSE, warning=FALSE, message=FALSE, echo=FALSE, fig.topcaption = TRUE, fig.align = 'center')
-Sys.setlocale("LC_ALL","ES_ES.UTF-8")
 ```
 
 
@@ -37,7 +32,7 @@ elsoc_long_2016_2022<-  readRDS("../inputs/Bienestar/base_bienestar.RDS")
 
 ### Salud Mental y Bienestar 
 
-```{r salud-bienestar, fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva (ola 2022)'}
+```{r salud-bienestar}
 
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola ==5) %>%
@@ -61,15 +56,13 @@ drop_na(s01,s02,s03)%>%
   scale_fill_viridis_d(end = .75, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
           legend.position = 'none') +
-  ggtitle(NULL, 'Porcentaje que responde que...') +
-  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022. Los números se omiten por confidencialidad.')
+  ggtitle('Satisfacción con la vida, ideal de vida y salud subjetiva (ola 2022)',subtitle =  'Porcentaje que responde que...') +
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 ```
 
 
-```{r salud-bienestar-olas, fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva, según ola'}
-
-# elsoc::load_elsoc('long')
+```{r salud-bienestar-olas}
 
 
 
@@ -97,13 +90,13 @@ elsoc_long_2016_2022 %>%
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle(NULL, 'Porcentaje que responde que...') +
+  ggtitle('Satisfacción con la vida, ideal de vida y salud subjetiva, según ola', subtitle =  'Porcentaje que responde que...') +
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 
 ```
 
-```{r , fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva, según ola'}
+```{r}
 
 # elsoc::load_elsoc('long')
 
@@ -132,7 +125,7 @@ elsoc_long_2016_2022 %>%
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle(NULL, 'Porcentaje que responde que...') +
+  ggtitle('Satisfacción con la vida, ideal de vida y salud subjetiva, según voto', 'Porcentaje que responde que...') +
   facet_grid(~ola)+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
@@ -140,7 +133,7 @@ elsoc_long_2016_2022 %>%
 ```
 
 
-```{r , fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva, según ola'}
+```{r }
 
 # elsoc::load_elsoc('long')
 
@@ -169,7 +162,7 @@ elsoc_long_2016_2022 %>%
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle(NULL, 'Porcentaje que responde que...') +
+  ggtitle('Satisfacción con la vida, ideal de vida y salud subjetiva, según ola', 'Porcentaje que responde que...') +
   facet_wrap(~pp_4)+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
@@ -177,31 +170,7 @@ elsoc_long_2016_2022 %>%
 ```
 
 
-
-```{r depre-2021, fig.cap = 'Porcentaje que presenta síntomas de depresión (2022)'}
-
-elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1,33), ola == 5)  %>%
-  prop(depr, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = depr, fill = depr, 
-             label = scales::percent(prop, accuracy = .1))) + 
-  theme_bw() + 
-  geom_col(position = 'dodge2') +
-  scale_y_continuous(labels = scales::percent, limits = 0:1) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  ggtitle("Porcentaje que presenta síntomas depresivos ")+
-  scale_fill_viridis_d(begin = 0, end = .85, direction = -1) +
-  geom_text(position = position_dodge2(.9),
-            size = 3, 
-            vjust = -.5) +
-    theme(plot.caption = element_text(hjust = 0),
-          legend.position = 'none') +
-  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
-
-```
-
-```{r depre-plebiscito, fig.cap = 'Porcentaje que presenta síntomas de depresión, según voto en plebiscito'}
+```{r depre-plebiscito}
 
 # elsoc::load_elsoc('long')
 
@@ -227,13 +196,14 @@ elsoc_long_2016_2022  %>%
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) +
   facet_wrap(~ola)+
+  ggtitle('Porcentaje que presenta síntomas de depresión, según voto en plebiscito')+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 ```
 
 
 
-```{r depre-olas-sexo, fig.cap = 'Porcentaje que presenta síntomas de depresión moderados a severos, según sexo y ola'}
+```{r depre-olas-sexo}
 
 # elsoc::load_elsoc('long')
 
@@ -254,14 +224,14 @@ elsoc_long_2016_2022 %>%
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) +
+  ggtitle( 'Porcentaje que presenta síntomas de depresión moderados a severos, según sexo y ola')+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 
 ```
 
-```{r depre-olas-sexo-2, fig.cap = 'Porcentaje que presenta síntomas de depresión moderados a severos, según voto y ola'}
+```{r depre-olas-sexo-2}
 
-# elsoc::load_elsoc('long')
 
 elsoc_long_2016_2022 %>%
   drop_na(pp_4) %>%
@@ -275,21 +245,22 @@ elsoc_long_2016_2022 %>%
   ggtitle("Porcentaje que presenta síntomas depresivos moderados a severos según votante")+
   geom_line() +
   geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
-  scale_y_continuous(labels = scales::percent, limits = 0:1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,.5)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .11, end = .88) +
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) +
-  ylim(0,.5)+
+  ggtitle('Porcentaje que presenta síntomas de depresión moderados a severos, \nsegún voto y ola')+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 ```
+
 
 ### Covid 19
 
 
-```{r cuarentenas-olas-salida, fig.cap = 'Porcentaje que está de acuerdo con las cuarentenas según tipo de voto'}
+```{r cuarentenas-olas-salida}
 
 
 elsoc_long_2016_2022  %>%
@@ -317,11 +288,12 @@ elsoc_long_2016_2022  %>%
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) +
   facet_wrap(~ola)+
+  ggtitle( 'Porcentaje que está de acuerdo con las cuarentenas según tipo de voto')+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 ```
 
 
-```{r econsalud-olas-tipovotante, fig.cap = 'Porcentaje que está de acuerdo con cuarentenas según votante'}
+```{r econsalud-olas-tipovotante}
 
 # elsoc::load_elsoc('long')
 
@@ -349,14 +321,14 @@ elsoc_long_2016_2022  %>%
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) +
   facet_wrap(~ola)+
+  ggtitle('Porcentaje que está de acuerdo con cuarentenas según votante')+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
   
 ```
 
 
-```{r econsalud-olas-tipovotante-2, fig.cap = 'Porcentaje que está de acuerdo con priorizar la economía según tipo de voto'}
+```{r econsalud-olas-tipovotante-2}
 
-# elsoc::load_elsoc('long')
 
 elsoc_long_2016_2022  %>%
   filter(ola %in% 5:6) %>% 
@@ -383,7 +355,7 @@ elsoc_long_2016_2022  %>%
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) +
   facet_wrap(~ola)+
-  
+ggtitle('Porcentaje que está de acuerdo con priorizar la economía según tipo de voto')+
 labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
   
 ```
@@ -391,9 +363,7 @@ labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 
 
-```{r econsalud-olas-tipovotante-3, fig.cap = 'Porcentaje que está de acuerdo con priorizar la economía según votante'}
-
-# elsoc::load_elsoc('long')
+```{r econsalud-olas-tipovotante-3}
 
 elsoc_long_2016_2022  %>%
   filter(ola %in% 5:6) %>% 
@@ -427,7 +397,7 @@ elsoc_long_2016_2022  %>%
 
 
 ### Seguridad Económica y Laboral
-```{r laboral-historica, fig.cap = 'Situación Laboral, evolución histórica'}
+```{r laboral-historica}
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1, !is.na(m02)) %>% 
   mutate(sit_laboral = factor(car::recode(m02, "1:3 = 1; 6 = 2; c(4,5,7,8,9) = 3"),
@@ -453,13 +423,13 @@ elsoc_long_2016_2022 %>%
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle(NULL, 'Situación Laboral por Ola') +
+  ggtitle('Situación Laboral, evolución histórica', 'Situación Laboral por Ola') +
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 ```
 
 
-```{r laboral-plebiscito, fig.cap = 'Situación Laboral, según voto en plebiscito'}
+```{r laboral-plebiscito}
 
 # elsoc::load_elsoc('long')
 elsoc_long_2016_2022 %>% 
@@ -481,6 +451,7 @@ elsoc_long_2016_2022 %>%
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) + 
     facet_wrap(~ola) + 
+  ggtitle('Situación Laboral, según voto en plebiscito')+
     labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.') 
   
 
@@ -489,15 +460,36 @@ elsoc_long_2016_2022 %>%
 ### Confianza interpersonal
 
 ```{r conf inter voto}
-gf_conf_inter <- readRDS("../inputs/Bienestar/graficos/gf_conf_inter.RDS")
-gf_conf_inter
+ print(readRDS("../inputs/Bienestar/graficos/gf_conf_inter.RDS"))
 ```
 
 
 ```{r conf inter perfiles}
-gf_conf_inter_perfiles <- readRDS("../inputs/Bienestar/graficos/gf_conf_inter_perfiles.RDS")
-gf_conf_inter_perfiles
+print(readRDS("../inputs/Bienestar/graficos/gf_conf_inter_perfiles.RDS"))
 ```
+
+
+### Altruismo social generalizado 
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_altruismo_voto.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_altruismo_perfiles.RDS"))
+```
+
+### Justicia social
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_justicia_social_voto.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_justicia_social_perfiles.RDS"))
+```
+
 
 
 ### Meritocracia
@@ -542,6 +534,7 @@ gf_conf_inter_perfiles
 ```{r}
  print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_salud_perfiles.RDS"))
 ```
+
 
 ```{r}
  print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_pensiones_voto.RDS"))

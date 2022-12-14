@@ -31,3 +31,5 @@ seguridad-económica-ahorros
 seguridad-económica-sobrecarga-de-deuda
 percepción-de-diferencias-salariales
 salarios-justos
+altruismo-social-generalizado
+justicia-social
