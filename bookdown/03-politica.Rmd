@@ -777,7 +777,8 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top', 
         legend.title = element_blank()) +
-  ggtitle('Nueva constitución según ola')
+  ggtitle('Nueva constitución según ola',
+          subtitle = 'Nivel de acuerdo con cambiar la constitución')
 
 ```
 
@@ -1479,14 +1480,14 @@ elsoc_long_2016_2022 %>%
 
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
-  filter(!is.na(c13)) %>%
-  mutate(c13 = factor(car::recode(c13, "1 = 1; 2:3 = 2"), 
+  filter(!is.na(c12_03)) %>%
+  mutate(c12_03 = factor(car::recode(c12_03, "1 = 1; 2:3 = 2"), 
                        levels = 1:2,
-                       labels = c("Miembro activo\n o inactivo", 
-                                  "No miembro"))) %>%
+                       labels = c("No miembro", 
+                                  "Miembro activo\n o inactivo"))) %>%
   sjlabelled::as_label(ola) %>% 
-  prop(x = c13, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = fct_rev(c13), 
+  prop(x = c12_03, by = ola, na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, fill = fct_rev(c12_03), 
              label = as.character(scales::percent(prop, accuracy = .1)))) + 
   theme_bw() + 
   geom_col(position = 'Stack') +
@@ -1497,7 +1498,7 @@ elsoc_long_2016_2022 %>%
   guides(fill = guide_legend(reverse = TRUE)) +
   geom_text(position = position_stack(vjust = .5),
             size = 3, 
-            color = rep(c('black', 'white'), 6)) + 
+            color = rep(c('black', 'white'), 3)) + 
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top', 
         legend.title = element_blank()) +
