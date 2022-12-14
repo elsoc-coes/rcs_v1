@@ -2,7 +2,7 @@
 # Bienestar (nombre temporal)
 
 
-```{r cargar-paquetes-5}
+```{r cargar-paquetes-5,include=FALSE}
 rm(list=ls())
 
 library(knitr)
@@ -16,48 +16,29 @@ library(elsoc)
 library(lubridate)
 library(viridis)
 library(statar)
+library(bookdown)
+library(knitr)
+
+knitr::opts_chunk$set(cache=FALSE, warning=FALSE, message=FALSE, echo=FALSE, fig.topcaption = TRUE, fig.align = 'center')
+Sys.setlocale("LC_ALL","ES_ES.UTF-8")
 ```
+
 
 
 ```{r cargar-datos-5}
-
-load(file.path('..', 'inputs', 'ELSOC_Long_2016_2022_v1.00_R.RData'))
-load(file.path('..', 'inputs', 'ELSOC_Wide_2016_2022_v1.00_R.RData'))
-
-elsoc_long.0 <- elsoc_long_2016_2022
-elsoc_long_2016_2022 <- elsoc_long.0 %>%
-  mutate(pleb = case_when(c55 == 4 ~ 5,
-                          c55 == 1 ~ 1,
-                          c55 == 2 ~ 2,
-                          c55 == 3 ~ 3,
-                          c55 == -999 ~ 5,
-                          c55 == -888 ~ 5,
-                          c55 == -777 ~ 5,
-                          c55 == -666 ~ 5,
-                          c56 == -999 ~ 5,
-                          c56 == -888 ~ 5,
-                          c56 == -777 ~ 5,
-                          c56 == -666 ~ 5,
-                          c56 == 2 ~ 4,
-                          c57 == 1 ~ 1,
-                          c57 == 2 ~ 2,
-                          c57 == 3 ~ 3,
-                          c57 == -999 ~ 5,
-                          c57 == -888 ~ 5,
-                          c57 == -777 ~ 5,
-                          c57 == -666 ~ 5))  %>%  
-  group_by(idencuesta) %>%
-  mutate(salida = ifelse(length(na.omit(pleb)) == 0, NA, max(pleb, na.rm = T))) %>%
-  ungroup()
+elsoc_long_2016_2022<-  readRDS("../inputs/Bienestar/base_bienestar.RDS")
 
 ```
 
-# Salud Mental y Bienestar 
 
-```{r salud-bienestar, fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva (ola 2022)'}
+
+### Salud Mental y Bienestar 
+
+```{r salud-bienestar}
 
 elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & ola ==5 & !is_nsnr(s01, s02, s03)) %>% 
+  filter(tipo_atricion == 1 & ola ==5) %>%
+drop_na(s01,s02,s03)%>%
 
   prop_list(s01 %in% 4:5, s02 %in% 4:5, s03 %in% 4:5, na.rm = TRUE) %>% 
   mutate(name = factor(name,
@@ -77,20 +58,19 @@ elsoc_long_2016_2022 %>%
   scale_fill_viridis_d(end = .75, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
           legend.position = 'none') +
-  ggtitle(NULL, 'Porcentaje que responde que...') +
-  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022. Los números se omiten por confidencialidad.')
+  ggtitle('Satisfacción con la vida, ideal de vida y salud subjetiva (ola 2022)',subtitle =  'Porcentaje que responde que...') +
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 ```
 
 
-```{r salud-bienestar-olas, fig.cap = 'Satisfacción con la vida, ideal de vida y salud subjetiva, según ola'}
-
-# elsoc::load_elsoc('long')
+```{r salud-bienestar-olas}
 
 
 
 elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & !is_nsnr(s01, s02, s03)) %>% 
+  filter(tipo_atricion == 1) %>%
+  drop_na(s01,s02,s03)%>%
   sjlabelled::as_label(ola) %>%
 
   prop_list(s01 %in% 4:5, s02 %in% 4:5, s03 %in% 4:5, by = ola, na.rm = TRUE) %>% 
@@ -112,71 +92,97 @@ elsoc_long_2016_2022 %>%
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle(NULL, 'Porcentaje que responde que...') +
+  ggtitle('Satisfacción con la vida, ideal de vida y salud subjetiva, según ola', subtitle =  'Porcentaje que responde que...') +
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 
 ```
 
-
-
-
-```{r depre-2021, fig.cap = 'Porcentaje que presenta síntomas de depresión (2022)'}
-
-elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1, ola == 5) %>% 
-  purrr::map_at(.at = vars(starts_with('s11_0')), 
-                .f = function(s) car::recode(s, "1 = 0; 2 = 1; 3 = 2; c(4, 5) = 3; c(-888, -999) = NA")) %>%
-  as.data.frame() %>%  
-  mutate(phq9 = (s11_01 + s11_02 + s11_03 + s11_04 + s11_05 + s11_06 + s11_07 + s11_08 + s11_09),
-         depr = factor(car::recode(phq9, "0:4 = 1; 5:9 = 2; 10:14 = 3; 15:27 = 4"), 
-                       levels = c(1,2,3,4),
-                       labels = c('Sin sintomas o síntomas\nde depresión mínima', 
-                                  'Síntomas de\ndepresion media', 
-                                  'Síntomas de\ndepresion moderada', 
-                                  'Síntomas de depresion\nmoderada-severa o severa'))) %>%
-
-  prop(depr, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = depr, fill = depr, 
-             label = scales::percent(prop, accuracy = .1))) + 
-  theme_bw() + 
-  geom_col(position = 'dodge2') +
-  scale_y_continuous(labels = scales::percent, limits = 0:1) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  ggtitle("Porcentaje que presenta síntomas depresivos ")+
-  scale_fill_viridis_d(begin = 0, end = .85, direction = -1) +
-  geom_text(position = position_dodge2(.9),
-            size = 3, 
-            vjust = -.5) +
-    theme(plot.caption = element_text(hjust = 0),
-          legend.position = 'none') +
-  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
-
-```
-
-```{r depre-plebiscito, fig.cap = 'Porcentaje que presenta síntomas de depresión, según voto en plebiscito'}
+```{r}
 
 # elsoc::load_elsoc('long')
 
-elsoc_long_2016_2022 %>% 
-  purrr::map_at(.at = vars(starts_with('s11_0')), 
-                .f = function(s) car::recode(s, "1 = 0; 2 = 1; 3 = 2; c(4, 5) = 3; c(-888, -999) = NA")) %>%
-  as.data.frame() %>%  
-  mutate(phq9 = (s11_01 + s11_02 + s11_03 + s11_04 + s11_05 + s11_06 + s11_07 + s11_08 + s11_09),
-         depr = factor(car::recode(phq9, "0:4 = 1; 5:9 = 2; 10:14 = 3; 15:27 = 4"), 
-                       levels = c(1,2,3,4),
-                       labels = c('Sin sintomas o síntomas\nde depresión mínima', 
-                                  'Síntomas de\ndepresion media', 
-                                  'Síntomas de\ndepresion moderada', 
-                                  'Síntomas de depresion\nmoderada-severa\no severa')),
-         salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
-                       levels = 1:3,
-                       labels = c("Apruebo", "Rechazo", "Otros"))) %>%
-  filter(ola == 6,!is.na(salida)) %>% 
 
-  prop(depr, by = c(salida), na.rm = TRUE) %>% 
-  sjlabelled::as_label(depr, salida) %>% 
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion %in% c(1,33),ola %in% c(4,6)) %>%
+  drop_na(s01,s02,s03,salida)%>%
+  sjlabelled::as_label(salida,ola) %>%
+
+  prop_list(s01 %in% 4:5, s02 %in% 4:5, s03 %in% 4:5, by = c(salida,ola), na.rm = TRUE) %>% 
+  mutate(name = factor(name,
+                       levels = c('s01 %in% 4:5', 's02 %in% 4:5', 's03 %in% 4:5'),
+                       labels = c('Esta satisfecho o muy\nsatisfecho con su vida',
+                                  'Su vida se acerca o se acerca\ncompletamente a su ideal',
+                                  'Su salud es muy buena\no Excelente'))) %>% 
+  ggplot(aes(y = prop, x = salida, group = name, color = name,
+             label = scales::percent(prop, accuracy = .1))) + 
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +  
+  scale_color_viridis_d(end = .75, option = 'viridis') +
+    theme(plot.caption = element_text(hjust = 0),
+          legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Satisfacción con la vida, ideal de vida y salud subjetiva, según voto', 'Porcentaje que responde que...') +
+  facet_grid(~ola)+
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+
+
+```
+
+
+```{r }
+
+# elsoc::load_elsoc('long')
+
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion %in% c(1,33)) %>%
+  drop_na(s01,s02,s03,pp_4)%>%
+  sjlabelled::as_label(salida,ola,pp_4) %>%
+
+  prop_list(s01 %in% 4:5, s02 %in% 4:5, s03 %in% 4:5, by = c(pp_4,ola), na.rm = TRUE) %>% 
+  mutate(name = factor(name,
+                       levels = c('s01 %in% 4:5', 's02 %in% 4:5', 's03 %in% 4:5'),
+                       labels = c('Esta satisfecho o muy\nsatisfecho con su vida',
+                                  'Su vida se acerca o se acerca\ncompletamente a su ideal',
+                                  'Su salud es muy buena\no Excelente'))) %>% 
+  ggplot(aes(y = prop, x = ola, group = name, color = name,
+             label = scales::percent(prop, accuracy = .1))) + 
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +  
+  scale_color_viridis_d(end = .75, option = 'viridis') +
+    theme(plot.caption = element_text(hjust = 0),
+          legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Satisfacción con la vida, ideal de vida y salud subjetiva, según ola', 'Porcentaje que responde que...') +
+  facet_wrap(~pp_4)+
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+
+
+```
+
+
+```{r depre-plebiscito}
+
+# elsoc::load_elsoc('long')
+
+elsoc_long_2016_2022  %>%
+  
+  filter(ola %in% 4:6,!is.na(salida)) %>% 
+  prop(depr, by = c(salida,ola), na.rm = TRUE) %>% 
+  sjlabelled::as_label(depr, salida, ola) %>% 
+  mutate(ola = ifelse(ola==4,2019,
+                      ifelse(ola==5,2021,2022))) %>%
   ggplot(aes(y = prop, x = salida, fill = fct_rev(depr), 
              label = scales::percent(prop, accuracy = .1))) + 
   theme_bw() + 
@@ -186,26 +192,25 @@ elsoc_long_2016_2022 %>%
   xlab(label = NULL) +
   scale_fill_viridis_d(begin = 0, end = .85, option = 'viridis') +
   geom_text(position = position_stack(vjust = .5),
-            size = 3, 
-            color = rep(rep(c('black', 'white'), each = 2), 3)) + 
+            size = 3) + 
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) +
+  facet_wrap(~ola)+
+  ggtitle('Porcentaje que presenta síntomas de depresión, según voto en plebiscito')+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 ```
-```{r depre-olas-sexo, fig.cap = 'Porcentaje que presenta síntomas de depresión moderados a severos, según sexo y ola'}
+
+
+
+```{r depre-olas-sexo}
 
 # elsoc::load_elsoc('long')
 
-elsoc_long_2016_2022 %>% 
-  purrr::map_at(.at = vars(starts_with('s11_0')), 
-                .f = function(s) car::recode(s, "1 = 0; 2 = 1; 3 = 2; c(4, 5) = 3; c(-888, -999) = NA")) %>%
-  as.data.frame() %>%  
-  mutate(phq9 = (s11_01 + s11_02 + s11_03 + s11_04 + s11_05 + s11_06 + s11_07 + s11_08 + s11_09)) %>% 
+elsoc_long_2016_2022 %>%
   dplyr::filter(tipo_atricion == 1) %>% 
-
   prop(phq9 >= 10 , by = c(ola, m0_sexo), na.rm = TRUE) %>% 
   sjlabelled::as_label(ola, m0_sexo) %>% 
   ggplot(aes(y = prop, x = ola, color = m0_sexo, group = m0_sexo,
@@ -221,18 +226,182 @@ elsoc_long_2016_2022 %>%
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) +
+  ggtitle( 'Porcentaje que presenta síntomas de depresión moderados a severos, según sexo y ola')+
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
 
 
 ```
 
+```{r depre-olas-sexo-2}
 
-# Seguridad Económica y Laboral
-```{r laboral-historica, fig.cap = 'Situación Laboral, evolución histórica'}
+
+elsoc_long_2016_2022 %>%
+  drop_na(pp_4) %>%
+  dplyr::filter(tipo_atricion %in% c(1,33), ola %in% c(3:6)) %>% 
+  prop(phq9 >= 10 , by = c(ola, pp_4), na.rm = TRUE) %>% 
+  sjlabelled::as_label(ola, pp_4) %>% 
+  ggplot(aes(y = prop, x = ola, color = pp_4, group = pp_4,
+             label = scales::percent(prop, accuracy = .1))) + 
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  ggtitle("Porcentaje que presenta síntomas depresivos moderados a severos según votante")+
+  geom_line() +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  scale_y_continuous(labels = scales::percent, limits = c(0,.5)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .11, end = .88) +
+    theme(plot.caption = element_text(hjust = 0),
+          legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Porcentaje que presenta síntomas de depresión moderados a severos, \nsegún voto y ola')+
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+```
+
+
+### Covid 19
+
+
+```{r cuarentenas-olas-salida}
+
+
+elsoc_long_2016_2022  %>%
+  filter(ola %in% 5:6) %>% 
+  drop_na(c37_10,salida) %>%
+  sjlabelled::as_label(ola) %>%
+
+  mutate(acuerdo_cuarentenas = ifelse(c37_10 %in% 1:2,"En Desacuerdo",
+                                      ifelse(c37_10 %in% 4:5, "De Acuerdo","Indiferente"))) %>%
+  prop(acuerdo_cuarentenas, by = c(salida,ola), na.rm = TRUE) %>% 
+  sjlabelled::as_label(acuerdo_cuarentenas, salida) %>% 
+  ggplot(aes(y = prop, x = salida, fill = fct_rev(acuerdo_cuarentenas), 
+             label = scales::percent(prop, accuracy = .1))) + 
+  theme_bw() + 
+  ggtitle("Porcentaje que está de acuerdo con las cuarentenas según tipo de voto")+
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(begin = 0, end = .85, option = 'viridis') +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3) + 
+    theme(plot.caption = element_text(hjust = 0),
+          legend.position = 'top',
+        legend.title = element_blank()) + 
+  guides(fill = guide_legend(reverse = TRUE)) +
+  facet_wrap(~ola)+
+  ggtitle( 'Porcentaje que está de acuerdo con las cuarentenas según tipo de voto')+
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+```
+
+
+```{r econsalud-olas-tipovotante}
 
 # elsoc::load_elsoc('long')
-p = elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1, !is_nsnr(m02)) %>% 
+
+elsoc_long_2016_2022  %>%
+  filter(ola %in% 5:6) %>% 
+  drop_na(c37_10,pp_4) %>%
+  sjlabelled::as_label(ola) %>%
+  mutate(acuerdo_cuarentenas = ifelse(c37_10 %in% 1:2,"En Desacuerdo",
+                                      ifelse(c37_10 %in% 4:5, "De Acuerdo","Indiferente"))) %>%
+  prop(acuerdo_cuarentenas, by = c(pp_4,ola), na.rm = TRUE) %>% 
+  sjlabelled::as_label(acuerdo_cuarentenas, pp_4) %>% 
+  ggplot(aes(y = prop, x = pp_4, fill = fct_rev(acuerdo_cuarentenas), 
+             label = scales::percent(prop, accuracy = .1))) + 
+  theme_bw() + 
+  ggtitle("Porcentaje que está de acuerdo con las cuarentenas según tipo de votante")+
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(begin = 0, end = .85, option = 'viridis') +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3) + 
+    theme(plot.caption = element_text(hjust = 0),
+          legend.position = 'top',
+        legend.title = element_blank()) + 
+  guides(fill = guide_legend(reverse = TRUE)) +
+  facet_wrap(~ola)+
+  ggtitle('Porcentaje que está de acuerdo con cuarentenas según votante')+
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+  
+```
+
+
+```{r econsalud-olas-tipovotante-2}
+
+
+elsoc_long_2016_2022  %>%
+  filter(ola %in% 5:6) %>% 
+  drop_na(c37_09,salida) %>%
+  sjlabelled::as_label(ola) %>%
+
+  mutate(acuerdo_econ_salud = ifelse(c37_09 %in% 1:2,"En Desacuerdo",
+                                      ifelse(c37_09 %in% 4:5, "De Acuerdo","Indiferente"))) %>%
+  prop(acuerdo_econ_salud, by = c(salida,ola), na.rm = TRUE) %>% 
+  sjlabelled::as_label(acuerdo_econ_salud, salida) %>% 
+  ggplot(aes(y = prop, x = salida, fill = fct_rev(acuerdo_econ_salud), 
+             label = scales::percent(prop, accuracy = .1))) + 
+  theme_bw() + 
+  ggtitle("Porcentaje que está de acuerdo con priorizar la economía \npor sobre la salud en pandemia según tipo de voto")+
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(begin = 0, end = .85, option = 'viridis') +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3) + 
+    theme(plot.caption = element_text(hjust = 0),
+          legend.position = 'top',
+        legend.title = element_blank()) + 
+  guides(fill = guide_legend(reverse = TRUE)) +
+  facet_wrap(~ola)+
+ggtitle('Porcentaje que está de acuerdo con priorizar la economía según tipo de voto')+
+labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+  
+```
+
+
+
+
+```{r econsalud-olas-tipovotante-3}
+
+elsoc_long_2016_2022  %>%
+  filter(ola %in% 5:6) %>% 
+  drop_na(c37_09,pp_4) %>%
+  sjlabelled::as_label(ola) %>%
+
+  mutate(acuerdo_econ_salud = ifelse(c37_09 %in% 1:2,"En Desacuerdo",
+                                      ifelse(c37_09 %in% 4:5, "De Acuerdo","Indiferente"))) %>%
+  prop(acuerdo_econ_salud, by = c(pp_4,ola), na.rm = TRUE) %>% 
+  sjlabelled::as_label(acuerdo_econ_salud, pp_4) %>% 
+  ggplot(aes(y = prop, x = pp_4, fill = fct_rev(acuerdo_econ_salud), 
+             label = scales::percent(prop, accuracy = .1))) + 
+  theme_bw() + 
+  ggtitle("Porcentaje que está de acuerdo con priorizar la economía \npor sobre la salud en pandemia según tipo de votante")+
+  geom_col(position = 'Stack') +
+  scale_y_continuous(labels = scales::percent) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(begin = 0, end = .85, option = 'viridis') +
+  geom_text(position = position_stack(vjust = .5),
+            size = 3) + 
+    theme(plot.caption = element_text(hjust = 0),
+          legend.position = 'top',
+        legend.title = element_blank()) + 
+  guides(fill = guide_legend(reverse = TRUE)) +
+  facet_wrap(~ola)+
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+  
+```
+
+
+
+### Seguridad Económica y Laboral
+```{r laboral-historica}
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1, !is.na(m02)) %>% 
   mutate(sit_laboral = factor(car::recode(m02, "1:3 = 1; 6 = 2; c(4,5,7,8,9) = 3"),
                               levels = 1:3)) %>%
   
@@ -256,38 +425,23 @@ p = elsoc_long_2016_2022 %>%
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle(NULL, 'Situación Laboral por Ola') +
+  ggtitle('Situación Laboral, evolución histórica', 'Situación Laboral por Ola') +
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
-p
+
 ```
 
 
-
-
-
-
-```{r laboral-plebiscito, fig.cap = 'Situación Laboral, según voto en plebiscito'}
+```{r laboral-plebiscito}
 
 # elsoc::load_elsoc('long')
-
-p = elsoc_long_2016_2022 %>% 
-  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"), 
-                       levels = 1:3,
-                       labels = c("Apruebo", "Rechazo", "Otros")),
-         sit_laboral = factor(car::recode(m02, "1:3 = 1; 6 = 2; c(4,5,7,8,9) = 3"),
-                              levels = 1:3,
-                              labels = c("Ocupados","Desocupados","Inactivos")),
-         ola = ifelse(ola==1,"2016",
-                      ifelse(ola==6,"2022",ola))) %>%
-  filter(ola==2016|ola==2022,muestra==1,!is.na(salida),!is.na(sit_laboral)) %>% 
-  prop(salida, by = c(ola,sit_laboral), na.rm = TRUE) %>% 
-  sjlabelled::as_label(salida, sit_laboral) %>% 
-  ggplot(aes(y = prop, x = sit_laboral, fill = fct_rev(salida), 
+elsoc_long_2016_2022 %>% 
+  filter(ola %in% 4:6,tipo_atricion %in% c(1,33),!is.na(salida),!is.na(sit_laboral)) %>% 
+  prop(sit_laboral, by = c(ola,salida), na.rm = TRUE) %>% 
+  sjlabelled::as_label(salida, sit_laboral,ola) %>% 
+  ggplot(aes(y = prop, x = salida, fill = fct_rev(sit_laboral), 
              label = scales::percent(prop, accuracy = .1))) + 
   theme_bw() + 
-  geom_col(position = 'Stack') 
-
-  p +   
+  geom_col(position = 'Stack') +   
   scale_y_continuous(labels = scales::percent) +
   ylab(label = NULL) +
   xlab(label = NULL) +
@@ -298,17 +452,188 @@ p = elsoc_long_2016_2022 %>%
           legend.position = 'top',
         legend.title = element_blank()) + 
   guides(fill = guide_legend(reverse = TRUE)) + 
-    facet_grid(~ola) + 
+    facet_wrap(~ola) + 
+  ggtitle('Situación Laboral, según voto en plebiscito')+
     labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.') 
   
-?facet_grid
+
+```
+
+### Confianza interpersonal
+
+```{r conf inter voto}
+ print(readRDS("../inputs/Bienestar/graficos/gf_conf_inter.RDS"))
+```
+
+
+```{r conf inter perfiles}
+print(readRDS("../inputs/Bienestar/graficos/gf_conf_inter_perfiles.RDS"))
+```
+
+
+### Altruismo social generalizado 
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_altruismo_voto.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_altruismo_perfiles.RDS"))
+```
+
+### Justicia social
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_justicia_social_voto.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_justicia_social_perfiles.RDS"))
 ```
 
 
 
+### Meritocracia
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_esfuerzo_voto.RDS"))
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_esfuerzo_perfiles.RDS"))
+```
 
 
-# Movilidad Social
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_inteligencia_voto.RDS"))
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_meritocracia_inteligencia_perfiles.RDS"))
+
+```
 
 
+### Justicia Distributiva
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_educacion_voto.RDS"))
+
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_educacion_perfiles.RDS"))
+```
+
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_salud_voto.RDS"))
+
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_salud_perfiles.RDS"))
+```
+
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_pensiones_voto.RDS"))
+
+```
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_distributiva_pensiones_perfiles.RDS"))
+```
+
+
+### Percepción de desigualdad
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_desigualdad_ingreso_perfiles.RDS"))
+
+```
+
+
+```{r}
+ print(readRDS("../inputs/Bienestar/graficos/gf_desigualdad_ingreso_voto.RDS"))
+
+```
+
+
+### Identidad Nacional
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_orgullo_chile_voto.RDS"))
+
+```
+
+
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_orgullo_chile_perfiles.RDS"))
+
+```
+
+
+### Clase social subjetiva
+
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_clase_subjetiva_salida.RDS"))
+
+```
+
+### Movilidad social
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_ubicacion_social_salida.RDS"))
+
+```
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_ubicacion_social_perfiles.RDS"))
+
+```
+
+### Seguridad Económica Ahorros
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_ahorros_salida.RDS"))
+```
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_ahorros_perfiles.RDS"))
+```
+
+### Seguridad Económica Sobrecarga de deuda
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_sobrecarga_deuda_salida.RDS"))
+```
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_sobrecarga_deuda_perfiles.RDS"))
+```
+
+### Percepción de diferencias salariales
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_salario_percibido_salida.RDS"))
+```
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_salario_percibido_perfiles.RDS"))
+```
+
+### Salarios Justos
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_salario_justo_salida.RDS"))
+```
+
+```{r}
+print(readRDS("../inputs/Bienestar/graficos/gf_salario_justo_perfiles.RDS"))
+```
 
