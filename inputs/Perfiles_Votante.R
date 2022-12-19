@@ -22,13 +22,11 @@ set.seed(1)
 
 perfiles <- elsoc_wide_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
-  dplyr::select(idencuesta, c11_w01, c11_w03, c43_w05, c54_w06, c50_w06, c52_w06) %>%
-  filter(!is_nsnr(c11_w01, c11_w03, c43_w05, c54_w06, c50_w06, c52_w06)) %>%
-  drop_na(c11_w01, c11_w03, c43_w05, c54_w06, c50_w06, c52_w06) %>%
-  mutate(c11_w01 = factor(car::recode(c11_w01, "1 = 2; 2:3 = 1"),
-                             levels = 1:2,
-                             labels = c('No votó', 'Votó'))) %>%
-  mutate(c11_w03 = factor(car::recode(c11_w03, "1 = 2; 2:3 = 1"),
+  filter(c11_w03 != 3) %>% 
+  dplyr::select(idencuesta, c11_w03, c43_w05, c54_w06, c50_w06, c52_w06) %>%
+  filter(!is_nsnr(c11_w03, c43_w05, c54_w06, c50_w06, c52_w06)) %>%
+  drop_na(c11_w03, c43_w05, c54_w06, c50_w06, c52_w06) %>%
+  mutate(c11_w03 = factor(car::recode(c11_w03, "1 = 2; 2 = 1"),
                           levels = 1:2,
                           labels = c('No votó', 'Votó'))) %>%
   mutate(c43_w05 = factor(car::recode(c43_w05, "1 = 2; 2:3 = 1"),
@@ -46,7 +44,7 @@ perfiles <- elsoc_wide_2016_2022 %>%
 
 #LATENT CLASS ANALYSIS.
 
-var <- cbind(c11_w01, c11_w03, c43_w05, c54_w06, c50_w06, c52_w06)~1
+var <- cbind(c11_w03, c43_w05, c54_w06, c50_w06, c52_w06)~1
 
 #3 Classes.
 
