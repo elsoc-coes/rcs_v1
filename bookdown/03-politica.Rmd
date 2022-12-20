@@ -56,28 +56,27 @@ elsoc_long_2016_2022 <- elsoc_long_2016_2022 %>%
   left_join(perfiles, by = "idencuesta") %>%
    mutate(pp_3 = factor(pp_3, 
                        levels = 1:3,
-                       labels = c("1 (65.16%)", "2 (11.58%)", "3 (23.26%)"))) %>%
+                       labels = c("Votante\nHabitual (70.21%)", "No-Votante (17.06%)", "Activado (12.73%)"))) %>%
    mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
-                       labels = c("Votante\nCrónico (64.24%)", "Desafecto (8.30%)", "No-Votante\nCrónico (14.28%)", "Activado (13.17%)"))) %>%
+                       labels = c("1 (10.90%)", "2 (8.29%)", "3 (69.28%)", "4 (11.53%)"))) %>%
    mutate(pp_5 = factor(pp_5, 
                        levels = 1:5,
-                       labels = c("1 (14.27%)", "2 (11.44%)", "3 (4.73%)", 
-                                  "4 (6.33%)", "5 (63.24%)")))
+                       labels = c("1 (10.90%)", "2 (10.78%)", "3 (57.75%)", 
+                                  "4 (5.34%)", "5 (15.24%)")))
 
 elsoc_wide_2016_2022 <- elsoc_wide_2016_2022 %>%
   left_join(perfiles, by = "idencuesta") %>%
    mutate(pp_3 = factor(pp_3, 
                        levels = 1:3,
-                       labels = c("1 (65.16%)", "2 (11.58%)", "3 (23.26%)"))) %>%
+                       labels = c("1 (70.21%)", "2 (17.06%)", "3 (12.73%)"))) %>%
    mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
-                       labels = c("Votante\nCrónico (64.24%)", "Desafecto (8.30%)", "No-Votante\nCrónico (14.28%)", "Activado (13.17%)"))) %>%
+                       labels = c("1 (10.90%)", "2 (8.29%)", "3 (69.28%)", "4 (11.53%)"))) %>%
    mutate(pp_5 = factor(pp_5, 
                        levels = 1:5,
-                       labels = c("1 (14.27%)", "2 (11.44%)", "3 (4.73%)", 
-                                  "4 (6.33%)", "5 (63.24%)")))
-
+                       labels = c("1 (10.90%)", "2 (10.78%)", "3 (57.75%)", 
+                                  "4 (5.34%)", "5 (15.24%)")))
 
 
 ```
@@ -298,17 +297,6 @@ elsoc_long_2016_2022 %>%
 
 ```{r graf-perfiles-3}
 
-tab1 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
-  filter(ola == 1) %>%
-  filter(!is.na(c11), !is.na(pp_3)) %>%
-  mutate(c11 = factor(car::recode(c11, "1 = 2; 2:3 = 1"),
-                             levels = 1:2,
-                             labels = c('No votó', 'Votó'))) %>%
-  prop(c11, by = pp_3, na.rm = T) %>% 
-  rename(Participa = c11) %>% 
-  mutate(var = 1)  
-
 tab2 <- elsoc_long_2016_2022 %>% 
   filter(tipo_atricion %in% c(1, 33)) %>% 
   filter(ola == 3) %>%
@@ -364,15 +352,14 @@ tab6 <- elsoc_long_2016_2022 %>%
   rename(Participa = c52) %>% 
   mutate(var = 6)
 
-tab <- rbind(tab1, tab2, tab3, tab4, tab5, tab6) %>%
-  mutate(var = factor(var, levels = 1:6,
-                        labels = c("Elecciones\nPresidenciales de 2013",
-                                   "Elecciones\nPresidenciales de 2017",
+tab <- rbind(tab2, tab3, tab4, tab5, tab6) %>%
+  mutate(var = factor(var, levels = 2:6,
+                        labels = c("Elecciones\nPresidenciales de 2017",
                                    "Plebiscito de\nEntrada 2020",
                                    "Convención y Municipales\nde 2021",
                                    "Elecciones Presidenciales\nde 2021 (1° vuelta)",
                                    "Elecciones Presidenciales\nde 2021 (2° vuelta)")))
-rm(tab1, tab2, tab3, tab4, tab5, tab6)
+rm(tab2, tab3, tab4, tab5, tab6)
 
 tab %>% 
   ggplot(aes(x = prop, y = var, fill = Participa)) + 
@@ -393,16 +380,6 @@ tab %>%
 
 ```{r graf-perfiles-4}
 
-tab1 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
-  filter(ola == 1) %>%
-  filter(!is.na(c11), !is.na(pp_4)) %>%
-  mutate(c11 = factor(car::recode(c11, "1 = 2; 2:3 = 1"),
-                             levels = 1:2,
-                             labels = c('No votó', 'Votó'))) %>%
-  prop(c11, by = pp_4, na.rm = T) %>% 
-  rename(Participa = c11) %>% 
-  mutate(var = 1)  
 
 tab2 <- elsoc_long_2016_2022 %>% 
   filter(tipo_atricion %in% c(1, 33)) %>% 
@@ -459,15 +436,14 @@ tab6 <- elsoc_long_2016_2022 %>%
   rename(Participa = c52) %>% 
   mutate(var = 6)
 
-tab <- rbind(tab1, tab2, tab3, tab4, tab5, tab6) %>%
-  mutate(var = factor(var, levels = 1:6,
-                        labels = c("Elecciones\nPresidenciales de 2013",
-                                   "Elecciones\nPresidenciales de 2017",
+tab <- rbind(tab2, tab3, tab4, tab5, tab6) %>%
+  mutate(var = factor(var, levels = 2:6,
+                        labels = c("Elecciones\nPresidenciales de 2017",
                                    "Plebiscito de\nEntrada 2020",
                                    "Convención y Municipales\nde 2021",
                                    "Elecciones Presidenciales\nde 2021 (1° vuelta)",
                                    "Elecciones Presidenciales\nde 2021 (2° vuelta)")))
-rm(tab1, tab2, tab3, tab4, tab5, tab6)
+rm(tab2, tab3, tab4, tab5, tab6)
 
 tab %>% 
   ggplot(aes(x = prop, y = var, fill = Participa)) + 
@@ -488,16 +464,6 @@ tab %>%
 
 ```{r graf-perfiles-5}
 
-tab1 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
-  filter(ola == 1) %>%
-  filter(!is.na(c11), !is.na(pp_5)) %>%
-  mutate(c11 = factor(car::recode(c11, "1 = 2; 2:3 = 1"),
-                             levels = 1:2,
-                             labels = c('No votó', 'Votó'))) %>%
-  prop(c11, by = pp_5, na.rm = T) %>% 
-  rename(Participa = c11) %>% 
-  mutate(var = 1)  
 
 tab2 <- elsoc_long_2016_2022 %>% 
   filter(tipo_atricion %in% c(1, 33)) %>% 
@@ -554,15 +520,14 @@ tab6 <- elsoc_long_2016_2022 %>%
   rename(Participa = c52) %>% 
   mutate(var = 6)
 
-tab <- rbind(tab1, tab2, tab3, tab4, tab5, tab6) %>%
-  mutate(var = factor(var, levels = 1:6,
-                        labels = c("Elecciones\nPresidenciales de 2013",
-                                   "Elecciones\nPresidenciales de 2017",
+tab <- rbind(tab2, tab3, tab4, tab5, tab6) %>%
+  mutate(var = factor(var, levels = 2:6,
+                        labels = c("Elecciones\nPresidenciales de 2017",
                                    "Plebiscito de\nEntrada 2020",
                                    "Convención y Municipales\nde 2021",
                                    "Elecciones Presidenciales\nde 2021 (1° vuelta)",
                                    "Elecciones Presidenciales\nde 2021 (2° vuelta)")))
-rm(tab1, tab2, tab3, tab4, tab5, tab6)
+rm(tab2, tab3, tab4, tab5, tab6)
 
 tab %>% 
   ggplot(aes(x = prop, y = var, fill = Participa)) + 
