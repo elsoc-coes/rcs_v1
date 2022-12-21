@@ -1,7 +1,8 @@
 
-grafo_prop_ola <- function(base,var_y,atricion,umbral, titulo){
+grafo_prop_ola <- function(base,var_y,atricion,umbral, titulo,guardar=FALSE,
+                           guardar_como='grafico',imprimir=TRUE){
   
-base%>%
+grafico <-base%>%
     filter(tipo_atricion %in% atricion)%>%
     sjlabelled::as_label(ola) %>%
     mutate(valor= !!rlang::sym(var_y) %in% umbral)%>%
@@ -13,7 +14,7 @@ base%>%
                label = scales::percent(prop, accuracy = .1)))+
     geom_point()+
     geom_line()+
-    geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+    geom_text_repel(nudge_y = .01, size = 3) +
     theme_bw()+
     ylab(label = NULL) +
     xlab(label = NULL) +
@@ -27,6 +28,20 @@ base%>%
                             pattern = "Grado de acuerdo: ",
                             replacement = ""))+
     labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+  
+  if(guardar){
+    
+    saveRDS(grafico,
+            file=paste0("inputs/cohesion social/relaciones-sociales/graficos/",
+                        guardar_como,
+                        ".RDS"))
+  }
+  
+  if(imprimir){
+    return(grafico)  
+  }
+  
+  
   
 }
   
