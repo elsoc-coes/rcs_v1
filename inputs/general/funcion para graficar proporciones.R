@@ -1,6 +1,6 @@
 
 
-grafo_prop_var <- function(base,var_x,var_y,umbral=c(4,5),titulo,atricion=1,limy_low=0,
+grafo_prop_var <- function(base,var_x,var_y,umbral=c(4,5),titulo,subtitulo,atricion=1,limy_inf=0,
                            limy_sup=1,guardar=FALSE,guardar_como="grafico",imprimir=TRUE){
   grafico<-  base%>%
     filter(tipo_atricion %in% atricion)%>%
@@ -18,14 +18,12 @@ grafo_prop_var <- function(base,var_x,var_y,umbral=c(4,5),titulo,atricion=1,limy
     ylab(label = NULL) +
     xlab(label = NULL) +
     scale_color_viridis_d(begin = 0, end = .85, option = 'viridis')+
-    scale_y_continuous(labels = scales::percent, limits = c(limy_low,limy_sup))+
+    scale_y_continuous(labels = scales::percent, limits = c(limy_inf,limy_sup))+
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
           legend.title = element_blank())+
     ggtitle(titulo,
-            subtitle = gsub(x=attr(getElement(base,var_x),"label"),
-                            pattern = "Grado de acuerdo: ",
-                            replacement = ""))+
+            subtitle = subtitulo)+
     labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
   
   

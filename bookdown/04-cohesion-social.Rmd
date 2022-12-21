@@ -120,13 +120,17 @@ print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_
 print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_inmig_perfiles.RDS"))
 ```
 
-
-
-
-
-
-
 ### Lazos
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_lazos_evolucion.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_lazos_perfiles.RDS"))
+```
+
 
 ## Sentido de pertenencia
 
