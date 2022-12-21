@@ -54,6 +54,7 @@ elsoc_long_2016_2022 <- elsoc_long_2016_2022 %>%
   left_join(perfiles, by = "idencuesta")%>%
   mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
-                       labels = c("Votante\nCrónico", "Desafecto", "No-Votante\nCrónico", "Activado")))
+                       labels = c("Votante\nCrónico", "Desafecto", "No-Votante\nCrónico", "Activado")),
+         pp_3=factor(pp_3,levels = 1:3,labels = c("Votante\nHabitual","No-Votante","Indefinido")))
 
 saveRDS(elsoc_long_2016_2022,file = "inputs/Bienestar/base_bienestar.RDS")
