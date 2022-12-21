@@ -56,7 +56,7 @@ elsoc_long_2016_2022 <- elsoc_long_2016_2022 %>%
   left_join(perfiles, by = "idencuesta") %>%
    mutate(pp_3 = factor(pp_3, 
                        levels = 1:3,
-                       labels = c("Votante\nHabitual (70.21%)", "No-Votante (17.06%)", "Indefinido (12.73%)"))) %>%
+                       labels = c("Votante Habitual (70.21%)", "No-Votante (17.06%)", "Indefinido (12.73%)"))) %>%
    mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
                        labels = c("1 (10.90%)", "2 (8.29%)", " 3 (69.28%)", "4 (11.53%)"))) %>%
@@ -130,7 +130,6 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
   filter(ola == 6) %>%
-  filter(is.na(c55)) %>%
     mutate(salida = factor(salida, 
                        levels = 1:5,
                        labels = c("Apruebo", "Rechazo", "Nulo/Blanco",
@@ -156,21 +155,30 @@ elsoc_long_2016_2022 %>%
 ```{r graf-alluvial-pleb}
 
 elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33), ola %in% 5:6 ) %>% 
-      mutate(c44 = ifelse(c43 == 2,  4, c44),
-             c57 = case_when(c55 == 4 ~ 6, 
-                             !is.na(c55) ~ c55,
-                             c56 == 2 ~ 4,
-                             TRUE ~ c57),
-             pos_id = ifelse(!is.na(c44), c44, c57),
-             pos_id = factor(car::recode(pos_id, "6 = 5; -999:-888 = 6"),
-                             levels = 1:6,
-                             labels = c("Apruebo", "Rechazo", "Nulo/Blanco",
-                                        "No vota", "No lo he\ndecidido", "NS/NR")),
+  filter(tipo_atricion %in% c(1, 33), ola %in% 5:6) %>% 
+  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"))) %>%
+  mutate(c44 = case_when(c44 == 1 ~ 1,
+                            c44 == 2 ~ 2,
+                            c44 == 3 ~ 3,
+                            c44 == 4 ~ 3,
+                            c44 == -999 ~ 3,
+                            c44 == -888 ~ 3,
+                            c44 == -777 ~ 3,
+                            c44 == -666 ~ 3,
+                            c43 == 2 ~ 3,
+                            c43 == 3 ~ 3,
+                            c43 == -999 ~ 3,
+                            c43 == -888 ~ 3,
+                            c43 == -777 ~ 3,
+                            c43 == -666 ~ 3))  %>%
+   mutate(pos_id = ifelse(!is.na(c44), c44, salida),
+          pos_id = factor(pos_id,
+                             levels = 1:3,
+                             labels = c("Apruebo", "Rechazo", "Otros")),
              ola = factor(ola,
                           levels = 5:6,
                           labels = c("Plebiscito de\nEntrada\n2020",
-                                     "Plebiscito de\nSalida\n2022"))) %>% 
+                                     "Plebiscito de\nSalida\n2022"))) %>%
   survey_design_elsoc() %>%
   svytable(~ pos_id + ola + idencuesta, design = .) %>% 
   as.data.frame() %>% 
@@ -189,7 +197,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-  scale_fill_viridis_d(direction = -1) +
+  scale_fill_viridis_d(direction = -1, begin = 0, end = .8, option = 'viridis') +
   geom_text(data = function(x) { group_by(.data = x, ola, pos_id) %>%
       summarise(prop = sum(prop, na.rm = TRUE), idencuesta = 1) %>%
       ungroup()},
@@ -197,8 +205,8 @@ elsoc_long_2016_2022 %>%
             position = position_stack(vjust = .5),
             show.legend = FALSE,
             size = 3,
-            color = c('white', 'white', 'white', 'black', 'black', 
-      'white', 'white', 'white', 'black', 'black', 'black')) +
+            color = c('white', 'black', 'black', 
+      'white', 'black', 'black')) +
   guides(fill = guide_legend(reverse = TRUE)) +
   ggtitle('Intención de voto en plebiscito de entrada y salida')
 
@@ -282,6 +290,7 @@ tab %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   scale_fill_viridis_d(begin = 0, end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
   ggtitle('Perfiles de participación',
           subtitle = 'Tres clases latentes')
 
@@ -366,6 +375,7 @@ tab %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   scale_fill_viridis_d(begin = 0, end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
   ggtitle('Perfiles de participación',
           subtitle = 'Cuatro clases latentes')
 
@@ -450,6 +460,7 @@ tab %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   scale_fill_viridis_d(begin = 0, end = .8) +
+  guides(fill = guide_legend(reverse = TRUE)) +
   ggtitle('Perfiles de participación',
           subtitle = 'Cinco clases latentes')
 
@@ -578,21 +589,30 @@ elsoc_long_2016_2022 %>%
 ```{r graf-alluvial-pleb-tipo}
 
 elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33), ola %in% 5:6 ) %>% 
-      mutate(c44 = ifelse(c43 == 2,  4, c44),
-             c57 = case_when(c55 == 4 ~ 6, 
-                             !is.na(c55) ~ c55,
-                             c56 == 2 ~ 4,
-                             TRUE ~ c57),
-             pos_id = ifelse(!is.na(c44), c44, c57),
-             pos_id = factor(car::recode(pos_id, "6 = 5; -999:-888 = 6"),
-                             levels = 1:6,
-                             labels = c("Apruebo", "Rechazo", "Nulo/Blanco",
-                                        "No vota", "No lo he\ndecidido", "NS/NR")),
+  filter(tipo_atricion %in% c(1, 33), ola %in% 5:6, , !is.na(pp_3)) %>% 
+  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"))) %>%
+  mutate(c44 = case_when(c44 == 1 ~ 1,
+                            c44 == 2 ~ 2,
+                            c44 == 3 ~ 3,
+                            c44 == 4 ~ 3,
+                            c44 == -999 ~ 3,
+                            c44 == -888 ~ 3,
+                            c44 == -777 ~ 3,
+                            c44 == -666 ~ 3,
+                            c43 == 2 ~ 3,
+                            c43 == 3 ~ 3,
+                            c43 == -999 ~ 3,
+                            c43 == -888 ~ 3,
+                            c43 == -777 ~ 3,
+                            c43 == -666 ~ 3))  %>%
+   mutate(pos_id = ifelse(!is.na(c44), c44, salida),
+          pos_id = factor(pos_id,
+                             levels = 1:3,
+                             labels = c("Apruebo", "Rechazo", "Otros")),
              ola = factor(ola,
                           levels = 5:6,
                           labels = c("Plebiscito de\nEntrada\n2020",
-                                     "Plebiscito de\nSalida\n2022"))) %>% 
+                                     "Plebiscito de\nSalida\n2022"))) %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   survey_design_elsoc() %>%
@@ -614,7 +634,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-  scale_fill_viridis_d(direction = -1) +
+  scale_fill_viridis_d(direction = -1, begin = 0, end = .8, option = 'viridis') +
   geom_text(data = function(x) { group_by(.data = x, ola, pos_id, pp_3) %>%
       summarise(prop = sum(prop, na.rm = TRUE), idencuesta = 1) %>%
       ungroup()},
@@ -622,7 +642,12 @@ elsoc_long_2016_2022 %>%
             position = position_stack(vjust = .5),
             show.legend = FALSE,
             size = 3,
-            color = 'white') +
+            color = c('white', 'black', 'black',
+                             'white', 'black', 'black',
+                             'white', 'white', 'black',
+                             'white', 'black', 'black',
+                             'white', 'black', 'black',
+                             'white', 'black', 'black')) +
   guides(fill = guide_legend(reverse = TRUE)) +
   ggtitle('Intención de voto en plebiscito de entrada y salida')
 
@@ -740,39 +765,30 @@ elsoc_long_2016_2022 %>%
 
 ```{r graf-autoritarismo-2}
 
-elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+elsoc_long_2016_2022 %>%
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
   as_label(ola) %>%
-  filter(!is.na(c18_04), !is.na(c18_05), !is.na(c18_06), !is.na(c18_07)) %>%
-  dplyr::select(c18_04, c18_05, c18_06, c18_07, ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
-  pivot_longer(cols = c(c18_04, c18_05, c18_06, c18_07)) %>% 
-  mutate(name = factor(name,
-                       levels = c('c18_04', 'c18_05', 'c18_06', 'c18_07'),
-                       labels = c(' En vez de tanta preocupación\npor los derechos de las personas,\nlo que este país necesita es un gobierno firme',
-                                  ' Lo que nuestro país necesita es un mandatario/a fuerte\ncon la determinación para\nllevarnos por el camino correcto',
-                                  ' La obediencia y el respeto por\nla autoridad son los valores más importantes\nque los niños debieran aprender',
-                                  ' Las verdaderas claves para tener\nuna buena vida son la obediencia y la disciplina'))) %>%
+  filter(!is.na(c18_04), !is.na(c18_05), !is.na(c18_06), !is.na(c18_07), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
-  prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
-  filter(!is.na(pp_3)) %>%
+    rowwise() %>% 
+  mutate(autoritarismo = mean(c18_04, c18_05, c18_06, c18_07, na.rm = TRUE)) %>% 
+  prop(autoritarismo %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
-  facet_wrap(~ name) +
   theme_bw() + 
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
-  scale_y_continuous(labels = scales::percent,
-                     limits = c(0, 1)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
-  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
-        legend.title = element_blank()) +
+        legend.title = element_blank()) + 
   ggtitle('Actitudes autoritarias, según tipo de votante',
-          subtitle = 'De acuerdo o totalmente de acuerdo' )
+          subtitle = 'Bastante o muy autoritario en promedio')
 
 
 ```
@@ -953,7 +969,7 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
   as_label(ola) %>%
-  filter(!is.na(c14_01), !is.na(c14_02), !is.na(c08_04)) %>%
+  filter(!is.na(c14_01), !is.na(c14_02), !is.na(c08_04), !is.na(pp_3)) %>%
   dplyr::select(c14_01, c14_02, c08_04, ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
   pivot_longer(cols = c(c14_01, c14_02, c08_04)) %>% 
   mutate(name = factor(name,
@@ -964,7 +980,6 @@ elsoc_long_2016_2022 %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
-  filter(!is.na(pp_3)) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   facet_wrap(~ name) +
@@ -993,19 +1008,16 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
   as_label(ola) %>%
-  filter(!is.na(c05_01), !is.na(c05_02), !is.na(c05_07), !is.na(c05_08)) %>%
-  dplyr::select(c05_01, c05_02, c05_07, c05_08, ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
-  pivot_longer(cols = c(c05_01, c05_02, c05_07, c05_08)) %>% 
+  filter(!is.na(c05_01), !is.na(c05_08), !is.na(pp_3)) %>%
+  dplyr::select(c05_01, c05_08, ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
+  pivot_longer(cols = c(c05_01, c05_08)) %>% 
   mutate(name = factor(name,
-                       levels = c('c05_01', 'c05_02', 'c05_07', 'c05_08'),
+                       levels = c('c05_01', 'c05_08'),
                        labels = c('Gobierno',
-                                  'Partidos políticos',
-                                  'Congreso',
                                   'Presidente'))) %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
-  filter(!is.na(pp_3)) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   facet_wrap(~ name) +
@@ -1026,12 +1038,47 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r graf-conf-pol-2-2}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  as_label(ola) %>%
+  filter(!is.na(c05_02), !is.na(c05_07), !is.na(pp_3)) %>%
+  dplyr::select(c05_02, c05_07, ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
+  pivot_longer(cols = c(c05_02, c05_07)) %>% 
+  mutate(name = factor(name,
+                       levels = c('c05_02', 'c05_07'),
+                       labels = c('Partidos políticos',
+                                  'Congreso'))) %>%
+  mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+  prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>%
+  ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
+             label = scales::percent(prop, accuracy = .1))) +
+  facet_wrap(~ name) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, .06)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Confianza en instituciones políticas, según tipo de votante',
+          subtitle = 'Bastante o mucha confianza' )
+
+```
+
 ```{r graf-conf-inst-2}
 
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
   as_label(ola) %>%
-  filter(!is.na(c05_03), !is.na(c05_05)) %>%
+  filter(!is.na(c05_03), !is.na(c05_05), !is.na(pp_3)) %>%
   dplyr::select(c05_03, c05_05, ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
   pivot_longer(cols = c(c05_03, c05_05)) %>% 
   mutate(name = factor(name,
@@ -1040,8 +1087,7 @@ elsoc_long_2016_2022 %>%
                                   'Poder Judicial'))) %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
-  prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
-  filter(!is.na(pp_3)) %>%
+  prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   facet_wrap(~ name) +
@@ -1069,14 +1115,13 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
   as_label(ola) %>%
-  filter(!is.na(c20)) %>%
+  filter(!is.na(c20), !is.na(pp_3)) %>%
   mutate(movsoc = car::recode(c20, "1:5 = 1; 8:10 = 1; 6:7 = 2; 11:12 = 3"),
        movsoc = factor(movsoc, levels = 1:3,
                        labels = c('Mov. sociales progresistas', 'Mov. sociales conservadores', 'Ninguno'))) %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   prop(movsoc, by = c(pp_3, ola), na.rm = TRUE) %>% 
-  filter(!is.na(pp_3)) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   facet_wrap(~ movsoc) +
@@ -1131,7 +1176,7 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
   as_label(ola) %>%
-  filter(!is.na(c37_01), !is.na(c37_02)) %>%
+  filter(!is.na(c37_01), !is.na(c37_02), !is.na(pp_3)) %>%
   dplyr::select(c37_01, c37_02,  ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
   pivot_longer(cols = c(c37_01, c37_02)) %>% 
   mutate(name = factor(name,
@@ -1141,7 +1186,6 @@ elsoc_long_2016_2022 %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
-  filter(!is.na(pp_3)) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   facet_wrap(~ name) +
@@ -1168,7 +1212,7 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
   as_label(ola) %>%
-  filter(!is.na(c37_03), !is.na(c37_04), !is.na(c37_05)) %>%
+  filter(!is.na(c37_03), !is.na(c37_04), !is.na(c37_05), !is.na(pp_3)) %>%
   dplyr::select(c37_03, c37_04, c37_05,  ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
   pivot_longer(cols = c(c37_03, c37_04, c37_05)) %>% 
   mutate(name = factor(name,
@@ -1179,7 +1223,6 @@ elsoc_long_2016_2022 %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
-  filter(!is.na(pp_3)) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   facet_wrap(~ name) +
@@ -1208,7 +1251,7 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
   as_label(ola) %>%
-  filter(!is.na(f05_02), !is.na(f05_01)) %>%
+  filter(!is.na(f05_02), !is.na(f05_01), !is.na(pp_3)) %>%
   dplyr::select(f05_01, f05_02, ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
   pivot_longer(cols = c(f05_01, f05_02)) %>% 
   mutate(name = factor(name,
@@ -1218,7 +1261,6 @@ elsoc_long_2016_2022 %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
-  filter(!is.na(pp_3)) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   facet_wrap(~ name) +
@@ -1245,7 +1287,7 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
   as_label(ola) %>%
-  filter(!is.na(f05_03), !is.na(f05_04), !is.na(f05_07)) %>%
+  filter(!is.na(f05_03), !is.na(f05_04), !is.na(f05_07), !is.na(pp_3)) %>%
   dplyr::select(f05_03, f05_04, f05_07, ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
   pivot_longer(cols = c(f05_03, f05_04, f05_07)) %>%
   mutate(name = factor(name,
@@ -1256,7 +1298,6 @@ elsoc_long_2016_2022 %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
-  filter(!is.na(pp_3)) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   facet_wrap(~ name) +
