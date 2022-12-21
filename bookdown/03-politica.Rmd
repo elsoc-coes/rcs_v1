@@ -208,8 +208,8 @@ elsoc_long_2016_2022 %>%
             color = c('white', 'black', 'black', 
       'white', 'black', 'black')) +
   guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle('Intención de voto en plebiscito de entrada y salida') +
-  labs(caption = 'Para facilitar la interpretabilidad la categoría otros incorpora personas que declararon no votar, NS/NR, nulos y blancos.')
+  ggtitle('Preferencias electorales en plebiscito de entrada y salida') +
+  labs(caption = 'La categoría otros incorpora personas que declararon no votar, NS/NR, nulos y blancos.')
 
 ```
 
@@ -650,8 +650,8 @@ elsoc_long_2016_2022 %>%
                              'white', 'black', 'black',
                              'white', 'black', 'black')) +
   guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle('Intención de voto en plebiscito de entrada y salida') +
-  labs(caption = 'Para facilitar la interpretabilidad la categoría otros incorpora personas que declararon no votar, NS/NR, nulos y blancos.')
+  ggtitle('Preferencias electorales en plebiscito de entrada y salida') +
+  labs(caption = 'La categoría otros incorpora personas que declararon no votar, NS/NR, nulos y blancos.')
 
 ```
 
