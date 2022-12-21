@@ -1,7 +1,3 @@
-base_bienestar <- readRDS("inputs/Bienestar/base_bienestar.RDS")
-
-
-attr(elsoc_bienestar$c02,"label")<- "Se puede confiar en las personas"
 
 grafo_prop_ola <- function(base,var_y,atricion,umbral, titulo){
   

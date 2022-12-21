@@ -1,8 +1,8 @@
 
 
-grafo_prop_var <- function(var_x,var_y,umbral=c(4,5),titulo,atricion=1,limy_low=0,
+grafo_prop_var <- function(base,var_x,var_y,umbral=c(4,5),titulo,atricion=1,limy_low=0,
                            limy_sup=1,guardar=FALSE,guardar_como="grafico",imprimir=TRUE){
-  grafico<-  elsoc_bienestar%>%
+  grafico<-  base%>%
     filter(tipo_atricion %in% atricion)%>%
     sjlabelled::as_label(ola) %>%
     mutate(esfuerzo=as.numeric(!!rlang::sym(var_x) %in% umbral))%>%
@@ -23,7 +23,7 @@ grafo_prop_var <- function(var_x,var_y,umbral=c(4,5),titulo,atricion=1,limy_low=
           legend.position = 'top',
           legend.title = element_blank())+
     ggtitle(titulo,
-            subtitle = gsub(x=attr(getElement(elsoc_bienestar,var_x),"label"),
+            subtitle = gsub(x=attr(getElement(base,var_x),"label"),
                             pattern = "Grado de acuerdo: ",
                             replacement = ""))+
     labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
