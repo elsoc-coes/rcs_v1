@@ -3,7 +3,14 @@ load('inputs/ELSOC_Long_2016_2022_v1.00_R.RData')
 load('inputs/perfiles.RData')
 
 
-elsoc_long_2016_2022 <- elsoc_long_2016_2022 %>%
+volumen_red <- elsoc_long_2016_2022%>%
+  select(idencuesta,ola,starts_with('r01'))%>%
+  gather(key = "variable",value="valor",-idencuesta,-ola)%>%
+  group_by(idencuesta,ola)%>%
+  summarise(vol.red= sum(valor>1 & valor<8, na.rm=TRUE))%>%
+  mutate(vol.red=car::recode(vol.red, "0=1; 1:2=2; 3:5=3; 6:10=4; 11:13=5"))
+
+elsoc_cohesion <- elsoc_long_2016_2022 %>%
   mutate(pleb = case_when(c55 == 4 ~ 5,
                           c55 == 1 ~ 1,
                           c55 == 2 ~ 2,
@@ -55,6 +62,7 @@ elsoc_long_2016_2022 <- elsoc_long_2016_2022 %>%
   mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
                        labels = c("Votante\nCrónico", "Desafecto", "No-Votante\nCrónico", "Activado")),
-         pp_3=factor(pp_3,levels = 1:3,labels = c("Votante\nHabitual","No-Votante","Indefinido")))
+         pp_3=factor(pp_3,levels = 1:3,labels = c("Votante\nHabitual","No-Votante","Indefinido")))%>%
+  left_join(volumen_red, by=c("idencuesta","ola"))
 
-saveRDS(elsoc_long_2016_2022,file = "inputs/cohesion social/base_cohesion.RDS")
+saveRDS(elsoc_cohesion,file = "inputs/cohesion social/base_cohesion.RDS")

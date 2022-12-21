@@ -146,3 +146,17 @@ gf_cs_rrd_inmig_perfiles <-  elsoc_cohesion %>%
 saveRDS(gf_cs_rrd_inmig_perfiles, 
         file="inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_inmig_perfiles.RDS")
 
+
+grafo_prop_ola(elsoc_cohesion,"vol.red",atricion = 1,
+               umbral = c(4,5),
+               "Diversidad de red de conocidos",limy_sup = 1,
+               guardar = TRUE,
+               guardar_como = "gf_cs_lazos_evolucion")
+
+
+grafo_prop_var(elsoc_cohesion,"vol.red","pp_3",atricion = 1,
+               umbral = c(4,5),
+               "Diversidad de red de conocidos",limy_sup = 1,
+               guardar = TRUE,
+               guardar_como = "gf_cs_lazos_perfiles")
+

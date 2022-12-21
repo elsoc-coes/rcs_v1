@@ -1,6 +1,7 @@
 
 grafo_prop_ola <- function(base,var_y,atricion,umbral, titulo,guardar=FALSE,
-                           guardar_como='grafico',imprimir=TRUE){
+                           guardar_como='grafico',imprimir=TRUE,
+                           limy_sup=.5){
   
 grafico <-base%>%
     filter(tipo_atricion %in% atricion)%>%
@@ -19,7 +20,7 @@ grafico <-base%>%
     ylab(label = NULL) +
     xlab(label = NULL) +
     scale_color_viridis_d(begin = 0, end = .85, option = 'viridis')+
-    scale_y_continuous(labels = scales::percent, limits = c(0,.5))+
+    scale_y_continuous(labels = scales::percent, limits = c(0,limy_sup))+
     theme(plot.caption = element_text(hjust = 0),
           legend.position = 'top',
           legend.title = element_blank())+
