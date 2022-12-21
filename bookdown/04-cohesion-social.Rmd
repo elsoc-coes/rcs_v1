@@ -56,11 +56,75 @@ perfiles <- perfiles0 %>%
 
 ```
 
+
+```{r}
+
+```
+
+
+
 ## Relaciones sociales de igualdad
+
+
+
 
 ### Confianza interpersonal
 
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rsi_confianza_evolucion.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rsi_confianza_perfiles.RDS"))
+```
+
+
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rsi_altruismo_evolucion.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rsi_altruismo_perfiles.RDS"))
+```
+
 ### Reconocimiento y respeto de la diversidad
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_homo_evolucion.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_homo_perfiles.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_mapu_evolucion.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_mapu_perfiles.RDS"))
+```
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_inmig_evolucion.RDS"))
+```
+
+
+```{r}
+print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_inmig_perfiles.RDS"))
+```
+
+
+
+
+
+
 
 ### Lazos
 
