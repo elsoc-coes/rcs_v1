@@ -31,7 +31,10 @@ grafo_prop_ola(elsoc_cohesion,"c02",1,1,"Grado de acuerdo por ola")
 grafo_prop_var(elsoc_cohesion,"c02","pp_3","Grado de acuerdo según voto en plebiscito", 
                umbral = 1,
                limy_sup = .5,
-               atricion = 1)
+               atricion = 1,
+               guardar = TRUE,
+               guardar_como = "gf_cs_rsi_confianza_perfiles",
+               imprimir = FALSE)
 
 # ALTRUISMO SOCIAL GENERALIZADO
 attr(elsoc_cohesion$c03,"label")<- "Las personas tratan de ayudar a los demás"
@@ -42,7 +45,10 @@ grafo_prop_ola(elsoc_cohesion,"c03",1,1,"Grado de acuerdo por ola")
 grafo_prop_var(elsoc_cohesion,"c03","pp_3","Grado de acuerdo según voto en plebiscito", 
                umbral = 1,
                atricion =1,
-               limy_sup = .5)
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_cs_rsi_altruismo_perfiles",
+               imprimir = FALSE)
 
 
 # RECONOCIMEINTO Y RESPETO DE LA DIVERSIDAD -------------------------------
@@ -56,7 +62,10 @@ grafo_prop_ola(elsoc_cohesion,"c06_04",1,c(4,5),"Grado de acuerdo por ola")
 grafo_prop_var(elsoc_cohesion,"c06_04","pp_3","Grado de acuerdo según voto en plebiscito", 
                umbral = c(4,5),
                atricion = 1,
-               limy_sup = .5)
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_cs_rrd_homo_perfiles",
+               imprimir = FALSE)
 
 
 # Grado de confianza en Mapuche
@@ -67,12 +76,15 @@ grafo_prop_ola(elsoc_cohesion,"c06_05",c(1),c(4,5),"Grado de acuerdo por ola")
 grafo_prop_var(elsoc_cohesion,"c06_05","pp_3","Grado de acuerdo según voto en plebiscito", 
                umbral = c(4,5),
                atricion = 1,
-               limy_sup = .5)
+               limy_sup = .5,
+               guardar = TRUE,
+               guardar_como = "gf_cs_rrd_mapu_perfiles",
+               imprimir = FALSE)
 
 # EVOLUCION SEGUN TIPO MIGRANTE
 
 
-elsoc_cohesion %>%
+gf_cs_rrd_inmig_evolucion <- elsoc_cohesion %>%
   filter(!is.na(r16), tipo_atricion %in% 1, ola %in% 4:6) %>%  
   sjlabelled::as_label(ola, cuestion_mig) %>%
   prop(r16 %in% 4:5, by = c(ola, cuestion_mig), na.rm = T)  %>%
@@ -93,7 +105,10 @@ elsoc_cohesion %>%
           subtitle = 'Porcentaje con Bastante o Mucha confianza en inmigrantes')
 
 
-elsoc_cohesion %>%
+saveRDS(gf_cs_rrd_inmig_evolucion, 
+        file="inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_inmig_evolucion.RDS")
+
+gf_cs_rrd_inmig_perfiles <-  elsoc_cohesion %>%
   filter(!is.na(r16), tipo_atricion %in% 1, ola %in% 4:6) %>%  
   sjlabelled::as_label(ola, cuestion_mig) %>%
   prop(r16 %in% 4:5, by = c(pp_3,ola, cuestion_mig), na.rm = T)%>%
@@ -115,6 +130,9 @@ elsoc_cohesion %>%
   ggtitle('Confianza hacia inmigrantes, según tipo de votante',
           subtitle = 'Porcentaje con Bastante o Mucha confianza en inmigrantes')
 
+
+saveRDS(gf_cs_rrd_inmig_perfiles, 
+        file="inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_inmig_perfiles.RDS")
 
 # TRATO JUSTO -------------------------------------------------------------
 
