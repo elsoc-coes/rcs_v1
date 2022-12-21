@@ -208,8 +208,7 @@ elsoc_long_2016_2022 %>%
             color = c('white', 'black', 'black', 
       'white', 'black', 'black')) +
   guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle('Preferencias electorales en plebiscito de entrada y salida') +
-  labs(caption = 'La categoría otros incorpora personas que declararon no votar, NS/NR, nulos y blancos.')
+  ggtitle('Intención de voto en plebiscito de entrada y salida')
 
 ```
 
@@ -557,6 +556,50 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r graf-tipo-participacion}
+
+elsoc_long_2016_2022 %>% 
+  filter(!is.na(pp_3)) %>% 
+  filter(tipo_atricion == 1 & ola %in% c(1,3,5,6) &
+           !is_nsnr(c11, c43, c50, c52, c54, c56)) %>% 
+  prop_list(c11 == 1, c43 == 1, c50 == 1, c52 == 1, c54 == 1, c56 == 1,
+            by = c(ola, pp_3), na.rm = T) %>%
+  mutate(ola = paste(name, ola)) %>%
+  mutate(ola = case_when(ola == 'c11 == 1 1' ~ 1,
+                          ola == 'c11 == 1 3' ~ 2,
+                          ola == 'c43 == 1 5' ~ 3,
+                          ola == 'c54 == 1 6' ~ 4,
+                          ola == 'c50 == 1 6' ~ 5,
+                          ola == 'c52 == 1 6' ~ 6,
+                          ola == 'c56 == 1 6' ~ 7)) %>%
+  mutate(ola = factor(ola, 
+                      levels = 1:7, 
+                      labels = c('Elecciones\nPresidenciales\nde 2013', 
+                                 'Elecciones\nPresidenciales\nde 2017', 
+                                 'Plebiscito de\nEntrada\n2020',
+                                 'Convención y\nMunicipales\nde 2021',
+                                 'Elecciones\nPresidenciales\nde 2021\n(1° vuelta)',
+                                 'Elecciones\nPresidenciales\nde 2021\n(2° vuelta)',
+                                 'Plebiscito\nSalida\n2022'))) %>% 
+  ggplot(aes(y = prop, x = ola, group = pp_3, color = pp_3,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() +   
+  geom_point(size = 1.75) +
+  geom_line() +
+  geom_text_repel(size = 3, nudge_y = .02) +
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0,1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .8, option = 'viridis') +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Participación electoral por elección y perfil de participación',
+          subtitle = 'Porcentaje que votó en...')
+
+```
+
 ```{r graf-tipo-salida}
 
 elsoc_long_2016_2022 %>% 
@@ -586,6 +629,7 @@ elsoc_long_2016_2022 %>%
   ggtitle('Voto en plebiscito de salida según tipo de votante')
 
 ```
+
 
 ```{r graf-alluvial-pleb-tipo}
 
@@ -650,8 +694,7 @@ elsoc_long_2016_2022 %>%
                              'white', 'black', 'black',
                              'white', 'black', 'black')) +
   guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle('Preferencias electorales en plebiscito de entrada y salida') +
-  labs(caption = 'La categoría otros incorpora personas que declararon no votar, NS/NR, nulos y blancos.')
+  ggtitle('Intención de voto en plebiscito de entrada y salida')
 
 ```
 
@@ -667,7 +710,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(size = 3) +
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -721,7 +764,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3) +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -749,7 +792,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .01, size = 3) +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,.2)) +
@@ -779,7 +822,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3) +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -841,7 +884,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .02, size = 3) +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,.5)) +
@@ -869,7 +912,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3) +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,.5)) +
@@ -897,7 +940,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .02, size = 3) +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,0.4)) +
@@ -924,7 +967,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .0, size = 3) +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,0.15)) +
@@ -951,7 +994,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .02, size = 3) +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -993,7 +1036,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .0) +
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1031,7 +1074,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .01) +
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1066,7 +1109,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .0) +
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1101,7 +1144,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .0) +
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1135,7 +1178,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .0) +
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1156,7 +1199,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .0, size = 3) +
+  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,0.15)) +
@@ -1199,7 +1242,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .0) +
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1236,7 +1279,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .0) +
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1274,7 +1317,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .0) +
+  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1311,7 +1354,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3) +
+  geom_text_repel(size = 3, color = "black") +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
