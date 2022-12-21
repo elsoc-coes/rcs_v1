@@ -1,0 +1,37 @@
+base_bienestar <- readRDS("inputs/Bienestar/base_bienestar.RDS")
+
+
+attr(elsoc_bienestar$c02,"label")<- "Se puede confiar en las personas"
+
+grafo_prop_ola <- function(var_y,atricion,umbral, titulo){
+  
+  elsoc_bienestar%>%
+    filter(tipo_atricion %in% atricion)%>%
+    sjlabelled::as_label(ola) %>%
+    mutate(valor= !!rlang::sym(var_y) %in% umbral)%>%
+    prop_list(valor,by=c(ola),na.rm=TRUE)%>%
+    mutate(valor=as.numeric(value))%>%
+    filter(value==1)%>%
+    drop_na()%>%
+    ggplot(aes(x=factor(ola),y=prop, group=value,
+               label = scales::percent(prop, accuracy = .1)))+
+    geom_point()+
+    geom_line()+
+    geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+    theme_bw()+
+    ylab(label = NULL) +
+    xlab(label = NULL) +
+    scale_color_viridis_d(begin = 0, end = .85, option = 'viridis')+
+    scale_y_continuous(labels = scales::percent, limits = c(0,.5))+
+    theme(plot.caption = element_text(hjust = 0),
+          legend.position = 'top',
+          legend.title = element_blank())+
+    ggtitle(titulo,
+            subtitle = gsub(x=attr(getElement(elsoc_bienestar,var_y),"label"),
+                            pattern = "Grado de acuerdo: ",
+                            replacement = ""))+
+    labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+  
+}
+  
+
