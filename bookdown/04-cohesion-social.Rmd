@@ -56,13 +56,6 @@ perfiles <- perfiles0 %>%
 
 ```
 
-
-```{r}
-
-```
-
-
-
 ## Relaciones sociales de igualdad
 
 
