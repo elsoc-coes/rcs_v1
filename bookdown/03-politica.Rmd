@@ -665,7 +665,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  geom_text_repel(size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -719,7 +719,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .025, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -747,7 +747,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .01, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,.2)) +
@@ -777,7 +777,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .025, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -839,7 +839,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .02, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,.5)) +
@@ -867,7 +867,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .025, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,.5)) +
@@ -895,7 +895,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .02, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,0.4)) +
@@ -922,7 +922,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .0, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,0.15)) +
@@ -949,7 +949,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .02, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
@@ -991,7 +991,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  geom_text_repel(size = 3, nudge_y = .0) +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1029,7 +1029,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  geom_text_repel(size = 3, nudge_y = .01) +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1064,7 +1064,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  geom_text_repel(size = 3, nudge_y = .0) +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1099,7 +1099,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  geom_text_repel(size = 3, nudge_y = .0) +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1133,7 +1133,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  geom_text_repel(size = 3, nudge_y = .0) +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1154,7 +1154,7 @@ elsoc_long_2016_2022 %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .025, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .0, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0,0.15)) +
@@ -1197,7 +1197,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  geom_text_repel(size = 3, nudge_y = .0) +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1234,7 +1234,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  geom_text_repel(size = 3, nudge_y = .0) +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1272,7 +1272,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .02, color = "black") +
+  geom_text_repel(size = 3, nudge_y = .0) +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
@@ -1309,7 +1309,7 @@ elsoc_long_2016_2022 %>%
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, color = "black") +
+  geom_text_repel(size = 3) +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
