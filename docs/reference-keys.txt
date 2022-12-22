@@ -51,3 +51,5 @@ participación-cívica
 vínculos-territoriales
 vínculos-territoriales-1
 confianza-interpersonal-1
+todos-los-indicadores-juntos
+indicadores-desagregados

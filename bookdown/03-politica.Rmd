@@ -466,6 +466,52 @@ tab %>%
 
 ```
 
+```{r graf-tipo-participacion}
+
+elsoc_long_2016_2022 %>% 
+  filter(!is.na(pp_3)) %>% 
+  filter(tipo_atricion == 1 & ola %in% c(1,3,5,6) &
+           !is_nsnr(c11, c43, c50, c52, c54, c56)) %>% 
+    mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+  prop_list(c11 == 1, c43 == 1, c50 == 1, c52 == 1, c54 == 1, c56 == 1,
+            by = c(ola, pp_3), na.rm = T) %>%
+  mutate(ola = paste(name, ola)) %>%
+  mutate(ola = case_when(ola == 'c11 == 1 1' ~ 1,
+                          ola == 'c11 == 1 3' ~ 2,
+                          ola == 'c43 == 1 5' ~ 3,
+                          ola == 'c54 == 1 6' ~ 4,
+                          ola == 'c50 == 1 6' ~ 5,
+                          ola == 'c52 == 1 6' ~ 6,
+                          ola == 'c56 == 1 6' ~ 7)) %>%
+  mutate(ola = factor(ola, 
+                      levels = 1:7, 
+                      labels = c('Elecciones\nPresidenciales\nde 2013', 
+                                 'Elecciones\nPresidenciales\nde 2017', 
+                                 'Plebiscito de\nEntrada\n2020',
+                                 'Convención y\nMunicipales\nde 2021',
+                                 'Elecciones\nPresidenciales\nde 2021\n(1° vuelta)',
+                                 'Elecciones\nPresidenciales\nde 2021\n(2° vuelta)',
+                                 'Plebiscito\nSalida\n2022'))) %>% 
+  ggplot(aes(y = prop, x = ola, group = pp_3, color = pp_3,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() +   
+  geom_point(size = 1.75) +
+  geom_line() +
+  geom_text_repel(size = 3, nudge_y = .02) +
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0,1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .8, option = 'viridis') +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Participación electoral por elección y perfil de participación',
+          subtitle = 'Porcentaje que votó en...')
+
+```
+
 ```{r graf-sexo-2}
 
 elsoc_long_2016_2022 %>% 
@@ -553,52 +599,6 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) +
   ggtitle('Nivel educacional según tipo de votante')
-
-```
-
-```{r graf-tipo-participacion}
-
-elsoc_long_2016_2022 %>% 
-  filter(!is.na(pp_3)) %>% 
-  filter(tipo_atricion == 1 & ola %in% c(1,3,5,6) &
-           !is_nsnr(c11, c43, c50, c52, c54, c56)) %>% 
-    mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
-  prop_list(c11 == 1, c43 == 1, c50 == 1, c52 == 1, c54 == 1, c56 == 1,
-            by = c(ola, pp_3), na.rm = T) %>%
-  mutate(ola = paste(name, ola)) %>%
-  mutate(ola = case_when(ola == 'c11 == 1 1' ~ 1,
-                          ola == 'c11 == 1 3' ~ 2,
-                          ola == 'c43 == 1 5' ~ 3,
-                          ola == 'c54 == 1 6' ~ 4,
-                          ola == 'c50 == 1 6' ~ 5,
-                          ola == 'c52 == 1 6' ~ 6,
-                          ola == 'c56 == 1 6' ~ 7)) %>%
-  mutate(ola = factor(ola, 
-                      levels = 1:7, 
-                      labels = c('Elecciones\nPresidenciales\nde 2013', 
-                                 'Elecciones\nPresidenciales\nde 2017', 
-                                 'Plebiscito de\nEntrada\n2020',
-                                 'Convención y\nMunicipales\nde 2021',
-                                 'Elecciones\nPresidenciales\nde 2021\n(1° vuelta)',
-                                 'Elecciones\nPresidenciales\nde 2021\n(2° vuelta)',
-                                 'Plebiscito\nSalida\n2022'))) %>% 
-  ggplot(aes(y = prop, x = ola, group = pp_3, color = pp_3,
-             label = scales::percent(prop, accuracy = .1))) +
-  theme_bw() +   
-  geom_point(size = 1.75) +
-  geom_line() +
-  geom_text_repel(size = 3, nudge_y = .02) +
-  scale_y_continuous(labels = scales::percent,
-                     limits = c(0,1)) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_color_viridis_d(begin = 0, end = .8, option = 'viridis') +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top',
-        legend.title = element_blank()) +
-  ggtitle('Participación electoral por elección y perfil de participación',
-          subtitle = 'Porcentaje que votó en...')
 
 ```
 
