@@ -128,7 +128,7 @@ elsoc_long_2016_2022 %>%
 ```{r graf-perfiles-3}
 
 tab2 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 3) %>%
   filter(!is.na(c11), !is.na(pp_3)) %>%
   mutate(c11 = factor(car::recode(c11, "1 = 2; 2:3 = 1"),
@@ -139,7 +139,7 @@ tab2 <- elsoc_long_2016_2022 %>%
   mutate(var = 2) 
 
 tab3 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 5) %>%
   filter(!is.na(c43), !is.na(pp_3)) %>%
   mutate(c43 = factor(car::recode(c43, "1 = 2; 2:3 = 1"),
@@ -150,7 +150,7 @@ tab3 <- elsoc_long_2016_2022 %>%
   mutate(var = 3) 
 
 tab4 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 6) %>%
   filter(!is.na(c54), !is.na(pp_3)) %>%
   mutate(c54 = factor(car::recode(c54, "1 = 2; 2 = 1"),
@@ -161,7 +161,7 @@ tab4 <- elsoc_long_2016_2022 %>%
   mutate(var = 4) 
 
 tab5 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 6) %>%
   filter(!is.na(c50), !is.na(pp_3)) %>%
   mutate(c50 = factor(car::recode(c50, "1 = 2; 2 = 1"),
@@ -172,7 +172,7 @@ tab5 <- elsoc_long_2016_2022 %>%
   mutate(var = 5) 
 
 tab6 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 6) %>%
   filter(!is.na(c52), !is.na(pp_3)) %>%
   mutate(c52 = factor(car::recode(c52, "1 = 2; 2 = 1"),
@@ -213,7 +213,7 @@ tab %>%
 
 
 tab2 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 3) %>%
   filter(!is.na(c11), !is.na(pp_4)) %>%
   mutate(c11 = factor(car::recode(c11, "1 = 2; 2:3 = 1"),
@@ -224,7 +224,7 @@ tab2 <- elsoc_long_2016_2022 %>%
   mutate(var = 2) 
 
 tab3 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 5) %>%
   filter(!is.na(c43), !is.na(pp_4)) %>%
   mutate(c43 = factor(car::recode(c43, "1 = 2; 2:3 = 1"),
@@ -235,7 +235,7 @@ tab3 <- elsoc_long_2016_2022 %>%
   mutate(var = 3) 
 
 tab4 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 6) %>%
   filter(!is.na(c54), !is.na(pp_4)) %>%
   mutate(c54 = factor(car::recode(c54, "1 = 2; 2 = 1"),
@@ -246,7 +246,7 @@ tab4 <- elsoc_long_2016_2022 %>%
   mutate(var = 4) 
 
 tab5 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 6) %>%
   filter(!is.na(c50), !is.na(pp_4)) %>%
   mutate(c50 = factor(car::recode(c50, "1 = 2; 2 = 1"),
@@ -257,7 +257,7 @@ tab5 <- elsoc_long_2016_2022 %>%
   mutate(var = 5) 
 
 tab6 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 6) %>%
   filter(!is.na(c52), !is.na(pp_4)) %>%
   mutate(c52 = factor(car::recode(c52, "1 = 2; 2 = 1"),
@@ -298,7 +298,7 @@ tab %>%
 
 
 tab2 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 3) %>%
   filter(!is.na(c11), !is.na(pp_5)) %>%
   mutate(c11 = factor(car::recode(c11, "1 = 2; 2:3 = 1"),
@@ -309,7 +309,7 @@ tab2 <- elsoc_long_2016_2022 %>%
   mutate(var = 2) 
 
 tab3 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 5) %>%
   filter(!is.na(c43), !is.na(pp_5)) %>%
   mutate(c43 = factor(car::recode(c43, "1 = 2; 2:3 = 1"),
@@ -320,7 +320,7 @@ tab3 <- elsoc_long_2016_2022 %>%
   mutate(var = 3) 
 
 tab4 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 6) %>%
   filter(!is.na(c54), !is.na(pp_5)) %>%
   mutate(c54 = factor(car::recode(c54, "1 = 2; 2 = 1"),
@@ -331,7 +331,7 @@ tab4 <- elsoc_long_2016_2022 %>%
   mutate(var = 4) 
 
 tab5 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 6) %>%
   filter(!is.na(c50), !is.na(pp_5)) %>%
   mutate(c50 = factor(car::recode(c50, "1 = 2; 2 = 1"),
@@ -342,7 +342,7 @@ tab5 <- elsoc_long_2016_2022 %>%
   mutate(var = 5) 
 
 tab6 <- elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33)) %>% 
+  filter(tipo_atricion == 1) %>% 
   filter(ola == 6) %>%
   filter(!is.na(c52), !is.na(pp_5)) %>%
   mutate(c52 = factor(car::recode(c52, "1 = 2; 2 = 1"),
@@ -611,7 +611,7 @@ elsoc_long_2016_2022 %>%
 ```{r graf-alluvial-pleb}
 
 elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33), ola %in% 5:6) %>% 
+  filter(tipo_atricion == 1, ola %in% 5:6) %>% 
   mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"))) %>%
   mutate(c44 = case_when(c44 == 1 ~ 1,
                             c44 == 2 ~ 2,
@@ -701,7 +701,7 @@ elsoc_long_2016_2022 %>%
 ```{r graf-alluvial-pleb-tipo}
 
 elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33), ola %in% 5:6, , !is.na(pp_3)) %>% 
+  filter(tipo_atricion == 1, ola %in% 5:6, , !is.na(pp_3)) %>% 
   mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"))) %>%
   mutate(c44 = case_when(c44 == 1 ~ 1,
                             c44 == 2 ~ 2,
@@ -1358,7 +1358,7 @@ elsoc_long_2016_2022 %>%
 
 elsoc_long_2016_2022 %>%
   sjlabelled::as_label(ola) %>%
-  filter(!is.na(c06_05), tipo_atricion %in% c(1, 33)) %>%  
+  filter(!is.na(c06_05), tipo_atricion == 1) %>%  
   prop(c06_05 %in% 1:2, by = c(ola, pp_3), na.rm = T)  %>%
   filter(!is.na(pp_3)) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
@@ -1384,7 +1384,7 @@ elsoc_long_2016_2022 %>%
 
 elsoc_long_2016_2022 %>%
   sjlabelled::as_label(ola) %>%
-  filter(!is.na(c46_05), tipo_atricion %in% c(1, 33)) %>%  
+  filter(!is.na(c46_05), tipo_atricion == 1) %>%  
   mutate(zona = factor(case_when(region_cod %in% c(1:4, 15) ~ 1,
                                  region_cod %in% c(5:8, 16) ~ 2, 
                                  region_cod %in% c(9:12, 14) ~ 3,
@@ -1417,7 +1417,7 @@ elsoc_long_2016_2022 %>%
 ```{r}
 
 elsoc_long_2016_2022 %>%
-  filter(!is.na(r16), tipo_atricion %in% c(1, 33), ola %in% 4:6) %>%  
+  filter(!is.na(r16), tipo_atricion == 1, ola %in% 4:6) %>%  
   sjlabelled::as_label(ola, cuestion_mig) %>%
   prop(r16 %in% 1:2, by = c(ola, cuestion_mig, pp_3), na.rm = T)  %>%
   filter(!is.na(pp_3)) %>% 
@@ -1444,7 +1444,7 @@ elsoc_long_2016_2022 %>%
 
 elsoc_long_2016_2022 %>%
   sjlabelled::as_label(ola) %>%
-  filter(!is.na(r12_04), tipo_atricion %in% c(1, 33)) %>%  
+  filter(!is.na(r12_04), tipo_atricion == 1) %>%  
   prop(r12_04 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   filter(!is.na(pp_3)) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
@@ -1496,7 +1496,7 @@ elsoc_long_2016_2022 %>%
 
 elsoc_long_2016_2022 %>%
   sjlabelled::as_label(ola) %>%
-  filter(!is.na(r12_03), tipo_atricion %in% c(1, 33)) %>%  
+  filter(!is.na(r12_03), tipo_atricion == 1) %>%  
   prop(r12_03 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   filter(!is.na(pp_3)) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
