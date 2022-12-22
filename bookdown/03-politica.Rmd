@@ -80,7 +80,7 @@ elsoc_wide_2016_2022 <- elsoc_wide_2016_2022 %>%
 
 ```
 
-## Participación electoral y proceso constituyente
+## Participación electoral
 
 ```{r graf-participacion}
 
@@ -122,93 +122,6 @@ elsoc_long_2016_2022 %>%
         legend.title = element_blank()) +
   ggtitle('Participación electoral por elección',
           subtitle = 'Porcentaje que votó en...')
-
-```
-
-```{r graf-pleb-salida}
-
-elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
-  filter(ola == 6) %>%
-    mutate(salida = factor(salida, 
-                       levels = 1:5,
-                       labels = c("Apruebo", "Rechazo", "Nulo/Blanco",
-                                        "No vota", "NS/NR"))) %>% 
-  prop(salida, na.rm = T) %>%
-  ggplot(aes(y = prop, x = salida, label = scales::percent(prop, accuracy = .1))) +
-  theme_bw() +   
-  geom_col(fill = viridis(1, begin = .33)) +
-  geom_text(position = position_dodge(.9), vjust = -.5, size = 3) +
-  scale_y_continuous(labels = scales::percent,
-                     limits = c(0,1)) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_color_viridis_d(end = .66, direction = 1, option = 'viridis') +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top',
-        legend.title = element_blank()) +
-  ggtitle('Plebiscito de Salida 2022',
-          subtitle = 'Porcentaje que votó...')
-  
-```
-
-```{r graf-alluvial-pleb}
-
-elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion %in% c(1, 33), ola %in% 5:6) %>% 
-  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"))) %>%
-  mutate(c44 = case_when(c44 == 1 ~ 1,
-                            c44 == 2 ~ 2,
-                            c44 == 3 ~ 3,
-                            c44 == 4 ~ 3,
-                            c44 == -999 ~ 3,
-                            c44 == -888 ~ 3,
-                            c44 == -777 ~ 3,
-                            c44 == -666 ~ 3,
-                            c43 == 2 ~ 3,
-                            c43 == 3 ~ 3,
-                            c43 == -999 ~ 3,
-                            c43 == -888 ~ 3,
-                            c43 == -777 ~ 3,
-                            c43 == -666 ~ 3))  %>%
-   mutate(pos_id = ifelse(!is.na(c44), c44, salida),
-          pos_id = factor(pos_id,
-                             levels = 1:3,
-                             labels = c("Apruebo", "Rechazo", "Otros")),
-             ola = factor(ola,
-                          levels = 5:6,
-                          labels = c("Plebiscito de\nEntrada\n2020",
-                                     "Plebiscito de\nSalida\n2022"))) %>%
-  survey_design_elsoc() %>%
-  svytable(~ pos_id + ola + idencuesta, design = .) %>% 
-  as.data.frame() %>% 
-  group_by(ola) %>% 
-  mutate(prop = Freq/sum(Freq, na.rm = TRUE)) %>%
-  ungroup() %>% 
-  filter(Freq > 0) %>%
-  ggplot(aes(y = prop, x = ola, fill = fct_rev(pos_id), 
-             stratum = fct_rev(pos_id), alluvium = idencuesta)) +
-  theme_bw() +
-  ggalluvial::geom_flow(alpha = .66) + 
-  ggalluvial::geom_stratum(linetype = 0, width = .55) +
-  scale_y_continuous(labels = scales::percent) + 
-  ylab(label = NULL) +
-  xlab(label = NULL) + 
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top',
-        legend.title = element_blank()) +
-  scale_fill_viridis_d(direction = -1, begin = 0, end = .8, option = 'viridis') +
-  geom_text(data = function(x) { group_by(.data = x, ola, pos_id) %>%
-      summarise(prop = sum(prop, na.rm = TRUE), idencuesta = 1) %>%
-      ungroup()},
-            aes(label = scales::percent(prop, accuracy = .1)),
-            position = position_stack(vjust = .5),
-            show.legend = FALSE,
-            size = 3,
-            color = c('white', 'black', 'black', 
-      'white', 'black', 'black')) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  ggtitle('Intención de voto en plebiscito de entrada y salida')
 
 ```
 
@@ -512,6 +425,8 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+## Caracterización del tipo de votante
+
 ```{r graf-sexo-2}
 
 elsoc_long_2016_2022 %>% 
@@ -602,6 +517,157 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r graf-laboral}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
+  filter(ola == 6) %>% 
+  filter(!is.na(m02), !is.na(pp_3)) %>%
+  mutate(sit_laboral = factor(car::recode(m02, "1:3 = 1; 6 = 2; c(4,5,7,8,9) = 3"),
+                              levels = 1:3,
+                              labels = c('Ocupados',
+                                  'Desocupados',
+                                  'Inactivos'))) %>%
+  mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+  prop(sit_laboral, by = pp_3, na.rm = TRUE) %>% 
+  ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(sit_laboral), 
+             label = scales::percent(prop, .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  labs(y = NULL, x = NULL, title = NULL, fill = NULL) +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), size = 3,
+            color = rep(c('black', 'white', 'white'), 3)) +
+  theme_bw() + 
+  scale_fill_viridis_d(begin = 0, end = .8, option = 'viridis') +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Situación laboral según tipo de votante')
+
+```
+
+```{r graf-clase}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
+  filter(ola == 6) %>% 
+  filter(!is.na(c33), !is.na(pp_3)) %>%
+  mutate(c33 = factor(car::recode(c33, recodes = "1:2 = 1; 3 = 2; 3:4 = 3"),
+                   levels = 1:3,
+                   labels = c("Baja o\nMedia-baja", "Media", "Alta o\nMedia-alta"))) %>%
+  mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+  prop(c33, by = pp_3, na.rm = TRUE) %>% 
+  ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(c33), 
+             label = scales::percent(prop, .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  labs(y = NULL, x = NULL, title = NULL, fill = NULL) +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), size = 3,
+            color = rep(c('black', 'white', 'white'), 3)) +
+  theme_bw() + 
+  scale_fill_viridis_d(begin = 0, end = .8, option = 'viridis') +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Clase social subjetiva según tipo de votante')
+
+```
+
+## Proceso constituyente
+
+```{r graf-pleb-salida}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+  filter(ola == 6) %>%
+    mutate(salida = factor(salida, 
+                       levels = 1:5,
+                       labels = c("Apruebo", "Rechazo", "Nulo/Blanco",
+                                        "No vota", "NS/NR"))) %>% 
+  prop(salida, na.rm = T) %>%
+  ggplot(aes(y = prop, x = salida, label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() +   
+  geom_col(fill = viridis(1, begin = .33)) +
+  geom_text(position = position_dodge(.9), vjust = -.5, size = 3) +
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0,1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(end = .66, direction = 1, option = 'viridis') +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Plebiscito de Salida 2022',
+          subtitle = 'Porcentaje que votó...')
+  
+```
+
+```{r graf-alluvial-pleb}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion %in% c(1, 33), ola %in% 5:6) %>% 
+  mutate(salida = factor(car::recode(salida, "1 = 1; 2 = 2; 3:5 = 3"))) %>%
+  mutate(c44 = case_when(c44 == 1 ~ 1,
+                            c44 == 2 ~ 2,
+                            c44 == 3 ~ 3,
+                            c44 == 4 ~ 3,
+                            c44 == -999 ~ 3,
+                            c44 == -888 ~ 3,
+                            c44 == -777 ~ 3,
+                            c44 == -666 ~ 3,
+                            c43 == 2 ~ 3,
+                            c43 == 3 ~ 3,
+                            c43 == -999 ~ 3,
+                            c43 == -888 ~ 3,
+                            c43 == -777 ~ 3,
+                            c43 == -666 ~ 3))  %>%
+   mutate(pos_id = ifelse(!is.na(c44), c44, salida),
+          pos_id = factor(pos_id,
+                             levels = 1:3,
+                             labels = c("Apruebo", "Rechazo", "Otros")),
+             ola = factor(ola,
+                          levels = 5:6,
+                          labels = c("Plebiscito de\nEntrada\n2020",
+                                     "Plebiscito de\nSalida\n2022"))) %>%
+  survey_design_elsoc() %>%
+  svytable(~ pos_id + ola + idencuesta, design = .) %>% 
+  as.data.frame() %>% 
+  group_by(ola) %>% 
+  mutate(prop = Freq/sum(Freq, na.rm = TRUE)) %>%
+  ungroup() %>% 
+  filter(Freq > 0) %>%
+  ggplot(aes(y = prop, x = ola, fill = fct_rev(pos_id), 
+             stratum = fct_rev(pos_id), alluvium = idencuesta)) +
+  theme_bw() +
+  ggalluvial::geom_flow(alpha = .66) + 
+  ggalluvial::geom_stratum(linetype = 0, width = .55) +
+  scale_y_continuous(labels = scales::percent) + 
+  ylab(label = NULL) +
+  xlab(label = NULL) + 
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  scale_fill_viridis_d(direction = -1, begin = 0, end = .8, option = 'viridis') +
+  geom_text(data = function(x) { group_by(.data = x, ola, pos_id) %>%
+      summarise(prop = sum(prop, na.rm = TRUE), idencuesta = 1) %>%
+      ungroup()},
+            aes(label = scales::percent(prop, accuracy = .1)),
+            position = position_stack(vjust = .5),
+            show.legend = FALSE,
+            size = 3,
+            color = c('white', 'black', 'black', 
+      'white', 'black', 'black')) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  ggtitle('Intención de voto en plebiscito de entrada y salida')
+
+```
+
 ```{r graf-tipo-salida}
 
 elsoc_long_2016_2022 %>% 
@@ -631,7 +697,6 @@ elsoc_long_2016_2022 %>%
   ggtitle('Voto en plebiscito de salida según tipo de votante')
 
 ```
-
 
 ```{r graf-alluvial-pleb-tipo}
 
@@ -707,7 +772,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c28), !is.na(pp_3)) %>%  
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   prop(c28 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -761,7 +826,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c25), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   prop(c25 == 1, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -789,7 +854,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c01), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   prop(c01 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -817,7 +882,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c18_04), !is.na(c18_05), !is.na(c18_06), !is.na(c18_07), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
     rowwise() %>% 
   mutate(autoritarismo = mean(c18_04, c18_05, c18_06, c18_07, na.rm = TRUE)) %>% 
   prop(autoritarismo %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
@@ -881,7 +946,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c15), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   prop(c15 == 5, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -909,7 +974,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c15), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   prop(c15 %in% 11:12, by = c(pp_3, ola), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -942,23 +1007,24 @@ elsoc_long_2016_2022 %>%
   mutate(cambia = c15 != lag(c15),
          ola = factor(ola,
                       levels = 1:6,
-                      labels = c('', '16-17', '17-18', '18-19', '19-21', '21-22'))) %>% 
+                      labels = c('', '2016-2017', '2017-2018', '2018-2019', '2019-2021', '2021-2022'))) %>% 
   ungroup() %>% 
   prop(cambia == TRUE, by = c(pp_3, ola), na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, label = scales::percent(prop, .1))) + 
-  facet_wrap(~ pp_3) +
-  theme_bw() +
-  geom_col(fill = viridis(1, begin = .33)) +
-  geom_text(position = position_dodge(.9), vjust = -.5, size = 3) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
+   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
+             label = scales::percent(prop, accuracy = .1))) +
+  theme_bw() + 
+  geom_text_repel(nudge_y = .0, size = 3) +
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent, limits = c(0,.7)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
-  scale_fill_viridis_d(begin = .33, end = .66, option = 'viridis') +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top') + 
+        legend.position = 'top',
+        legend.title = element_blank()) + 
   ggtitle('Cambios en posición política, según tipo de votante',
           subtitle = 'Porcentaje que cambia su posición política entre olas')
-
 
 ```
 
@@ -970,7 +1036,7 @@ elsoc_long_2016_2022 %>%
   filter(!is.na(c13), !is.na(pp_3)) %>%
   prop(c13 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
@@ -989,33 +1055,6 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r graf-partido-2}
-
-elsoc_long_2016_2022 %>%
-  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
-  as_label(ola) %>%
-  filter(!is.na(c12_03), !is.na(pp_3)) %>%
-  mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
-  prop(c12_03 %in% 2:3, by = c(ola, pp_3), na.rm = T)  %>%
-  ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
-             label = scales::percent(prop, accuracy = .1))) +
-  theme_bw() + 
-  geom_text_repel(nudge_y = .01, size = 3) +
-  geom_point(size = 1.75) + 
-  geom_line() + 
-  scale_y_continuous(labels = scales::percent, limits = c(0,0.15)) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top',
-        legend.title = element_blank()) + 
-  ggtitle('Partidismo, según tipo de votante',
-          subtitle = 'Porcentaje que es miembro de un partido o movimiento político')
-
-```
-
 ```{r graf-id-partido-2}
 
 elsoc_long_2016_2022 %>%
@@ -1023,7 +1062,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c16), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   prop(c16 == 15, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1057,7 +1096,7 @@ elsoc_long_2016_2022 %>%
                                   'Se informa sobre politica\nen medios de comunicacion',
                                   'Usa redes sociales para\nopinar en temas publicos'))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1152,38 +1191,30 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r graf-conf-inst-2}
+```{r graf-carab}
 
-elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
+elsoc_long_2016_2022 %>%
+  filter(tipo_atricion == 1 | tipo_atricion == 33) %>% 
   as_label(ola) %>%
-  filter(!is.na(c05_03), !is.na(c05_05), !is.na(pp_3)) %>%
-  dplyr::select(c05_03, c05_05, ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
-  pivot_longer(cols = c(c05_03, c05_05)) %>% 
-  mutate(name = factor(name,
-                       levels = c('c05_03', 'c05_05'),
-                       labels = c('Carabineros',
-                                  'Poder Judicial'))) %>%
+  filter(!is.na(c05_03), !is.na(pp_3)) %>%
+  prop(c05_03 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
-  prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>%
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
-  facet_wrap(~ name) +
   theme_bw() + 
+  geom_text_repel(nudge_y = .0, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
-  scale_y_continuous(labels = scales::percent,
-                     limits = c(0, .5)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,.5)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
-  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
-  geom_text_repel(size = 3, nudge_y = .01) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
-        legend.title = element_blank()) +
-  ggtitle('Confianza en instituciones, según tipo de votante',
-          subtitle = 'Bastante o mucha confianza' )
+        legend.title = element_blank()) + 
+  ggtitle('Confianza en Carabineros, según tipo de votante',
+          subtitle = 'Bastante o mucha confianza')
 
 ```
 
@@ -1291,13 +1322,12 @@ elsoc_long_2016_2022 %>%
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 | tipo_atricion == 33) %>%
   as_label(ola) %>%
-  filter(!is.na(c37_03), !is.na(c37_04), !is.na(c37_05), !is.na(pp_3)) %>%
-  dplyr::select(c37_03, c37_04, c37_05,  ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
-  pivot_longer(cols = c(c37_03, c37_04, c37_05)) %>% 
+  filter(!is.na(c37_04), !is.na(c37_05), !is.na(pp_3)) %>%
+  dplyr::select(c37_04, c37_05,  ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
+  pivot_longer(cols = c(c37_04, c37_05)) %>% 
   mutate(name = factor(name,
-                       levels = c('c37_03', 'c37_04', 'c37_05'),
-                       labels = c('El Estado de Chile, más que\nlos privados, debería ser el principal\nproveedor de educación',
-                                  'Cada persona debiera asegurarse\npor si mismo su futura pensión\npara la tercera edad',
+                       levels = c('c37_04', 'c37_05'),
+                       labels = c('Cada persona debiera asegurarse\npor si mismo su futura pensión\npara la tercera edad',
                                   'Chile debería tomar medidas más\ndrásticas para impedir el ingreso\nde inmigrantes al país'))) %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
