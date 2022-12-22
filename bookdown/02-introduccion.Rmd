@@ -284,7 +284,7 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,2),"%"),")"))),
+                          paste0(round(pct[,1]*100,1),"%"),")"))),
   
   (elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6) %>% 
@@ -299,7 +299,7 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,2),"%"),")")))
+                          paste0(round(pct[,1]*100,1),"%"),")")))
   
   ) %>%
   
@@ -335,7 +335,7 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,2),"%"),")"))),
+                          paste0(round(pct[,1]*100,1),"%"),")"))),
   
   (elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6) %>% 
@@ -347,7 +347,7 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,2),"%"),")")))
+                          paste0(round(pct[,1]*100,1),"%"),")")))
  ) %>%
   
   ggplot(aes(y = pct, x = fct_rev(m0_sexo), fill = m0_sexo,
@@ -387,7 +387,7 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,2),"%"),")"))),
+                          paste0(round(pct[,1]*100,1),"%"),")"))),
   
   (elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6 & !is.na(m01) & !is_nsnr(m01)) %>% 
@@ -402,7 +402,7 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,2),"%"),")")))
+                          paste0(round(pct[,1]*100,1),"%"),")")))
 ) %>%
   
   ggplot(aes(y = pct, x = fct_rev(educ), fill = educ,
@@ -442,7 +442,7 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,2),"%"),")"))),
+                          paste0(round(pct[,1]*100,1),"%"),")"))),
   
   (elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6) %>% 
@@ -458,7 +458,7 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,2),"%"),")")))
+                          paste0(round(pct[,1]*100,1),"%"),")")))
 ) %>%
     
   ggplot(aes(y = pct, x = fct_rev(estrato), fill = estrato,
