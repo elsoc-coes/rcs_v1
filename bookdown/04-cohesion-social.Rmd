@@ -63,65 +63,67 @@ perfiles <- perfiles0 %>%
 
 ### Confianza interpersonal
 
+<!-- ```{r} -->
+<!-- print(readRDS("..', 'inputs', 'cohesion social', 'relaciones-sociales', 'graficos', 'gf_cs_rsi_confianza_evolucion.RDS'))) -->
+<!-- ``` -->
+
+
 ```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rsi_confianza_evolucion.RDS"))
+print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 
+                        'graficos', 'gf_cs_rsi_confianza_perfiles.RDS')))
 ```
 
 
-```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rsi_confianza_perfiles.RDS"))
-```
 
-
-
-```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rsi_altruismo_evolucion.RDS"))
-```
+<!-- ```{r} -->
+<!-- print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 'graficos', 'gf_cs_rsi_altruismo_evolucion.RDS'))) -->
+<!-- ``` -->
 
 
 ```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rsi_altruismo_perfiles.RDS"))
+print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 
+                        'graficos', 'gf_cs_rsi_altruismo_perfiles.RDS')))
 ```
 
 ### Reconocimiento y respeto de la diversidad
 
+<!-- ```{r} -->
+<!-- print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 'graficos', 'gf_cs_rrd_homo_evolucion.RDS'))) -->
+<!-- ``` -->
+
+
 ```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_homo_evolucion.RDS"))
+print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 'graficos', 'gf_cs_rrd_homo_perfiles.RDS')))
 ```
 
 
+<!-- ```{r} -->
+<!-- print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 'graficos', 'gf_cs_rrd_mapu_evolucion.RDS'))) -->
+<!-- ``` -->
+
+
 ```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_homo_perfiles.RDS"))
+print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 'graficos', 'gf_cs_rrd_mapu_perfiles.RDS')))
 ```
 
-
-```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_mapu_evolucion.RDS"))
-```
-
-
-```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_mapu_perfiles.RDS"))
-```
-
-```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_inmig_evolucion.RDS"))
-```
+<!-- ```{r} -->
+<!-- print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 'graficos', 'gf_cs_rrd_inmig_evolucion.RDS'))) -->
+<!-- ``` -->
 
 
 ```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_rrd_inmig_perfiles.RDS"))
+print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 'graficos', 'gf_cs_rrd_inmig_perfiles.RDS')))
 ```
 
 ### Lazos
 
-```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_lazos_evolucion.RDS"))
-```
+<!-- ```{r} -->
+<!-- print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 'graficos', 'gf_cs_lazos_evolucion.RDS'))) -->
+<!-- ``` -->
 
 
 ```{r}
-print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_lazos_perfiles.RDS"))
+print(readRDS(file.path('..', 'inputs', 'cohesion social', 'relaciones-sociales', 'graficos', 'gf_cs_lazos_perfiles.RDS')))
 ```
 
 
@@ -129,29 +131,29 @@ print(readRDS("../inputs/cohesion social/relaciones-sociales/graficos/gf_cs_lazo
 
 ### Identificación con el país
 
-```{r graf-orgullochileno-ola}
-elsoc_long_2016_2022 %>% 
-   filter(tipo_atricion == 1, !is_nsnr(c32_01)) %>%
-   mutate(c32_01 = factor(car::recode(c32_01, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                          levels = 1:3,
-                          labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>% 
-  sjlabelled::as_label(ola) %>% 
-  prop(x = c32_01, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = c32_01, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Orgullo de ser chileno, según ola', subtitle = 'Me siento orgulloso de ser chileno') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3)+
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
-```
+<!-- ```{r graf-orgullochileno-ola} -->
+<!-- elsoc_long_2016_2022 %>%  -->
+<!--    filter(tipo_atricion == 1, !is_nsnr(c32_01)) %>% -->
+<!--    mutate(c32_01 = factor(car::recode(c32_01, "1:2 = 1; 3 = 2; 4:5 = 3"), -->
+<!--                           levels = 1:3, -->
+<!--                           labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>%  -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(x = c32_01, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = c32_01,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Orgullo de ser chileno, según ola', subtitle = 'Me siento orgulloso de ser chileno') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3)+ -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
+<!-- ``` -->
 
 
 
@@ -174,7 +176,7 @@ elsoc_long_2016_2022 %>%
   geom_text_repel(size = 3) +
   geom_point(size = 1.75) + 
   geom_line() +
-  ggtitle(label = 'Orgullo de ser chileno, según perfil de votante', subtitle = 'Me siento orgulloso de ser chileno \nDe acuerdo o Totalmente de acuerdo') +
+  ggtitle(label = '"Me siento orgulloso de ser chileno/a", según perfil de votante', subtitle = 'Porcentaje De acuerdo o Totalmente de acuerdo') +
   scale_y_continuous(labels = scales::percent, 
                      limits = c(.75, 1)) +
   ylab(label = NULL) +
@@ -186,29 +188,29 @@ elsoc_long_2016_2022 %>%
   
 ```
 
-```{r graf-identificacion-ola}
-elsoc_long_2016_2022 %>% 
-   filter(tipo_atricion == 1, !is_nsnr(c32_02)) %>%
-   mutate(c32_02 = factor(car::recode(c32_02, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                          levels = 1:3,
-                          labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>% 
-  sjlabelled::as_label(ola) %>% 
-  prop(x = c32_02, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = c32_02, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Identificación con Chile, según ola', subtitle = 'Me identifico con Chile') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3)+
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
-```
+<!-- # ```{r graf-identificacion-ola} -->
+<!-- # elsoc_long_2016_2022 %>% -->
+<!-- #    filter(tipo_atricion == 1, !is_nsnr(c32_02)) %>% -->
+<!-- #    mutate(c32_02 = factor(car::recode(c32_02, "1:2 = 1; 3 = 2; 4:5 = 3"), -->
+<!-- #                           levels = 1:3, -->
+<!-- #                           labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>% -->
+<!-- #   sjlabelled::as_label(ola) %>% -->
+<!-- #   prop(x = c32_02, by = ola, na.rm = TRUE) %>% -->
+<!-- #   ggplot(aes(y = prop, x = ola, fill = c32_02, -->
+<!-- #              label = as.character(scales::percent(prop, accuracy = .1)))) + -->
+<!-- #   theme_bw() + -->
+<!-- #   geom_col(position = 'Stack') + -->
+<!-- #   ylab(label = NULL) + -->
+<!-- #   xlab(label = NULL) + -->
+<!-- #   scale_fill_viridis_d(end = .85) + -->
+<!-- #   ggtitle(label = 'Identificación con Chile, según ola', subtitle = 'Me identifico con Chile') + -->
+<!-- #   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!-- #   geom_text(position = position_stack(vjust = .5), -->
+<!-- #             size = 3)+ -->
+<!-- #   theme(plot.caption = element_text(hjust = 0), -->
+<!-- #         legend.position = 'top', -->
+<!-- #         legend.title = element_blank()) -->
+<!-- # ``` -->
 
 
 
@@ -231,7 +233,7 @@ elsoc_long_2016_2022 %>%
   geom_text_repel(size = 3) +
   geom_point(size = 1.75) + 
   geom_line() +
-  ggtitle(label = 'Identificación con Chile, según votante', subtitle = 'Me identifico con Chile \nDe acuerdo o Totalmente de acuerdo') +
+  ggtitle(label = '"Me identifico con Chile", según ola y perfil de participación', subtitle = 'Porcentaje De acuerdo o Totalmente de acuerdo') +
   scale_y_continuous(labels = scales::percent, 
                      limits = c(.75, 1)) +
   ylab(label = NULL) +
@@ -251,29 +253,29 @@ elsoc_long_2016_2022 %>%
 
 ### Percepción de justicia
 
-```{r graf-esfuerzos-ola}
-elsoc_long_2016_2022 %>% 
-   filter(tipo_atricion == 1, !is_nsnr(c18_09)) %>%
-   mutate(c18_09 = factor(car::recode(c18_09, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                          levels = 1:3,
-                          labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>% 
-  sjlabelled::as_label(ola) %>% 
-  prop(x = c18_09, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = c18_09, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Creencias en la meritocracia (esfuerzo), según ola', subtitle = 'En Chile las personas son recompensadas por sus esfuerzos') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3)+
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
-```
+<!-- ```{r graf-esfuerzos-ola} -->
+<!-- elsoc_long_2016_2022 %>%  -->
+<!--    filter(tipo_atricion == 1, !is_nsnr(c18_09)) %>% -->
+<!--    mutate(c18_09 = factor(car::recode(c18_09, "1:2 = 1; 3 = 2; 4:5 = 3"), -->
+<!--                           levels = 1:3, -->
+<!--                           labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>%  -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(x = c18_09, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = c18_09,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Creencias en la meritocracia (esfuerzo), según ola', subtitle = 'En Chile las personas son recompensadas por sus esfuerzos') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3)+ -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
+<!-- ``` -->
 
 
 ```{r graf-esfuerzos-perfil}
@@ -295,7 +297,7 @@ elsoc_long_2016_2022 %>%
   geom_text_repel(size = 3) +
   geom_point(size = 1.75) + 
   geom_line() +
-  ggtitle(label = 'Creencias en la meritocracia (esfuerzo), según ola', subtitle = 'En Chile las personas son recompensadas por sus esfuerzos \nDe acuerdo o Totalmente de acuerdo') +
+  ggtitle(label = '"En Chile las personas son recompensadas por sus esfuerzos", según ola y perfil de participación', subtitle = 'Porcentaje De acuerdo o Totalmente de acuerdo') +
   scale_y_continuous(labels = scales::percent, 
                      limits = c(0, .5)) +
   ylab(label = NULL) +
@@ -308,29 +310,29 @@ elsoc_long_2016_2022 %>%
 ```
 
 
-```{r graf-inteligencia-ola}
-elsoc_long_2016_2022 %>% 
-   filter(tipo_atricion == 1, !is_nsnr(c18_10)) %>%
-   mutate(c18_10 = factor(car::recode(c18_10, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                          levels = 1:3,
-                          labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>% 
-  sjlabelled::as_label(ola) %>% 
-  prop(x = c18_10, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = c18_10, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Creencias en la meritocracia (inteligencia), según ola', subtitle = 'En Chile las personas son recompensadas por su inteligencia') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3)+
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
-```
+<!-- ```{r graf-inteligencia-ola} -->
+<!-- elsoc_long_2016_2022 %>%  -->
+<!--    filter(tipo_atricion == 1, !is_nsnr(c18_10)) %>% -->
+<!--    mutate(c18_10 = factor(car::recode(c18_10, "1:2 = 1; 3 = 2; 4:5 = 3"), -->
+<!--                           levels = 1:3, -->
+<!--                           labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>%  -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(x = c18_10, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = c18_10,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Creencias en la meritocracia (inteligencia), según ola', subtitle = 'En Chile las personas son recompensadas por su inteligencia') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3)+ -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
+<!-- ``` -->
 
 
 
@@ -373,30 +375,30 @@ elsoc_long_2016_2022 %>%
 
 ### Solidaridad
 
-```{r graf-caridad-ola}
-elsoc_long_2016_2022 %>%
-    mutate(c07_05 = factor(car::recode(c07_05, "1 = 1; 2 = 2; 3 = 3"),
-                          levels = 1:3,
-                          labels = c('Nunca lo hizo', 'Lo hizo una o dos veces', 'Lo hizo más de dos veces'))) %>% 
-   filter(tipo_atricion == 1, !is_nsnr(c07_05)) %>%
-  sjlabelled::as_label(ola) %>% 
-  prop(x = c07_05, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = c07_05, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Donación de dinero a caridad, según ola',
-          subtitle = 'Frecuencia: Dono dinero a caridad') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3)+
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
-```
+<!-- ```{r graf-caridad-ola} -->
+<!-- elsoc_long_2016_2022 %>% -->
+<!--     mutate(c07_05 = factor(car::recode(c07_05, "1 = 1; 2 = 2; 3 = 3"), -->
+<!--                           levels = 1:3, -->
+<!--                           labels = c('Nunca lo hizo', 'Lo hizo una o dos veces', 'Lo hizo más de dos veces'))) %>%  -->
+<!--    filter(tipo_atricion == 1, !is_nsnr(c07_05)) %>% -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(x = c07_05, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = c07_05,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Donación de dinero a caridad, según ola', -->
+<!--           subtitle = 'Frecuencia: Dono dinero a caridad') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3)+ -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
+<!-- ``` -->
 
 
 
@@ -431,32 +433,30 @@ elsoc_long_2016_2022 %>%
 
 
 
-
-
-```{r graf-prestar-ola}
-elsoc_long_2016_2022 %>%
-    mutate(c07_06 = factor(car::recode(c07_06, "1 = 1; 2 = 2; 3 = 3"),
-                          levels = 1:3,
-                          labels = c('Nunca lo hizo', 'Lo hizo una o dos veces', 'Lo hizo más de dos veces'))) %>% 
-   filter(tipo_atricion == 1, !is_nsnr(c07_06)) %>%
-  sjlabelled::as_label(ola) %>% 
-  prop(x = c07_06, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = c07_06, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Prestación de dinero, según ola',
-          subtitle = 'Frecuencia: Presto $10,000 o más') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3)+
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
-```
+<!-- ```{r graf-prestar-ola} -->
+<!-- elsoc_long_2016_2022 %>% -->
+<!--     mutate(c07_06 = factor(car::recode(c07_06, "1 = 1; 2 = 2; 3 = 3"), -->
+<!--                           levels = 1:3, -->
+<!--                           labels = c('Nunca lo hizo', 'Lo hizo una o dos veces', 'Lo hizo más de dos veces'))) %>%  -->
+<!--    filter(tipo_atricion == 1, !is_nsnr(c07_06)) %>% -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(x = c07_06, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = c07_06,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Prestación de dinero, según ola', -->
+<!--           subtitle = 'Frecuencia: Presto $10,000 o más') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3)+ -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
+<!-- ``` -->
 
 
 
@@ -491,30 +491,31 @@ elsoc_long_2016_2022 %>%
   
 ```
 
-```{r graf-converso-ola}
-elsoc_long_2016_2022 %>%
-    mutate(c07_07 = factor(car::recode(c07_07, "1 = 1; 2 = 2; 3 = 3"),
-                          levels = 1:3,
-                          labels = c('Nunca lo hizo', 'Lo hizo una o dos veces', 'Lo hizo más de dos veces'))) %>% 
-   filter(tipo_atricion == 1, !is_nsnr(c07_07)) %>%
-  sjlabelled::as_label(ola) %>% 
-  prop(x = c07_07, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = c07_07, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Conversaciones con personas deprimidas, según ola',
-          subtitle = 'Frecuencia: Conversó con una persona deprimida') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3)+
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
-```
+
+<!-- ```{r graf-converso-ola} -->
+<!-- elsoc_long_2016_2022 %>% -->
+<!--     mutate(c07_07 = factor(car::recode(c07_07, "1 = 1; 2 = 2; 3 = 3"), -->
+<!--                           levels = 1:3, -->
+<!--                           labels = c('Nunca lo hizo', 'Lo hizo una o dos veces', 'Lo hizo más de dos veces'))) %>%  -->
+<!--    filter(tipo_atricion == 1, !is_nsnr(c07_07)) %>% -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(x = c07_07, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = c07_07,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Conversaciones con personas deprimidas, según ola', -->
+<!--           subtitle = 'Frecuencia: Conversó con una persona deprimida') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3)+ -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
+<!-- ``` -->
 
 
 
@@ -549,30 +550,30 @@ elsoc_long_2016_2022 %>%
 ```
 
 
-```{r graf-ayudo-ola}
-elsoc_long_2016_2022 %>%
-    mutate(c07_08 = factor(car::recode(c07_08, "1 = 1; 2 = 2; 3 = 3"),
-                          levels = 1:3,
-                          labels = c('Nunca lo hizo', 'Lo hizo una o dos veces', 'Lo hizo más de dos veces'))) %>% 
-   filter(tipo_atricion == 1, !is_nsnr(c07_08)) %>%
-  sjlabelled::as_label(ola) %>% 
-  prop(x = c07_08, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = c07_08, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Ayuda a conseguir trabajo, según ola',
-          subtitle = 'Frecuencia: Ayudó a conseguir trabajo') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3)+
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
-```
+<!-- ```{r graf-ayudo-ola} -->
+<!-- elsoc_long_2016_2022 %>% -->
+<!--     mutate(c07_08 = factor(car::recode(c07_08, "1 = 1; 2 = 2; 3 = 3"), -->
+<!--                           levels = 1:3, -->
+<!--                           labels = c('Nunca lo hizo', 'Lo hizo una o dos veces', 'Lo hizo más de dos veces'))) %>%  -->
+<!--    filter(tipo_atricion == 1, !is_nsnr(c07_08)) %>% -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(x = c07_08, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = c07_08,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Ayuda a conseguir trabajo, según ola', -->
+<!--           subtitle = 'Frecuencia: Ayudó a conseguir trabajo') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3)+ -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
+<!-- ``` -->
 
 
 
@@ -611,41 +612,39 @@ elsoc_long_2016_2022 %>%
 
 ### Vínculos territoriales
 
-#### Todos los indicadores juntos:
+<!-- ```{r} -->
 
-```{r}
+<!-- elsoc_long_2016_2022 %>%  -->
+<!--   filter(tipo_atricion == 1) %>% -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   mutate(t02_01 = ifelse(is_nsnr(t02_01), NA, t02_01), -->
+<!--          t02_02 = ifelse(is_nsnr(t02_02), NA, t02_02), -->
+<!--          t02_03 = ifelse(is_nsnr(t02_03), NA, t02_03), -->
+<!--          t02_04 = ifelse(is_nsnr(t02_04), NA, t02_04)) %>%  -->
+<!--   rowwise() %>%  -->
+<!--   mutate(cohesion_barrial = sum(t02_01, t02_02, t02_03, t02_04, na.rm = TRUE) / -->
+<!--            sum(!is.na(t02_01), !is.na(t02_02), !is.na(t02_03), !is.na(t02_04))) %>%  -->
+<!--   ungroup() %>%  -->
+<!--   mutate(cohesion_barrial_rec = factor(cut(cohesion_barrial, breaks = c(0, 1.5, 2.5, 3.5, 4.5, 6)), -->
+<!--          labels = c('Totalmente\nen desacuerdo', 'En desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo', 'Totalmente\nde acuerdo'))) %>%  -->
+<!--   prop(x = cohesion_barrial_rec, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = cohesion_barrial_rec,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Grado de acuerdo con: "Este es el barrio ideal para mi", según ola') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3, -->
+<!--             color = rep(c('white', 'white', 'white', 'black', 'black'), 5)) + -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
 
-elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1) %>%
-  sjlabelled::as_label(ola) %>% 
-  mutate(t02_01 = ifelse(is_nsnr(t02_01), NA, t02_01),
-         t02_02 = ifelse(is_nsnr(t02_02), NA, t02_02),
-         t02_03 = ifelse(is_nsnr(t02_03), NA, t02_03),
-         t02_04 = ifelse(is_nsnr(t02_04), NA, t02_04)) %>% 
-  rowwise() %>% 
-  mutate(cohesion_barrial = sum(t02_01, t02_02, t02_03, t02_04, na.rm = TRUE) /
-           sum(!is.na(t02_01), !is.na(t02_02), !is.na(t02_03), !is.na(t02_04))) %>% 
-  ungroup() %>% 
-  mutate(cohesion_barrial_rec = factor(cut(cohesion_barrial, breaks = c(0, 1.5, 2.5, 3.5, 4.5, 6)),
-         labels = c('Totalmente\nen desacuerdo', 'En desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo', 'Totalmente\nde acuerdo'))) %>% 
-  prop(x = cohesion_barrial_rec, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = cohesion_barrial_rec, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Grado de acuerdo con: "Este es el barrio ideal para mi", según ola') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3,
-            color = rep(c('white', 'white', 'white', 'black', 'black'), 5)) +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
-
-```
+<!-- ``` -->
 
 
 ```{r}
@@ -683,43 +682,43 @@ elsoc_long_2016_2022 %>%
           subtitle = 'Porcentaje que responde De acuerdo o Totalmente de acuerdo')
 ```
 
-```{r}
+<!-- ```{r} -->
 
-elsoc_long_2016_2022 %>% 
-  left_join(perfiles, by = 'idencuesta') %>% 
-  filter(tipo_atricion == 1, ola != 5) %>%
-  as_label(ola) %>% 
-  mutate(t02_01 = ifelse(is_nsnr(t02_01), NA, t02_01),
-         t02_02 = ifelse(is_nsnr(t02_02), NA, t02_02),
-         t02_03 = ifelse(is_nsnr(t02_03), NA, t02_03),
-         t02_04 = ifelse(is_nsnr(t02_04), NA, t02_04)) %>% 
-  prop_list(t02_01 %in% 4:5, t02_02 %in% 4:5, t02_03 %in% 4:5, t02_04 %in% 4:5, 
-            by = c(ola, pp_3), na.rm = TRUE) %>% 
-  filter(!is.na(pp_3)) %>% 
-  mutate(name = factor(name, 
-                       levels = glue::glue('t02_0{1:4} %in% 4:5'),
-                       labels = c('Este es el barrio\nideal para mi',
-                                  'Me siento integrado/a\nen este barrio',
-                                  'Me identifico con la\ngente de este barrio', 
-                                  'Este barrio es\nparte de mi'))) %>% 
-  ggplot(aes(y = prop, x = ola, group = pp_3, color = pp_3, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  facet_wrap(~name) +
-  geom_text_repel(size = 3) +
-  geom_point(size = 1.8) + 
-  geom_line() +
-  scale_y_continuous(labels = scales::percent, 
-                     limits = c(0, 1)) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_color_viridis_d(end = .8, option = 'viridis') +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top',
-        legend.title = element_blank()) + 
-  ggtitle('Indicadores de cohesión barrial, según ola',
-          subtitle = 'Porcentaje que responde De acuerdo o Totalmente de acuerdo')
-```
+<!-- elsoc_long_2016_2022 %>%  -->
+<!--   left_join(perfiles, by = 'idencuesta') %>%  -->
+<!--   filter(tipo_atricion == 1, ola != 5) %>% -->
+<!--   as_label(ola) %>%  -->
+<!--   mutate(t02_01 = ifelse(is_nsnr(t02_01), NA, t02_01), -->
+<!--          t02_02 = ifelse(is_nsnr(t02_02), NA, t02_02), -->
+<!--          t02_03 = ifelse(is_nsnr(t02_03), NA, t02_03), -->
+<!--          t02_04 = ifelse(is_nsnr(t02_04), NA, t02_04)) %>%  -->
+<!--   prop_list(t02_01 %in% 4:5, t02_02 %in% 4:5, t02_03 %in% 4:5, t02_04 %in% 4:5,  -->
+<!--             by = c(ola, pp_3), na.rm = TRUE) %>%  -->
+<!--   filter(!is.na(pp_3)) %>%  -->
+<!--   mutate(name = factor(name,  -->
+<!--                        levels = glue::glue('t02_0{1:4} %in% 4:5'), -->
+<!--                        labels = c('Este es el barrio\nideal para mi', -->
+<!--                                   'Me siento integrado/a\nen este barrio', -->
+<!--                                   'Me identifico con la\ngente de este barrio',  -->
+<!--                                   'Este barrio es\nparte de mi'))) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, group = pp_3, color = pp_3,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   facet_wrap(~name) + -->
+<!--   geom_text_repel(size = 3) + -->
+<!--   geom_point(size = 1.8) +  -->
+<!--   geom_line() + -->
+<!--   scale_y_continuous(labels = scales::percent,  -->
+<!--                      limits = c(0, 1)) + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_color_viridis_d(end = .8, option = 'viridis') + -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top', -->
+<!--         legend.title = element_blank()) +  -->
+<!--   ggtitle('Indicadores de cohesión barrial, según ola', -->
+<!--           subtitle = 'Porcentaje que responde De acuerdo o Totalmente de acuerdo') -->
+<!-- ``` -->
 
 
 
@@ -764,62 +763,62 @@ elsoc_long_2016_2022 %>%
 
 
 #### Indicadores desagregados:
+  
+<!-- ```{r} -->
 
-```{r}
+<!-- elsoc_long_2016_2022 %>%  -->
+<!--   left_join(perfiles, by = 'idencuesta') %>%  -->
+<!--   filter(tipo_atricion == 1, ola != 5) %>%  -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(t02_01 %in% 4:5, by = c(ola, pp_3), na.rm = TRUE) %>% -->
+<!--   filter(!is.na(pp_3)) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3, -->
+<!--              label = scales::percent(prop, accuracy = .1))) + -->
+<!--   theme_bw() +  -->
+<!--   geom_text_repel(size = 3) + -->
+<!--   geom_point(size = 1.8) +  -->
+<!--   geom_line() + -->
+<!--   scale_y_continuous(labels = scales::percent,  -->
+<!--                      limits = c(0, 1)) + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_color_viridis_d(end = .8, option = 'viridis') + -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top', -->
+<!--         legend.title = element_blank()) +  -->
+<!--   ggtitle('"Este es el barrio ideal para mi", según ola y perfiles de participación', -->
+<!--           subtitle = 'Porcentaje que responde De acuerdo o Totalmente de acuerdo') -->
 
-elsoc_long_2016_2022 %>% 
-  left_join(perfiles, by = 'idencuesta') %>% 
-  filter(tipo_atricion == 1, ola != 5) %>% 
-  sjlabelled::as_label(ola) %>% 
-  prop(t02_01 %in% 4:5, by = c(ola, pp_3), na.rm = TRUE) %>%
-  filter(!is.na(pp_3)) %>% 
-  ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
-             label = scales::percent(prop, accuracy = .1))) +
-  theme_bw() + 
-  geom_text_repel(size = 3) +
-  geom_point(size = 1.8) + 
-  geom_line() +
-  scale_y_continuous(labels = scales::percent, 
-                     limits = c(0, 1)) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_color_viridis_d(end = .8, option = 'viridis') +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top',
-        legend.title = element_blank()) + 
-  ggtitle('"Este es el barrio ideal para mi", según ola y perfiles de participación',
-          subtitle = 'Porcentaje que responde De acuerdo o Totalmente de acuerdo')
-
-```
+<!-- ``` -->
 
 
 
-```{r}
+<!-- ```{r} -->
 
-elsoc_long_2016_2022 %>% 
-   filter(tipo_atricion == 1, !is_nsnr(t02_02)) %>%
-   mutate(t02_02 = factor(car::recode(t02_02, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                          levels = 1:3,
-                          labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>% 
-  sjlabelled::as_label(ola) %>% 
-  prop(x = t02_02, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = t02_02, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Grado de acuerdo con: "Me siento integrado/a en este barrio", según ola') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3,
-            color = rep(c('white', 'white', 'black'), 5)) +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
+<!-- elsoc_long_2016_2022 %>%  -->
+<!--    filter(tipo_atricion == 1, !is_nsnr(t02_02)) %>% -->
+<!--    mutate(t02_02 = factor(car::recode(t02_02, "1:2 = 1; 3 = 2; 4:5 = 3"), -->
+<!--                           levels = 1:3, -->
+<!--                           labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>%  -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(x = t02_02, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = t02_02,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Grado de acuerdo con: "Me siento integrado/a en este barrio", según ola') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3, -->
+<!--             color = rep(c('white', 'white', 'black'), 5)) + -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
 
-```
+<!-- ``` -->
 
 
 ```{r}
@@ -849,32 +848,32 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r}
+<!-- ```{r} -->
 
-elsoc_long_2016_2022 %>% 
-   filter(tipo_atricion == 1, !is_nsnr(t02_03)) %>%
-   mutate(t02_03 = factor(car::recode(t02_03, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                          levels = 1:3,
-                          labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>% 
-  sjlabelled::as_label(ola) %>% 
-  prop(x = t02_03, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = t02_03, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Grado de acuerdo con: "Me identifico con la gente de este barrio", según ola') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3,
-            color = rep(c('white', 'white', 'black'), 5)) +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
+<!-- elsoc_long_2016_2022 %>%  -->
+<!--    filter(tipo_atricion == 1, !is_nsnr(t02_03)) %>% -->
+<!--    mutate(t02_03 = factor(car::recode(t02_03, "1:2 = 1; 3 = 2; 4:5 = 3"), -->
+<!--                           levels = 1:3, -->
+<!--                           labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>%  -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(x = t02_03, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = t02_03,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Grado de acuerdo con: "Me identifico con la gente de este barrio", según ola') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3, -->
+<!--             color = rep(c('white', 'white', 'black'), 5)) + -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
 
-```
+<!-- ``` -->
 
 
 ```{r}
@@ -905,32 +904,32 @@ elsoc_long_2016_2022 %>%
 ```
 
 
-```{r}
+<!-- ```{r} -->
 
-elsoc_long_2016_2022 %>% 
-   filter(tipo_atricion == 1, !is_nsnr(t02_04)) %>%
-   mutate(t02_04 = factor(car::recode(t02_04, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                          levels = 1:3,
-                          labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>% 
-  sjlabelled::as_label(ola) %>% 
-  prop(x = t02_04, by = ola, na.rm = TRUE) %>% 
-  ggplot(aes(y = prop, x = ola, fill = t02_04, 
-             label = as.character(scales::percent(prop, accuracy = .1)))) + 
-  theme_bw() + 
-  geom_col(position = 'Stack') +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_fill_viridis_d(end = .85) +
-  ggtitle(label = 'Grado de acuerdo con: "Este barrio se parte de mi", según ola') +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5),
-            size = 3,
-            color = rep(c('white', 'white', 'black'), 5)) +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top', 
-        legend.title = element_blank())
+<!-- elsoc_long_2016_2022 %>%  -->
+<!--    filter(tipo_atricion == 1, !is_nsnr(t02_04)) %>% -->
+<!--    mutate(t02_04 = factor(car::recode(t02_04, "1:2 = 1; 3 = 2; 4:5 = 3"), -->
+<!--                           levels = 1:3, -->
+<!--                           labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))) %>%  -->
+<!--   sjlabelled::as_label(ola) %>%  -->
+<!--   prop(x = t02_04, by = ola, na.rm = TRUE) %>%  -->
+<!--   ggplot(aes(y = prop, x = ola, fill = t02_04,  -->
+<!--              label = as.character(scales::percent(prop, accuracy = .1)))) +  -->
+<!--   theme_bw() +  -->
+<!--   geom_col(position = 'Stack') + -->
+<!--   ylab(label = NULL) + -->
+<!--   xlab(label = NULL) + -->
+<!--   scale_fill_viridis_d(end = .85) + -->
+<!--   ggtitle(label = 'Grado de acuerdo con: "Este barrio se parte de mi", según ola') + -->
+<!--   guides(fill = guide_legend(reverse = TRUE)) + -->
+<!--   geom_text(position = position_stack(vjust = .5), -->
+<!--             size = 3, -->
+<!--             color = rep(c('white', 'white', 'black'), 5)) + -->
+<!--   theme(plot.caption = element_text(hjust = 0), -->
+<!--         legend.position = 'top',  -->
+<!--         legend.title = element_blank()) -->
 
-```
+<!-- ``` -->
 
 
 ```{r}
