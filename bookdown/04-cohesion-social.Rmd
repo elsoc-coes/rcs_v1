@@ -363,8 +363,7 @@ elsoc_long_2016_2022 %>%
   scale_color_viridis_d(end = .75, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
-        legend.title = element_blank()) #+ 
-  facet_wrap(~pp_3)
+        legend.title = element_blank())
   
 ```
 
