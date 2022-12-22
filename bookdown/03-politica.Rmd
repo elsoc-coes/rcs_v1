@@ -955,7 +955,9 @@ elsoc_long_2016_2022 %>%
   xlab(label = NULL) +
   scale_fill_viridis_d(begin = .33, end = .66, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top')
+        legend.position = 'top') + 
+  ggtitle('Cambios en posición política, según tipo de votante',
+          subtitle = 'Porcentaje que cambia su posición política entre olas')
 
 
 ```
