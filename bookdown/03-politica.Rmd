@@ -910,7 +910,7 @@ elsoc_long_2016_2022 %>%
   filter(!is.na(c15), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
-  prop(c15 == 12, by = c(ola, pp_3), na.rm = T)  %>%
+  prop(c15 %in% 11:12, by = c(pp_3, ola), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
