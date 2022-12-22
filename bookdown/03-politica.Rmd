@@ -930,6 +930,36 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r graf-cambios-idpolitica-ola}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1 | tipo_atricion == 33 & !is_nsnr(c15), !is.na(pp_3)) %>%
+  mutate(c15 = factor(car::recode(c15, "0:4 = 1; 5 = 2; 6:10 = 3; 11:12 = 4"),
+                         levels = 1:4,
+                         labels = c('Izquierda', "Centro", "Derecha", "No se\nidentifica"))) %>%   mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+  group_by(idencuesta) %>% 
+  mutate(cambia = c15 != lag(c15),
+         ola = factor(ola,
+                      levels = 1:6,
+                      labels = c('', '16-17', '17-18', '18-19', '19-21', '21-22'))) %>% 
+  ungroup() %>% 
+  prop(cambia == TRUE, by = c(pp_3, ola), na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, label = scales::percent(prop, .1))) + 
+  facet_wrap(~ pp_3) +
+  theme_bw() +
+  geom_col(fill = viridis(1, begin = .33)) +
+  geom_text(position = position_dodge(.9), vjust = -.5, size = 3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_fill_viridis_d(begin = .33, end = .66, option = 'viridis') +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top')
+
+
+```
+
 ```{r graf-interes-2}
 
 elsoc_long_2016_2022 %>%
