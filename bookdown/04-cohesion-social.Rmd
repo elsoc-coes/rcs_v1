@@ -56,9 +56,8 @@ perfiles <- perfiles0 %>%
 
 ```
 
-## Calidad del vínculo social:
 
-Confianza interpersonal:
+## Calidad del vínculo social:
 
 ```{r}
 
@@ -95,9 +94,6 @@ elsoc_long_2016_2022 %>%
         legend.title = element_blank())
   
 ```
-
-
-Aceptación de la diversidad:
 
 
 ```{r indice-diversidad-part}
@@ -142,8 +138,6 @@ elsoc_long_2016_2022 %>%
 
 ## Sentido de pertenencia
 
-Identificación con el país:
-
 ```{r graf-orgullochileno-perfil}
 elsoc_long_2016_2022 %>% 
   left_join(perfiles, by = 'idencuesta') %>% 
@@ -176,11 +170,10 @@ elsoc_long_2016_2022 %>%
 ```
 
 
-
 ### Percepción de justicia
 
 
-```{r indice-diversidad-part}
+```{r indice-percjusticia-part}
 
 elsoc_long_2016_2022 %>% 
   left_join(perfiles, by = 'idencuesta') %>% 
@@ -221,8 +214,6 @@ elsoc_long_2016_2022 %>%
 
 ## Vínculos Territoriales
 
-Vínculos territoriales
-
 ```{r}
 
 elsoc_long_2016_2022 %>% 
@@ -261,9 +252,6 @@ elsoc_long_2016_2022 %>%
   
   
 ```
-
-
-
 
 ```{r confli-olas-part}
 
@@ -363,9 +351,10 @@ elsoc_long_2016_2022 %>%
 ### Satisfacción vital
 
 ```{r}
+
 print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_satisfaccion_perfiles.RDS") +
           ggtitle('Satisfacción vital, según año y tipo de votante',
-          subtitle = 'Porcentaje que se siente Satisfecho o totalmente satisfecho con su vida')
+                  subtitle = 'Porcentaje que se siente Satisfecho o totalmente satisfecho con su vida')
 )
 
 ```
