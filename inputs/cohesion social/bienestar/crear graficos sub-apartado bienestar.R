@@ -18,7 +18,7 @@ source("inputs/general/funcion para graficar olas.R")
 
 
 
-elsoc_cohesion %>% 
+gf_cs_bienestar_movilidad_evolucion <- elsoc_cohesion %>% 
   filter(tipo_atricion == 1) %>% 
   sjlabelled::as_label(ola) %>% 
   prop(x = mov_interg_rec, by = ola, na.rm = T) %>% 
@@ -40,9 +40,10 @@ elsoc_cohesion %>%
   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.
        \nNota: La perspectiva de movilidad social corresponde a la diferencia entre el estatus social esperado del hijo\ny el estatus social subjetivo del encuestado')
 
+saveRDS(gf_cs_bienestar_movilidad_evolucion,file="inputs/cohesion social/bienestar/gf_cs_bienestar_movilidad_evolucion.RDS")
 
 
-elsoc_cohesion %>% 
+gf_cs_bienestar_movilidad_perfiles <- elsoc_cohesion %>% 
   filter(tipo_atricion == 1) %>% 
   sjlabelled::as_label(ola) %>% 
   prop(x = mov_interg_rec, by = c(ola,pp_3), na.rm = T)%>%
@@ -65,13 +66,16 @@ elsoc_cohesion %>%
        caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.
        \nNota: La perspectiva de movilidad social corresponde a la diferencia entre el estatus social esperado del hijo\ny el estatus social subjetivo del encuestado')
 
+saveRDS(gf_cs_bienestar_movilidad_perfiles,file="inputs/cohesion social/bienestar/gf_cs_bienestar_movilidad_perfiles.RDS")
 
 
 grafo_prop_var(elsoc_cohesion,"m43","pp_3",atricion = 1,
                umbral = c(4,5),
                "Sobrecarga por deudas, según tipo de votante",
                subtitulo = "Bastante o muy sobrecargado",
-               limy_inf=0,limy_sup = .4)
+               limy_inf=0,limy_sup = .4,
+               guardar = TRUE,
+               "gf_cs_bienestar_deuda_perfiles")
 
 
 
@@ -79,7 +83,9 @@ grafo_prop_var(elsoc_cohesion,"s01","pp_3",atricion = 1,
                umbral = c(4,5),
                "Satisfacción vital, según tipo de votante",
                subtitulo = "Satisfecho o totalmente satisfecho",
-               limy_inf=.25,limy_sup = 1)
+               limy_inf=.25,limy_sup = 1,
+               guardar = TRUE,
+               "gf_cs_bienestar_satisfaccion_perfiles")
 
 
 
