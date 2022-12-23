@@ -676,7 +676,7 @@ elsoc_long_2016_2022 %>%
         axis.text.x = element_text(size = rel(.9)),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Clase social según ingreso, según tipo de votante')
+  ggtitle('Clase social por ingreso, según tipo de votante')
 
 ```
 
@@ -1454,21 +1454,22 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-
-```{r}
+```{r desconf-mapuche}
 
 elsoc_long_2016_2022 %>%
   sjlabelled::as_label(ola) %>%
   filter(!is.na(c06_05), tipo_atricion == 1) %>%  
-  prop(c06_05 %in% 1:2, by = c(ola, pp_3), na.rm = T)  %>%
   filter(!is.na(pp_3)) %>% 
+  prop(c06_05 %in% 1:2, by = c(ola, pp_3), na.rm = T)  %>%
+    mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .01, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
-  scale_y_continuous(labels = scales::percent, limits = c(0, .75)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, .5)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = 0, end = .8, option = 'viridis') +
@@ -1476,24 +1477,25 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   ggtitle('Desconfianza hacia los Mapuche, según tipo de votante',
-          subtitle = 'Porcentaje con Nada o Poca confianza en Mapuche')
+          subtitle = 'Nada o poca confianza')
   
 ```
 
-
-```{r}
+```{r consti-mapuche}
 
 elsoc_long_2016_2022 %>%
   sjlabelled::as_label(ola) %>%
   filter(!is.na(c46_05), tipo_atricion == 1) %>%  
+  filter(!is.na(pp_3)) %>% 
   mutate(zona = factor(case_when(region_cod %in% c(1:4, 15) ~ 1,
                                  region_cod %in% c(5:8, 16) ~ 2, 
                                  region_cod %in% c(9:12, 14) ~ 3,
                                  region_cod == 13 ~ 4),
                        levels = 1:4,
                        labels = c('Norte', 'Centro', 'Sur', 'Metropolitana'))) %>%
+    mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   prop_list(c46_05 %in% 4:5, by = c(zona, pp_3), na.rm = T)  %>%
-  filter(!is.na(pp_3)) %>% 
   ggplot(aes(y = prop, x = zona, fill = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
@@ -1504,106 +1506,111 @@ elsoc_long_2016_2022 %>%
                      limits = c(0, 1)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
-  scale_fill_viridis_d(end = .66, direction = 1, option = 'viridis') +
+  scale_fill_viridis_d(end = .8, direction = 1, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('"La nueva constitución permitirá una mejor relación entre el Estado y los pueblos\nindígenas en Chile" (2022), según patrón de votación',
-          subtitle = 'Porcentaje de Acuerdo o Muy de acuerdo')
+  ggtitle('"La nueva constitución permitirá una mejor relación entre el Estado y los pueblos\nindígenas en Chile" (2022), según tipo de votante',
+          subtitle = 'De acuerdo o muy de acuerdo')
   
 ```
 
-
-
-```{r}
+```{r desconf-inmigrante}
 
 elsoc_long_2016_2022 %>%
   filter(!is.na(r16), tipo_atricion == 1, ola %in% 4:6) %>%  
+  filter(!is.na(pp_3)) %>% 
   sjlabelled::as_label(ola, cuestion_mig) %>%
   prop(r16 %in% 1:2, by = c(ola, cuestion_mig, pp_3), na.rm = T)  %>%
-  filter(!is.na(pp_3)) %>% 
+  mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
   facet_wrap(~cuestion_mig) +
-  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .01, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
-  scale_y_continuous(labels = scales::percent, limits = c(0, .75)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, .7)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
-  scale_color_viridis_d(end = .75, option = 'viridis') +
+  scale_color_viridis_d(end = .8, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
   ggtitle('Desconfianza hacia inmigrantes, según nacionalidad de migrantes y tipo de votante',
-          subtitle = 'Porcentaje con Nada o poca confianza en inmigrantes')
+          subtitle = 'Nada o poca confianza')
   
 ```
 
-```{r}
+```{r ame-realista}
 
 elsoc_long_2016_2022 %>%
   sjlabelled::as_label(ola) %>%
   filter(!is.na(r12_04), tipo_atricion == 1) %>%  
-  prop(r12_04 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   filter(!is.na(pp_3)) %>% 
+    mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+  prop(r12_04 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .01, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, .8)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = 0, end = .8, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  ggtitle('Amenaza realista, según tipo de votante',
-          subtitle = 'De acuerdo o Muy de acuerdo con "Con la llegada de migrantes aumenta el desempleo"')
+  ggtitle('Amenaza inmigrante realista, según tipo de votante',
+          subtitle = 'De acuerdo o muy de acuerdo con "Con la llegada de migrantes aumenta el desempleo"')
   
 ```
 
-
-```{r}
+```{r ame-realista-proced}
 
 elsoc_long_2016_2022 %>%
-  filter(!is.na(r12_04), tipo_atricion == 1, ola %in% 4:6) %>%  
+  filter(!is.na(r12_04), tipo_atricion == 1, ola %in% 4:6) %>% 
+    filter(!is.na(pp_3)) %>% 
   sjlabelled::as_label(ola, cuestion_mig) %>%
+    mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   prop(r12_04 %in% 4:5, by = c(ola, pp_3, cuestion_mig), na.rm = T)  %>%
-  filter(!is.na(pp_3)) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
   facet_wrap(~cuestion_mig) +
-  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .01, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, .8)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = 0, end = .8, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  ggtitle('Amenaza realista, según tipo de votante',
-          subtitle = 'De acuerdo o Muy de acuerdo con "Con la llegada de migrantes aumenta el desempleo"')
+  ggtitle('Amenaza inmigrante realista, según nacionalidad de migrantes y tipo de votante',
+          subtitle = 'De acuerdo o muy de acuerdo con "Con la llegada de migrantes aumenta el desempleo"')
   
 ```
 
-```{r}
+```{r ame-simbolica}
 
 elsoc_long_2016_2022 %>%
   sjlabelled::as_label(ola) %>%
-  filter(!is.na(r12_03), tipo_atricion == 1) %>%  
-  prop(r12_03 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
+  filter(!is.na(r12_03), tipo_atricion == 1) %>% 
   filter(!is.na(pp_3)) %>% 
+      mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+  prop(r12_03 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
-  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .01, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
   scale_y_continuous(labels = scales::percent, limits = c(0, .75)) +
@@ -1613,36 +1620,36 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  ggtitle('Amenaza simbólica, según tipo de votante',
-          subtitle = 'De acuerdo o Muy de acuerdo con "Con la llegada de migrantes Chile pierde su identidad"')
+  ggtitle('Amenaza inmigrante simbólica, según tipo de votante',
+          subtitle = 'De acuerdo o muy de acuerdo con "Con la llegada de migrantes Chile pierde su identidad"')
   
 ```
 
-
-
-```{r}
+```{r ame-simbolica-proced}
 
 elsoc_long_2016_2022 %>%
-  filter(!is.na(r12_03), tipo_atricion == 1, ola %in% 4:6) %>%  
+  filter(!is.na(r12_03), tipo_atricion == 1, ola %in% 4:6) %>% 
+    filter(!is.na(pp_3)) %>% 
   sjlabelled::as_label(ola, cuestion_mig) %>%
+    mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
   prop(r12_03 %in% 4:5, by = c(ola, pp_3, cuestion_mig), na.rm = T)  %>%
-  filter(!is.na(pp_3)) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
   facet_wrap(~cuestion_mig) +
-  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  geom_text_repel(nudge_y = .0, size = 3) +
   geom_point(size = 1.75) + 
   geom_line() + 
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, .7)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(begin = 0, end = .8, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  ggtitle('Amenaza simbólica, según tipo de votante',
-          subtitle = 'De acuerdo o Muy de acuerdo con "Con la llegada de migrantes Chile pierde su identidad"')
+  ggtitle('Amenaza inmigrante simbólica, según nacionalidad de migrantes y tipo de votante',
+          subtitle = 'De acuerdo o muy de acuerdo con "Con la llegada de migrantes Chile pierde su identidad"')
   
 ```
 
