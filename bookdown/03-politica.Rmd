@@ -579,6 +579,107 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+
+```{r graf-quintil}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1, !is.na(pp_3)) %>%
+  mutate(
+  m30 = as.numeric(car::recode(m30, "1 = 110000; 2 = 251000; 3 = 305000; 4 = 355000; 5 = 400000; 
+  6 = 445000; 7 = 490000; 8 = 535000; 9 = 585000; 10 = 640000; 
+  11 = 700000; 12 = 765000; 13 = 845000; 14 = 935000; 15 = 1040000;
+  16 = 1180000; 17 = 1375000; 18 = 1670000; 19 = 2275000; 20 = 2700000; -666:-999 = NA; NA = NA")),
+  m30b = as.numeric(car::recode(m30b, "1 = 170000; 2 = 300000; 3 = 400000; 4 = 600000; 
+                                5 = 1200000; -666:-999 = NA; NA = NA")),
+  m29_imp = case_when(is_nsnr(m29) & !is.na(m30) ~ m30,
+                      is_nsnr(m29) & !is.na(m30b) ~ m30b,
+                      TRUE ~ m29),
+  nhogar = case_when(ola == 1 ~ nhogar1,
+                     ola == 2 ~ m46_nhogar,
+                     TRUE ~ m54),
+  nhogar = ifelse(is_nsnr(nhogar), NA, nhogar)) %>% 
+  group_by(idencuesta) %>% 
+  mutate(nhogar = ifelse(is.na(nhogar), lag(nhogar), nhogar)) %>% 
+  ungroup() %>% 
+  mutate(ypc = m29_imp / nhogar) %>% 
+  group_by(ola) %>% 
+  mutate(quintil = xtile(ypc, n = 5, wt = ponderador02),
+         quintil = factor(quintil, levels = 1:5, labels = glue::glue('Quintil {1:5}'))
+         ) %>%
+  ungroup() %>% 
+  mutate(pp_3 = factor(pp_3, labels = c("Votanajajjte\nHabitual", "No-votante", "Indefinido"))) %>%
+  prop(quintil, by = c(pp_3, ola), na.rm = TRUE) %>% 
+  filter(ola == 6) %>% 
+  ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(quintil), 
+             label = scales::percent(prop, .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  labs(y = NULL, x = NULL, title = NULL, fill = NULL) +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), size = 3,
+            color = rep(c('black', 'black', 'white', 'white', 'white'), 3)) +
+  theme_bw() + 
+  scale_fill_viridis_d(begin = 0, end = .8, option = 'viridis') +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Quintiles de ingreso, según tipo de votante')
+
+```
+
+Clase social según deciles de ingreso: deciles 1-4 = Clase baja, deciles 5-9 = Clase media, decil 10 = clase alta.
+
+```{r graf-clase-ingreso}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1, !is.na(pp_3)) %>%
+  mutate(
+  m30 = as.numeric(car::recode(m30, "1 = 110000; 2 = 251000; 3 = 305000; 4 = 355000; 5 = 400000; 
+  6 = 445000; 7 = 490000; 8 = 535000; 9 = 585000; 10 = 640000; 
+  11 = 700000; 12 = 765000; 13 = 845000; 14 = 935000; 15 = 1040000;
+  16 = 1180000; 17 = 1375000; 18 = 1670000; 19 = 2275000; 20 = 2700000; -666:-999 = NA; NA = NA")),
+  m30b = as.numeric(car::recode(m30b, "1 = 170000; 2 = 300000; 3 = 400000; 4 = 600000; 
+                                5 = 1200000; -666:-999 = NA; NA = NA")),
+  m29_imp = case_when(is_nsnr(m29) & !is.na(m30) ~ m30,
+                      is_nsnr(m29) & !is.na(m30b) ~ m30b,
+                      TRUE ~ m29),
+  nhogar = case_when(ola == 1 ~ nhogar1,
+                     ola == 2 ~ m46_nhogar,
+                     TRUE ~ m54),
+  nhogar = ifelse(is_nsnr(nhogar), NA, nhogar)) %>% 
+  group_by(idencuesta) %>% 
+  mutate(nhogar = ifelse(is.na(nhogar), lag(nhogar), nhogar)) %>% 
+  ungroup() %>% 
+  mutate(ypc = m29_imp / nhogar) %>% 
+  group_by(ola) %>% 
+  mutate(decil = xtile(ypc, n = 10, wt = ponderador02),
+         clase_ingreso = factor(car::recode(decil, "1:4 = 1; 5:9 = 2; 10 = 3"),
+                                levels = 1:3,
+                                labels = c('Clase baja', 'Clase media', 'Clase alta'))
+         ) %>%
+  ungroup() %>% 
+  mutate(pp_3 = factor(pp_3, labels = c("Votanajajjte\nHabitual", "No-votante", "Indefinido"))) %>%
+  prop(clase_ingreso, by = c(pp_3, ola), na.rm = TRUE) %>% 
+  filter(ola == 6) %>% 
+  ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(clase_ingreso), 
+             label = scales::percent(prop, .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  labs(y = NULL, x = NULL, title = NULL, fill = NULL) +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), size = 3,
+            color = rep(c('black', 'white', 'white'), 3)) +
+  theme_bw() + 
+  scale_fill_viridis_d(begin = 0, end = .8, option = 'viridis') +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('Clase social según ingreso, según tipo de votante')
+
+```
+
 ## Proceso constituyente
 
 ```{r graf-pleb-salida}
