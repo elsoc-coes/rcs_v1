@@ -966,3 +966,24 @@ elsoc_long_2016_2022 %>%
           subtitle = 'Porcentaje que responde De acuerdo o Totalmente de acuerdo')
 
 ```
+
+## Bienestar
+
+### Satisfacción vital
+
+```{r}
+print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_satisfaccion_perfiles.RDS"))
+
+```
+### Carga económica
+
+```{r}
+print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_deuda_perfiles.RDS"))
+```
+
+### Movilidad social
+
+```{r}
+print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_movilidad_perfiles.RDS"))
+```
+

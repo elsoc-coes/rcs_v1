@@ -30,7 +30,7 @@ grafo_prop_var <- function(base,var_x,var_y,umbral=c(4,5),titulo,subtitulo,atric
   if(guardar){
     
     saveRDS(grafico,
-            file=paste0("inputs/cohesion social/relaciones-sociales/graficos/",
+            file=paste0("inputs/cohesion social/bienestar/",
                         guardar_como,
                         ".RDS"))
   }

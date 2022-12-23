@@ -57,7 +57,12 @@ elsoc_cohesion <- elsoc_long_2016_2022 %>%
          clase_sub=factor(case_when(c33 %in% c(1,2)~1,
                              c33==3~2,
                              c33 %in% c(4,5)~3),
-                          labels=c("Baja","Media","Alta")))%>%
+                          labels=c("Baja","Media","Alta")),
+         mov_interg = d01_03 - d01_01,
+         mov_interg_rec = factor(car::recode(mov_interg, "-8:-1 = 1; 0 = 2; 1:10 = 3; else = NA"), 
+                                 levels = c(1,2,3), 
+                                 labels = c("Perpectiva de\nmovilidad descendente", "Perspectiva de\ninmovilidad social",
+                                            "Perspectiva de\nmovilidad ascendente")))%>%
   left_join(perfiles, by = "idencuesta")%>%
   mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
