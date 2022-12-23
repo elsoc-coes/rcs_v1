@@ -298,7 +298,7 @@ elsoc_long_2016_2022 %>%
   geom_text_repel(size = 3) +
   geom_point(size = 1.75) + 
   geom_line() +
-  ggtitle(label = 'Creencias en la meritocracia (esfuerzo), según ola', subtitle = 'En Chile las personas son recompensadas por sus esfuerzos \nDe acuerdo o Totalmente de acuerdo') +
+  ggtitle(label = 'Creencias en la meritocracia (esfuerzo), según perfil de votante', subtitle = 'En Chile las personas son recompensadas por sus esfuerzos \nDe acuerdo o Totalmente de acuerdo') +
   scale_y_continuous(labels = scales::percent, 
                      limits = c(0, .5)) +
   ylab(label = NULL) +
