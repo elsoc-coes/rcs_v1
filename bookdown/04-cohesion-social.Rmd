@@ -59,31 +59,24 @@ perfiles <- perfiles0 %>%
 
 ## Calidad del vínculo social:
 
+
 ```{r}
 
 elsoc_long_2016_2022 %>% 
   left_join(perfiles, by = 'idencuesta') %>% 
   filter(tipo_atricion == 1) %>%
   as_label(ola) %>% 
-  mutate(c02 = car::recode(c02, "1 = 3; 2 = 1; 3 = 2; -666:-999 = NA"),
-         c03 = car::recode(c03, "1 = 3; 2 = 1; 3 = 2; -666:-999 = NA")) %>% 
-  rowwise() %>% 
-  mutate(conf_interpersonal = sum(c02, c03, na.rm = TRUE) / sum(!is.na(c02), !is.na(c03))) %>% 
-  ungroup() %>% 
-  mutate(conf_interpersonal_rec = cut(conf_interpersonal,
-                                      breaks = c(0, 1, 2, 3),
-                                      labels = c('Baja', 'Media', 'Alta'))) %>% 
-  prop(conf_interpersonal_rec == 'Alta', by = c(ola, pp_3), na.rm = TRUE) %>% 
+  prop(c02 == 1, by = c(ola, pp_3), na.rm = TRUE) %>% 
   filter(!is.na(pp_3)) %>% 
   ggplot(aes(y = prop, x = ola, 
              color = pp_3, group = pp_3, 
              label = as.character(scales::percent(prop, accuracy = .1)))) + 
   theme_bw() + 
-  geom_text_repel(size = 3) +
+  geom_text_repel(size = 3, nudge_y = .01) +
   geom_point(size = 1.75) + 
   geom_line() +
-  ggtitle(label = 'Confianza interpersonal alta, según perfil de votante', 
-          subtitle = 'Índice de confianza interpersonal') +
+  ggtitle(label = 'Confianza interpersonal, según perfil de votante', 
+          subtitle = 'Porcentaje que responde que "Casi siempre se puede confiar en las personas"') +
   scale_y_continuous(labels = scales::percent, 
                      limits = c(0, .2)) +
   ylab(label = NULL) +
@@ -110,7 +103,7 @@ elsoc_long_2016_2022 %>%
   mutate(diversidad = sum(c06_04, c06_05, c06_06, na.rm = TRUE) / sum(!is.na(c06_04), !is.na(c06_05), !is.na(c06_06))) %>% 
   ungroup() %>% 
   mutate(diversidad_rec = cut(diversidad,
-                          breaks = c(0, 2.5, 3.5, 5),
+                          breaks = c(0, 2, 3, 5),
                                       labels = c('Baja', 'Media', 'Alta'))) %>% 
   prop(diversidad_rec == 'Alta', by = c(ola, pp_3), na.rm = TRUE) %>% 
   filter(!is.na(pp_3)) %>% 
@@ -118,11 +111,11 @@ elsoc_long_2016_2022 %>%
              color = pp_3, group = pp_3, 
              label = as.character(scales::percent(prop, accuracy = .1)))) + 
   theme_bw() + 
-  geom_text_repel(size = 3) +
+  geom_text_repel(size = 3, nudge_y = .01) +
   geom_point(size = 1.75) + 
   geom_line() +
-  ggtitle(label = 'Aceptación de la diversidad Alta, según perfil de votante', 
-          subtitle = 'Índice de Aceptación de la diversidad') +
+  ggtitle(label = 'Aceptación de la diversidad, según perfil de votante', 
+          subtitle = 'Porcentaje De acuerdo o Totalmente de acuerdo, en promedio, con la aceptación de la diversidad*') +
   scale_y_continuous(labels = scales::percent, 
                      limits = c(0, 1)) +
   ylab(label = NULL) +
@@ -130,7 +123,8 @@ elsoc_long_2016_2022 %>%
   scale_color_viridis_d(end = .75, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
-        legend.title = element_blank())
+        legend.title = element_blank()) +
+  labs(caption = '*Indicador construido con respuesta promedio al grado de confianza en Homosexuales, Mapuche e Inmigrantes')
   
 
 ```
@@ -141,14 +135,8 @@ elsoc_long_2016_2022 %>%
 ```{r graf-orgullochileno-perfil}
 elsoc_long_2016_2022 %>% 
   left_join(perfiles, by = 'idencuesta') %>% 
-   filter(tipo_atricion == 1, !is_nsnr(c32_01,pp_3)) %>%
-   drop_na(pp_3) %>%
-   mutate( c32_01_1 = ifelse(c32_01 %in% c(4:5),'De acuerdo o Totalmente de acuerdo',
-                            ifelse(c32_01 %in% c(1:3),'',NA)),
-           c32_01_3 = factor(car::recode(c32_01, "1:2 = 1; 3 = 2; 4:5 = 3"),
-                          levels = 1:3,
-                          labels = c('Totalmente en desacuerdo\no en desacuerdo', 'Ni de acuerdo ni\nen desacuerdo', 'De acuerdo o Totalmente\nde acuerdo'))
-         ) %>% 
+ filter(tipo_atricion == 1, !is_nsnr(c32_01,pp_3)) %>%
+ drop_na(pp_3) %>%
   sjlabelled::as_label(ola) %>% 
   prop(x = c32_01 %in% c(4:5), by = c(ola,pp_3), na.rm = TRUE) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3,group=pp_3, 
@@ -170,9 +158,6 @@ elsoc_long_2016_2022 %>%
 ```
 
 
-### Percepción de justicia
-
-
 ```{r indice-percjusticia-part}
 
 elsoc_long_2016_2022 %>% 
@@ -186,7 +171,7 @@ elsoc_long_2016_2022 %>%
   mutate(justicia = sum(c18_09, c18_10, na.rm = TRUE) / sum(!is.na(c18_09), !is.na(c18_10))) %>% 
   ungroup() %>% 
   mutate(justicia_rec = cut(justicia,
-                            breaks = c(0, 2.5, 3.5, 5),
+                            breaks = c(0, 2, 3, 5),
                                       labels = c('Baja', 'Media', 'Alta'))) %>% 
   prop(justicia_rec == 'Alta', by = c(ola, pp_3), na.rm = TRUE) %>% 
   filter(!is.na(pp_3)) %>% 
@@ -197,8 +182,8 @@ elsoc_long_2016_2022 %>%
   geom_text_repel(size = 3) +
   geom_point(size = 1.75) + 
   geom_line() +
-  ggtitle(label = 'Percepción Alta de justicia, según perfil de votante', 
-          subtitle = 'Índice de Percepción de justicia') +
+  ggtitle(label = 'Percepción de justicia, según perfil de votante', 
+          subtitle = 'Porcentaje de acuerdo o muy de acuerdo, en promedio, con Índice de percepción de justicia*') +
   scale_y_continuous(labels = scales::percent, 
                      limits = c(0, 1)) +
   ylab(label = NULL) +
@@ -206,7 +191,9 @@ elsoc_long_2016_2022 %>%
   scale_color_viridis_d(end = .75, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
-        legend.title = element_blank())
+        legend.title = element_blank()) +
+  labs(caption = '*Indicador construido con respuesta promedio al grado de acuerdo con "Las personas son recompensadas\npor sus esfuerzos" y "Las personas son recompensadas por su inteligencia"')
+  
   
 
 ```
@@ -228,7 +215,7 @@ elsoc_long_2016_2022 %>%
   mutate(vinculo_territorial = sum(t02_01, t02_02, t02_03, t02_04, na.rm = TRUE) / sum(!is.na(t02_01), !is.na(t02_02), !is.na(t02_03), !is.na(t02_04))) %>% 
   ungroup() %>% 
   mutate(vinculo_territorial_rec = cut(vinculo_territorial,
-                            breaks = c(0, 2.5, 3.5, 5),
+                            breaks = c(0, 2, 3, 5),
                                       labels = c('Baja', 'Media', 'Alta'))) %>% 
   prop(vinculo_territorial_rec == 'Alta', by = c(ola, pp_3), na.rm = TRUE) %>% 
   filter(!is.na(pp_3)) %>% 
@@ -239,8 +226,8 @@ elsoc_long_2016_2022 %>%
   geom_text_repel(size = 3) +
   geom_point(size = 1.75) + 
   geom_line() +
-  ggtitle(label = 'Vínculo territorial Alto, según perfil de votante', 
-          subtitle = 'Índice de Vínculo territorial') +
+  ggtitle(label = 'Vínculo territorial, según perfil de votante', 
+          subtitle = 'Porcentaje de acuerdo o muy de acuerdo, en promedio, con Índice de Vínculo territorial*') +
   scale_y_continuous(labels = scales::percent, 
                      limits = c(0, 1)) +
   ylab(label = NULL) +
@@ -248,7 +235,9 @@ elsoc_long_2016_2022 %>%
   scale_color_viridis_d(end = .75, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
-        legend.title = element_blank())
+        legend.title = element_blank()) +
+    labs(caption = '*Indicador construido con respuesta promedio al grado de acuerdo con "Este es el barrio ideal para mi", "Me siento\nintegrado/a en este barrio", "Me identifico con la gente de este barrio" y "Este barrio es parte de mi"')
+
   
   
 ```
@@ -287,7 +276,8 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   ggtitle('Conflictividad barrial alta, según año y tipo de votante',
-          subtitle = 'Porcentaje que Muchas veces o siempre presenta Molestia o incomodidad por\nproblemas con sus vecinos')
+          subtitle = 'Porcentaje que Muchas veces o siempre presenta Molestia o incomodidad por\nproblemas con sus vecinos') + 
+      labs(caption = '*Indicador construido con respuesta promedio a la frecuencia en que ha tenido problemas con vecinos por\n"Ruidos molestos", "Tenencia irresponsable de mascotas", "Amenazas, insulos u ofensas" y "Basura"')
 
 ```
 
@@ -348,17 +338,14 @@ elsoc_long_2016_2022 %>%
 
 ## Bienestar
 
-### Satisfacción vital
-
 ```{r}
 
 print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_satisfaccion_perfiles.RDS") +
-          ggtitle('Satisfacción vital, según año y tipo de votante',
+          ggtitle('Satisfacción con la vida, según año y tipo de votante',
                   subtitle = 'Porcentaje que se siente Satisfecho o totalmente satisfecho con su vida')
 )
 
 ```
-### Carga económica
 
 ```{r}
 print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_deuda_perfiles.RDS") +
@@ -367,7 +354,6 @@ print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_deuda_perfile
 )
 ```
 
-### Movilidad social
 
 ```{r}
 print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_movilidad_perfiles.RDS") + 
