@@ -607,7 +607,7 @@ elsoc_long_2016_2022 %>%
          quintil = factor(quintil, levels = 1:5, labels = glue::glue('Quintil {1:5}'))
          ) %>%
   ungroup() %>% 
-  mutate(pp_3 = factor(pp_3, labels = c("Votanajajjte\nHabitual", "No-votante", "Indefinido"))) %>%
+  mutate(pp_3 = factor(pp_3, labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   prop(quintil, by = c(pp_3, ola), na.rm = TRUE) %>% 
   filter(ola == 6) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(quintil), 
@@ -659,7 +659,7 @@ elsoc_long_2016_2022 %>%
                                 labels = c('Clase baja', 'Clase media', 'Clase alta'))
          ) %>%
   ungroup() %>% 
-  mutate(pp_3 = factor(pp_3, labels = c("Votanajajjte\nHabitual", "No-votante", "Indefinido"))) %>%
+  mutate(pp_3 = factor(pp_3, labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
   prop(clase_ingreso, by = c(pp_3, ola), na.rm = TRUE) %>% 
   filter(ola == 6) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(clase_ingreso), 
