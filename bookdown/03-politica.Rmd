@@ -979,15 +979,16 @@ elsoc_long_2016_2022 %>%
 elsoc_wide_2016_2022 %>% 
   filter(tipo_atricion == 1) %>% 
   filter(!is.na(pp_3)) %>% 
-  mutate(pos_id_w04 = factor(car::recode(c15_w04, recodes = "0:4 = 1; 5 = 2; 6:10 = 3; 11:12 = 4; c(-888, -999, -777, -666) = 5"),
-                         levels = c(1, 2, 3, 4, 5),
-                         labels = c('Izquierda', "Centro", "Derecha", "No se\nidentifica", "NS/NR")),
-         pos_id_w06 = factor(car::recode(c15_w06, recodes = "0:4 = 1; 5 = 2; 6:10 = 3; 11:12 = 4; c(-888, -999, -777, -666) = 5"),
-                         levels = c(1, 2, 3, 4, 5),
-                         labels = c('Izquierda', "Centro", "Derecha", "No se\nidentifica", "NS/NR"))) %>% 
+    mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
+  mutate(pos_id_w04 = factor(car::recode(c15_w04, recodes = "0:4 = 1; 5 = 2; 6:10 = 3; c(11, 12, -888, -999, -777, -666) = 4"),
+                         levels = c(1, 2, 3, 4),
+                         labels = c('Izq.', "Cent.", "Der.", "No se\nidentifica")),
+         pos_id_w06 = factor(car::recode(c15_w06, recodes = "0:4 = 1; 5 = 2; 6:10 = 3; c(11, 12, -888, -999, -777, -666) = 4"),
+                         levels = c(1, 2, 3, 4),
+                         labels = c('Izq.', "Cent.", "Der.", "No se\nidentifica"))) %>% 
   survey_design_elsoc(weights = 'ponderador02_w06') %>% 
-  prop(pos_id_w06, by = c(pp_3, pos_id_w04), na.rm = TRUE) %>% 
-  filter(pos_id_w04 != 'NS/NR') %>% 
+  prop(pos_id_w06, by = c(pp_3, pos_id_w04), na.rm = TRUE) %>%
   ggplot(aes(y = prop, x = pos_id_w04, fill = fct_rev(pos_id_w06),
              label = scales::percent(prop, accuracy = .1))) + 
   facet_wrap(~ pp_3) +
@@ -996,9 +997,10 @@ elsoc_wide_2016_2022 %>%
   scale_y_continuous(labels = scales::percent) +
   ylab(label = NULL) +
   xlab(label = 'Posición política en 2019') +
-  scale_fill_viridis_d(direction = -1, option = 'viridis') +
+  scale_fill_viridis_d(end = .8, option = 'viridis') +
   geom_text(position = position_stack(vjust = .5),
-            size = 3) +
+            size = 3,
+            color = rep(c('black', 'black', 'white', 'white'), 12)) +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'right') +
   labs(fill = 'Posición política\nen 2022') + 
