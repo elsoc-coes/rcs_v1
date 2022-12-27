@@ -37,8 +37,7 @@ gf_cs_bienestar_movilidad_evolucion <- elsoc_cohesion %>%
   theme(legend.position = 'top',
         legend.title = element_blank(),
         plot.caption = element_text(hjust = 0)) +
-  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.
-       \nNota: La perspectiva de movilidad social corresponde a la diferencia entre el estatus social esperado del hijo\ny el estatus social subjetivo del encuestado')
+  labs(caption = 'Nota: La perspectiva de movilidad social corresponde a la diferencia entre el estatus social esperado del hijo\ny el estatus social subjetivo del encuestado')
 
 saveRDS(gf_cs_bienestar_movilidad_evolucion,file="inputs/cohesion social/bienestar/gf_cs_bienestar_movilidad_evolucion.RDS")
 
@@ -61,10 +60,7 @@ gf_cs_bienestar_movilidad_perfiles <- elsoc_cohesion %>%
   scale_color_viridis_d(end = .75, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
-        legend.title = element_blank())+
-  labs(title="Perspectiva de movilidad ascendente,según tipo de votante",
-       caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.
-       \nNota: La perspectiva de movilidad social corresponde a la diferencia entre el estatus social esperado del hijo\ny el estatus social subjetivo del encuestado')
+        legend.title = element_blank())
 
 saveRDS(gf_cs_bienestar_movilidad_perfiles,file="inputs/cohesion social/bienestar/gf_cs_bienestar_movilidad_perfiles.RDS")
 

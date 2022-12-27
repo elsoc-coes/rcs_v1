@@ -26,8 +26,7 @@ grafico <-base%>%
           legend.position = 'top',
           legend.title = element_blank())+
     ggtitle(titulo,
-            subtitle = subtitulo)+
-    labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+            subtitle = subtitulo)
   
   if(guardar){
     
