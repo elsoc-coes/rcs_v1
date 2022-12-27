@@ -56,7 +56,7 @@ elsoc_long_2016_2022 <- elsoc_long_2016_2022 %>%
   left_join(perfiles, by = "idencuesta") %>%
    mutate(pp_3 = factor(pp_3, 
                        levels = 1:3,
-                       labels = c("Votante Habitual (70.21%)", "No-Votante (17.06%)", "Indefinido (12.73%)"))) %>%
+                       labels = c("Votante Habitual (70.21%)", "No-Votante (17.06%)", "Votante Reactivo (12.73%)"))) %>%
    mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
                        labels = c("1 (10.90%)", "2 (8.29%)", " 3 (69.28%)", "4 (11.53%)"))) %>%
@@ -69,7 +69,7 @@ elsoc_wide_2016_2022 <- elsoc_wide_2016_2022 %>%
   left_join(perfiles, by = "idencuesta") %>%
    mutate(pp_3 = factor(pp_3, 
                        levels = 1:3,
-                       labels = c("Votante\nHabitual (70.21%)", "No-Votante (17.06%)", "Indefinido (12.73%)"))) %>%
+                       labels = c("Votante\nHabitual (70.21%)", "No-Votante (17.06%)", "Votante Reactivo (12.73%)"))) %>%
    mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
                        labels = c("1 (10.90%)", "2 (8.29%)", " 3 (69.28%)", "4 (11.53%)"))) %>%
@@ -386,7 +386,7 @@ elsoc_long_2016_2022 %>%
   filter(tipo_atricion == 1 & ola %in% c(1,3,5,6) &
            !is_nsnr(c11, c43, c50, c52, c54, c56)) %>% 
     mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop_list(c11 == 1, c43 == 1, c50 == 1, c52 == 1, c54 == 1, c56 == 1,
             by = c(ola, pp_3), na.rm = T) %>%
   mutate(ola = paste(name, ola)) %>%
@@ -437,7 +437,7 @@ elsoc_long_2016_2022 %>%
                        levels = 1:2,
                        labels = c("Hombre", "Mujer"))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(m0_sexo, by = pp_3, na.rm = TRUE) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(m0_sexo), 
              label = scales::percent(prop, .1))) + 
@@ -467,7 +467,7 @@ elsoc_long_2016_2022 %>%
                        levels = 1:4,
                        labels = c("18-29", "30-49", "50-64", "65 o +"))) %>%
    mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(m0_edad, by = pp_3, na.rm = TRUE) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(m0_edad), 
              label = scales::percent(prop, .1))) + 
@@ -497,7 +497,7 @@ elsoc_long_2016_2022 %>%
                    levels = 1:4,
                    labels = c("Básica", "Media", "Técnica", "Universitaria"))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(m01, by = pp_3, na.rm = TRUE) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(m01), 
              label = scales::percent(prop, .1))) + 
@@ -529,7 +529,7 @@ elsoc_long_2016_2022 %>%
                                   'Desocupados',
                                   'Inactivos'))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(sit_laboral, by = pp_3, na.rm = TRUE) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(sit_laboral), 
              label = scales::percent(prop, .1))) + 
@@ -559,7 +559,7 @@ elsoc_long_2016_2022 %>%
                    levels = 1:3,
                    labels = c("Baja o\nMedia-baja", "Media", "Alta o\nMedia-alta"))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(c33, by = pp_3, na.rm = TRUE) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(c33), 
              label = scales::percent(prop, .1))) + 
@@ -607,7 +607,7 @@ elsoc_long_2016_2022 %>%
          quintil = factor(quintil, levels = 1:5, labels = glue::glue('Quintil {1:5}'))
          ) %>%
   ungroup() %>% 
-  mutate(pp_3 = factor(pp_3, labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+  mutate(pp_3 = factor(pp_3, labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(quintil, by = c(pp_3, ola), na.rm = TRUE) %>% 
   filter(ola == 6) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(quintil), 
@@ -659,7 +659,7 @@ elsoc_long_2016_2022 %>%
                                 labels = c('Clase baja', 'Clase media', 'Clase alta'))
          ) %>%
   ungroup() %>% 
-  mutate(pp_3 = factor(pp_3, labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+  mutate(pp_3 = factor(pp_3, labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(clase_ingreso, by = c(pp_3, ola), na.rm = TRUE) %>% 
   filter(ola == 6) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(clase_ingreso), 
@@ -779,7 +779,7 @@ elsoc_long_2016_2022 %>%
                        levels = 1:3,
                        labels = c("Apruebo", "Rechazo", "Otros"))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(salida, by = pp_3, na.rm = TRUE) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(salida), 
              label = scales::percent(prop, .1))) + 
@@ -827,7 +827,7 @@ elsoc_long_2016_2022 %>%
                           labels = c("Plebiscito de\nEntrada\n2020",
                                      "Plebiscito de\nSalida\n2022"))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   survey_design_elsoc() %>%
   svytable(~ pos_id + ola + idencuesta + pp_3, design = .) %>% 
   as.data.frame() %>% 
@@ -873,7 +873,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c28), !is.na(pp_3)) %>%  
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(c28 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -896,25 +896,25 @@ elsoc_long_2016_2022 %>%
 ```{r graf-convencion-2}
 
 elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & ola %in% c(1,3,5,6) &
+  filter(tipo_atricion == 1 & ola == 6 &
            !is_nsnr(c05_14, pp_3), !is.na(pp_3)) %>% 
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
-  prop_list(c05_14 %in% 4:5, by = pp_3, na.rm = T) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
+  prop_list(c05_14 %in% 1:2, by = pp_3, na.rm = T) %>%
   ggplot(aes(y = prop, x = pp_3, label = scales::percent(prop, accuracy = .1))) +
   theme_bw() +   
   geom_col(fill = viridis(1, begin = .33)) +
   geom_text(position = position_dodge(.9), vjust = -.5, size = 3) +
   scale_y_continuous(labels = scales::percent,
-                     limits = c(0,.1)) +
+                     limits = c(0,1)) +
   ylab(label = NULL) +
   xlab(label = NULL) +
   scale_color_viridis_d(end = .66, direction = 1, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Confianza en la Convención Constitucional según tipo de votante',
-          subtitle = 'Bastante o mucha confianza')
+  ggtitle('Desconfianza en la Convención Constitucional en 2022, según tipo de votante',
+          subtitle = 'Nada o poca confianza')
 
 ```
 
@@ -927,7 +927,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c25), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(c25 == 1, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -955,7 +955,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c01), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(c01 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -983,7 +983,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c18_04), !is.na(c18_05), !is.na(c18_06), !is.na(c18_07), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
     rowwise() %>% 
   mutate(autoritarismo = mean(c18_04, c18_05, c18_06, c18_07, na.rm = TRUE)) %>% 
   prop(autoritarismo %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
@@ -1019,7 +1019,7 @@ elsoc_long_2016_2022 %>%
                        labels = c("Izquierda", "Centro", "Derecha",
                                   "Independiente", "Ninguna"))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(c15, by = pp_3, na.rm = TRUE) %>% 
   ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(c15), 
              label = scales::percent(prop, .1))) + 
@@ -1047,7 +1047,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c15), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(c15 == 5, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1075,7 +1075,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c15), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(c15 %in% 11:12, by = c(pp_3, ola), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1103,7 +1103,7 @@ elsoc_long_2016_2022 %>%
   mutate(c15 = factor(car::recode(c15, "0:4 = 1; 5 = 2; 6:10 = 3; 11:12 = 4"),
                          levels = 1:4,
                          labels = c('Izquierda', "Centro", "Derecha", "No se\nidentifica"))) %>%   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   group_by(idencuesta) %>% 
   mutate(cambia = c15 != lag(c15),
          ola = factor(ola,
@@ -1137,7 +1137,7 @@ elsoc_long_2016_2022 %>%
   filter(!is.na(c13), !is.na(pp_3)) %>%
   prop(c13 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
@@ -1163,7 +1163,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c16), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(c16 == 15, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1197,7 +1197,7 @@ elsoc_long_2016_2022 %>%
                                   'Se informa sobre politica\nen medios de comunicacion',
                                   'Usa redes sociales para\nopinar en temas publicos'))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1235,7 +1235,7 @@ elsoc_long_2016_2022 %>%
                        labels = c('Gobierno',
                                   'Presidente'))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1270,7 +1270,7 @@ elsoc_long_2016_2022 %>%
                        labels = c('Partidos políticos',
                                   'Congreso'))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1300,7 +1300,7 @@ elsoc_long_2016_2022 %>%
   filter(!is.na(c05_03), !is.na(pp_3)) %>%
   prop(c05_03 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
@@ -1331,7 +1331,7 @@ elsoc_long_2016_2022 %>%
        movsoc = factor(movsoc, levels = 1:3,
                        labels = c('Mov. sociales progresistas', 'Mov. sociales conservadores', 'Ninguno'))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(movsoc, by = c(pp_3, ola), na.rm = TRUE) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1360,7 +1360,7 @@ elsoc_long_2016_2022 %>%
   as_label(ola) %>%
   filter(!is.na(c08_02), !is.na(pp_3)) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(c08_02 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1395,7 +1395,7 @@ elsoc_long_2016_2022 %>%
                        labels = c('Las parejas homosexuales deberían\npoder adoptar hijos',
                                   'El aborto debe ser legal bajo\ncualquier circunstancia'))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1431,7 +1431,7 @@ elsoc_long_2016_2022 %>%
                        labels = c('Cada persona debiera asegurarse\npor si mismo su futura pensión\npara la tercera edad',
                                   'Chile debería tomar medidas más\ndrásticas para impedir el ingreso\nde inmigrantes al país'))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1462,7 +1462,7 @@ elsoc_long_2016_2022 %>%
   filter(!is.na(pp_3)) %>% 
   prop(c06_05 %in% 1:2, by = c(ola, pp_3), na.rm = T)  %>%
     mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
@@ -1494,7 +1494,7 @@ elsoc_long_2016_2022 %>%
                        levels = 1:4,
                        labels = c('Norte', 'Centro', 'Sur', 'Metropolitana'))) %>%
     mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop_list(c46_05 %in% 4:5, by = c(zona, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = zona, fill = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1523,7 +1523,7 @@ elsoc_long_2016_2022 %>%
   sjlabelled::as_label(ola, cuestion_mig) %>%
   prop(r16 %in% 1:2, by = c(ola, cuestion_mig, pp_3), na.rm = T)  %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
   theme_bw() + 
@@ -1550,7 +1550,7 @@ elsoc_long_2016_2022 %>%
   filter(!is.na(r12_04), tipo_atricion == 1) %>%  
   filter(!is.na(pp_3)) %>% 
     mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(r12_04 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1577,7 +1577,7 @@ elsoc_long_2016_2022 %>%
     filter(!is.na(pp_3)) %>% 
   sjlabelled::as_label(ola, cuestion_mig) %>%
     mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(r12_04 %in% 4:5, by = c(ola, pp_3, cuestion_mig), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1605,7 +1605,7 @@ elsoc_long_2016_2022 %>%
   filter(!is.na(r12_03), tipo_atricion == 1) %>% 
   filter(!is.na(pp_3)) %>% 
       mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(r12_03 %in% 4:5, by = c(ola, pp_3), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1632,7 +1632,7 @@ elsoc_long_2016_2022 %>%
     filter(!is.na(pp_3)) %>% 
   sjlabelled::as_label(ola, cuestion_mig) %>%
     mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
   prop(r12_03 %in% 4:5, by = c(ola, pp_3, cuestion_mig), na.rm = T)  %>%
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1668,7 +1668,7 @@ elsoc_long_2016_2022 %>%
                        labels = c('Personas persigan y golpeen a un delincuente\n que acaba de cometer un asalto',
                                   'Personas amarren a un poste y desnuden a un\n delincuente que acaba de cometer un asalto'))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
@@ -1705,7 +1705,7 @@ elsoc_long_2016_2022 %>%
                                   'Carabineros desaloje a la fuerza\na estudiantes de liceo en toma',
                                   'Estudiantes tiren piedras a Carabi-\nneros en marcha por la educación'))) %>%
   mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Indefinido"))) %>%
+                       labels = c("Votante\nHabitual", "No-votante", "Votante Reactivo"))) %>%
   prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
   ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
              label = scales::percent(prop, accuracy = .1))) +
