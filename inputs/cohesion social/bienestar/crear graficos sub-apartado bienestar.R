@@ -41,7 +41,6 @@ gf_cs_bienestar_movilidad_evolucion <- elsoc_cohesion %>%
 
 saveRDS(gf_cs_bienestar_movilidad_evolucion,file="inputs/cohesion social/bienestar/gf_cs_bienestar_movilidad_evolucion.RDS")
 
-
 gf_cs_bienestar_movilidad_perfiles <- elsoc_cohesion %>% 
   filter(tipo_atricion == 1) %>% 
   sjlabelled::as_label(ola) %>% 

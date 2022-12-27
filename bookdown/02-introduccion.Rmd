@@ -106,7 +106,7 @@ knitr::include_graphics(file.path('imagenes', 'etapas_seleccion.png'))
 
 El diseño de ELSOC contempló entrevistar a 3.000 personas en su muestra original y 1.500 en la muestra refresco. Sin embargo, es habitual que en encuestas panel se reduce el número de participantes, dado que algunos optan voluntariamente por dejar de participar y otras personas no pueden ser recontactadas. Este fenómeno es conocido como atrición, y pueden tener efectos nocivos sobre la utilidad de los datos longitudinales. En el caso de ELSOC, la tasa de atrición es comparativamente baja en comparación a otros estudios similares, por lo que no se considera al momento un problema significativo. A pesar de esto, el año 2018 se introduce una muestra refresco para contrarrestar el efecto de la atrición. 
 
-El año 2022, la atrición presenta un alza importante debido a la mayor dificultad que implica el levantamiento durante la pandemia de COVID-19 y al cambio de modalidad.
+El año 2022, la atrición presenta una baja importante, probablemente debido a que ya no existe la dificultad que implicaba el levantamiento durante la pandemia de COVID-19 y su cambio de modalidad.
 
 ```{r tabla-atricion, echo=FALSE}
 
@@ -127,7 +127,9 @@ elsoc_long_2016_2022 %>%
       caption = 'Atrición de las muestras de ELSOC entre olas') %>% 
   kable_styling(full_width = F) %>% 
   kable_classic_2() %>% 
-  add_header_above(c(" " = 1, 'Muestra original' = 2, 'Muestra refresco' = 2))
+  add_header_above(c(" " = 1, 'Muestra original' = 2, 'Muestra refresco' = 2)) %>%
+  kableExtra::add_footnote("La muestra no contempla necesariamente a las mismas personas, dado que se intenta recuperar participantes que dejaron de hacerlo en olas previas (2016, 2017, 2018, 2019 o 2021) y no necesariamente la última.")
+
 
 ```
 
@@ -138,7 +140,7 @@ Para el cálculo de atrición acumulada se considera el período 2016-2022 para 
 
  - Según sexo:
  
-```{r tabla-atricion-sexo}
+```{r tabla-atricion-sexo, paged.print=TRUE}
 elsoc_long_2016_2022 %>% 
   mutate(ola = ifelse(muestra == 2 & ola == 3, 1, ola)) %>% 
   filter(ola %in% c(1, 6)) %>% 
@@ -159,7 +161,8 @@ elsoc_long_2016_2022 %>%
       caption = 'Atrición acumulada de ELSOC, según sexo') %>% 
   kable_styling(full_width = F) %>% 
   kable_classic_2() %>% 
-  add_header_above(c(" " = 1, 'Muestra lograda en 2022' = 2, 'Atrición acumulada' = 2))
+  add_header_above(c(" " = 1, 'Muestra lograda en 2022' = 2, 'Atrición acumulada' = 2)) 
+
 
 ```
 
@@ -262,7 +265,7 @@ elsoc_long_2016_2022 %>%
 
 Radiografía del Cambio Social tiene como objetivo fundamental caracterizar la estabilidad y el cambio en opiniones, actitudes y conductas de los participantes a lo largo del tiempo, enfocándose en distintas dimensiones de la cohesión y conflicto en Chile. 
 
-Para el logro de dicho objetivo, el presente reporte se centrará en un subconjunto de participantes del estudio: los 1.513 entrevistados y entrevistadas que participaron en las cinco olas de ELSOC (por lo tanto, todos son parte de la muestra original). Dicha submuestra será la base empírica de los hallazgos expuestos en las siguientes secciones. 
+Para el logro de dicho objetivo, el presente reporte se centrará en un subconjunto de participantes del estudio: Desde la muestra original, los 1.303 entrevistados y entrevistadas que participaron en las seis olas de ELSOC; Desde la muestra refresco, los 770 entrevistados y entrevistadas que participaron en las últimas cuatro olas sin excepción. Dado lo anterior, contamos con 2073 participantes, submuestra que será la base empírica de los hallazgos expuestos en las siguientes secciones. 
 
 A continuación se describe a este grupo de participantes según los mismos atributos sociodemográficos (sexo, edad, educación y zona de residencia). 
 
@@ -270,6 +273,7 @@ Los resultados presentados a continuación incorporan el diseño muestral comple
 
 
 ```{r graf-edadt-muestra, fig.cap='Composición de muestra longitudinal: Tramo Edad'}
+
 bind_rows(
   (elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6) %>% 
@@ -284,7 +288,9 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))),
+                          paste0(round(pct[,1]*100,1),"%"),")")) %>%
+    mutate(total = sum(N),
+           muestra = paste0(muestra," (N = ",total,")"))),
   
   (elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6) %>% 
@@ -299,7 +305,9 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")")))
+                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
+    mutate(total = sum(N),
+           muestra = paste0(muestra," (N = ",total,")")))
   
   ) %>%
   
@@ -335,7 +343,9 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))),
+                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
+    mutate(total = sum(N),
+           muestra = paste0(muestra," (N = ",total,")"))),
   
   (elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6) %>% 
@@ -347,7 +357,9 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")")))
+                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
+    mutate(total = sum(N),
+           muestra = paste0(muestra," (N = ",total,")")))
  ) %>%
   
   ggplot(aes(y = pct, x = fct_rev(m0_sexo), fill = m0_sexo,
@@ -387,7 +399,9 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))),
+                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
+    mutate(total = sum(N),
+           muestra = paste0(muestra," (N = ",total,")"))),
   
   (elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6 & !is.na(m01) & !is_nsnr(m01)) %>% 
@@ -402,7 +416,9 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")")))
+                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
+    mutate(total = sum(N),
+           muestra = paste0(muestra," (N = ",total,")")))
 ) %>%
   
   ggplot(aes(y = pct, x = fct_rev(educ), fill = educ,
@@ -442,7 +458,9 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))),
+                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
+    mutate(total = sum(N),
+           muestra = paste0(muestra," (N = ",total,")"))),
   
   (elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6) %>% 
@@ -458,7 +476,9 @@ bind_rows(
   summarise(N = n(),
             pct = srvyr::survey_mean(proportion = TRUE),
             prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")")))
+                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
+    mutate(total = sum(N),
+           muestra = paste0(muestra," (N = ",total,")")))
 ) %>%
     
   ggplot(aes(y = pct, x = fct_rev(estrato), fill = estrato,
@@ -483,7 +503,7 @@ bind_rows(
 
 
 
-```{r graf-composicion-muestra, fig.cap='Composición de muestra longitudinal'}
+```{r graf-composicion-muestra, eval=FALSE, fig.cap='Composición, include=FALSE}
 
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6) %>% 
