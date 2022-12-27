@@ -310,7 +310,7 @@ elsoc_long_2016_2022 %>%
         axis.text.x = element_text(size = rel(.9)),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Sexo según tipo de votante')
+  ggtitle('Sexo en 2022, según tipo de votante')
 
 ```
 
@@ -340,7 +340,7 @@ elsoc_long_2016_2022 %>%
         axis.text.x = element_text(size = rel(.9)),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Tramos etarios según tipo de votante')
+  ggtitle('Tramos etarios en 2022, según tipo de votante')
 
 ```
 
@@ -370,7 +370,7 @@ elsoc_long_2016_2022 %>%
         axis.text.x = element_text(size = rel(.9)),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Nivel educacional según tipo de votante')
+  ggtitle('Nivel educacional en 2022, según tipo de votante')
 
 ```
 
@@ -402,7 +402,7 @@ elsoc_long_2016_2022 %>%
         axis.text.x = element_text(size = rel(.9)),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Situación laboral según tipo de votante')
+  ggtitle('Situación laboral en 2022, según tipo de votante')
 
 ```
 
@@ -432,7 +432,7 @@ elsoc_long_2016_2022 %>%
         axis.text.x = element_text(size = rel(.9)),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Clase social subjetiva según tipo de votante')
+  ggtitle('Clase social subjetiva en 2022, según tipo de votante')
 
 ```
 
@@ -481,7 +481,7 @@ elsoc_long_2016_2022 %>%
         axis.text.x = element_text(size = rel(.9)),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Quintiles de ingreso, según tipo de votante')
+  ggtitle('Quintiles de ingreso en 2022, según tipo de votante')
 
 ```
 
@@ -533,7 +533,7 @@ elsoc_long_2016_2022 %>%
         axis.text.x = element_text(size = rel(.9)),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('Clase social por ingreso, según tipo de votante')
+  ggtitle('Clase social por ingreso en 2022, según tipo de votante')
 
 ```
 
