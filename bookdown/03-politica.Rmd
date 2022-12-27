@@ -584,8 +584,8 @@ elsoc_long_2016_2022 %>%
             position = position_stack(vjust = .5),
             show.legend = FALSE,
             size = 3,
-            color = c('white', 'black', 'black', 
-      'white', 'black', 'black')) +
+            color = c('white', 'white', 'black', 
+      'white', 'white', 'black')) +
   guides(fill = guide_legend(reverse = TRUE)) + 
   labs(caption = "Nota: Categoría indeciso o no vota incluye a quienes no votaron, NS/NR, nulos y blancos.")
 
@@ -641,7 +641,7 @@ elsoc_long_2016_2022 %>%
   ggalluvial::geom_flow(alpha = .66) + 
   ggalluvial::geom_stratum(linetype = 0, width = .55) +
   scale_y_continuous(labels = scales::percent) + 
-  scale_fill_viridis_d(end = .8, option = 'viridis') +
+  scale_fill_viridis_d(direction = -1, end = .8, option = 'viridis') +
   ylab(label = NULL) +
   xlab(label = NULL) + 
   theme(plot.caption = element_text(hjust = 0),
@@ -654,7 +654,7 @@ elsoc_long_2016_2022 %>%
             position = position_stack(vjust = .5),
             show.legend = FALSE,
             size = 3,
-            color = rep(c('black', 'white', 'white'), 4)) +
+            color = rep(c('white', 'white', 'black'), 4)) +
   guides(fill = guide_legend(reverse = TRUE)) + 
   labs(caption = "Nota: Categoría indeciso o no vota incluye a quienes no votaron, NS/NR, nulos y blancos.")
 
@@ -787,9 +787,11 @@ elsoc_long_2016_2022 %>%
   mutate(pp_3 = factor(pp_3,
                        labels = c("Votante\nHabitual", "No-votante", "Votante\nReactivo"))) %>%
   prop_list(c05_14 %in% 1:2, by = pp_3, na.rm = T) %>%
-  ggplot(aes(y = prop, x = pp_3, label = scales::percent(prop, accuracy = .1))) +
+  ggplot(aes(y = prop, x = pp_3, fill = pp_3, 
+             label = scales::percent(prop, accuracy = .1))) +
   theme_bw() +   
-  geom_col(fill = viridis(1, begin = .33)) +
+  geom_col() +
+  scale_fill_viridis_d(begin = .0, end = .8, option = 'viridis') +
   geom_text(position = position_dodge(.9), vjust = -.5, size = 3) +
   scale_y_continuous(labels = scales::percent,
                      limits = c(0,1)) +
@@ -797,7 +799,7 @@ elsoc_long_2016_2022 %>%
   xlab(label = NULL) +
   scale_color_viridis_d(end = .8, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top',
+        legend.position = 'none',
         legend.title = element_blank()) +
   ggtitle('', subtitle = 'Nada o poca confianza')
 ```
