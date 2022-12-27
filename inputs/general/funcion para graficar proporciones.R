@@ -23,8 +23,7 @@ grafo_prop_var <- function(base,var_x,var_y,umbral=c(4,5),titulo,subtitulo,atric
           legend.position = 'top',
           legend.title = element_blank())+
     ggtitle(titulo,
-            subtitle = subtitulo)+
-    labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.')
+            subtitle = subtitulo)
   
   
   if(guardar){
