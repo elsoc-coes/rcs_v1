@@ -978,17 +978,19 @@ elsoc_long_2016_2022 %>%
 
 elsoc_wide_2016_2022 %>% 
   filter(tipo_atricion == 1) %>% 
-  filter(!is.na(pp_3))
+  filter(!is.na(pp_3)) %>% 
   mutate(pos_id_w04 = factor(car::recode(c15_w04, recodes = "0:4 = 1; 5 = 2; 6:10 = 3; 11:12 = 4; c(-888, -999, -777, -666) = 5"),
                          levels = c(1, 2, 3, 4, 5),
                          labels = c('Izquierda', "Centro", "Derecha", "No se\nidentifica", "NS/NR")),
          pos_id_w06 = factor(car::recode(c15_w06, recodes = "0:4 = 1; 5 = 2; 6:10 = 3; 11:12 = 4; c(-888, -999, -777, -666) = 5"),
                          levels = c(1, 2, 3, 4, 5),
                          labels = c('Izquierda', "Centro", "Derecha", "No se\nidentifica", "NS/NR"))) %>% 
-  prop(pos_id_w06, by = c(pp_3, pos_id_w04)) %>%
+  survey_design_elsoc(weights = 'ponderador02_w06') %>% 
+  prop(pos_id_w06, by = c(pp_3, pos_id_w04), na.rm = TRUE) %>% 
+  filter(pos_id_w04 != 'NS/NR') %>% 
   ggplot(aes(y = prop, x = pos_id_w04, fill = fct_rev(pos_id_w06),
              label = scales::percent(prop, accuracy = .1))) + 
-    facet_wrap(~ pp_3)
+  facet_wrap(~ pp_3) +
   theme_bw() +
   geom_col(position = 'stack') +
   scale_y_continuous(labels = scales::percent) +
