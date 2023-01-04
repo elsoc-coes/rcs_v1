@@ -127,7 +127,7 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r graf-perfiles-3, fig.cap = 'Perfiles de votante'}
+```{r graf-perfiles-3, fig.cap = 'Tipos de votante'}
 
 tab2 <- elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1) %>% 
