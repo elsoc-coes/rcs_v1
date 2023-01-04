@@ -255,7 +255,7 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r graf-eficacia, fig.cap = 'Auto-eficacia política, según tipo de votante'}
+```{r graf-eficacia, fig.cap = 'Autoeficacia política, según tipo de votante'}
 
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1) %>%
