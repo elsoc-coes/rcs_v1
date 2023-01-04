@@ -210,7 +210,7 @@ tab %>%
 
 ```
 
-```{r graf-tipo-participacion, fig.cap = 'Participación electoral según tipo de votante'}
+```{r graf-tipo-participacion, fig.cap = 'Participación electoral, según tipo de votante'}
 
 elsoc_long_2016_2022 %>% 
   filter(!is.na(pp_3)) %>% 
@@ -255,6 +255,42 @@ elsoc_long_2016_2022 %>%
 
 ```
 
+```{r graf-eficacia, fig.cap = 'Auto-eficacia política, según tipo de votante'}
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1) %>%
+  as_label(ola) %>%
+  filter(!is.na(c10_01), !is.na(c10_02), !is.na(c10_03), !is.na(pp_3)) %>%
+  dplyr::select(c10_01, c10_02, c10_03, ola, ponderador02, segmento_disenno, estrato_disenno, pp_3) %>% 
+  pivot_longer(cols = c(c10_01, c10_02, c10_03)) %>% 
+  mutate(name = factor(name,
+                       levels = c("c10_01", "c10_02", "c10_03"),
+                       labels = c('Votar es mi deber\ncomo ciudadano',
+                                  'Mi voto influye en\nel resultado de la elección',
+                                  'Votar permite\nexpresar mis ideas'))) %>%
+  mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
+  prop(value %in% 4:5, by = c(pp_3, ola, name), na.rm = TRUE) %>% 
+  ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
+             label = scales::percent(prop, accuracy = .1))) +
+  facet_wrap(~ name) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, 1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .0) +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('', subtitle = 'De acuerdo o totalmente de acuerdo' )
+
+
+```
+
 ```{r graf-parti-mov-2, fig.cap = 'Participación en marchas o manifestaciones, según tipo de votante'}
 
 elsoc_long_2016_2022 %>%
@@ -283,7 +319,7 @@ elsoc_long_2016_2022 %>%
 
 ## Caracterización del tipo de votante
 
-```{r graf-sexo-2, fig.cap = 'Sexo según tipo de votante'}
+```{r graf-sexo-2, fig.cap = 'Sexo, según tipo de votante'}
 
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1) %>% 
@@ -361,84 +397,6 @@ elsoc_long_2016_2022 %>%
   guides(fill = guide_legend(reverse = TRUE)) +
   geom_text(position = position_stack(vjust = .5), size = 3,
             color = rep(c('black', 'black', 'white', 'white'), 3)) +
-  theme_bw() + 
-  scale_fill_viridis_d(begin = 0, end = .8, option = 'viridis') +
-  theme(plot.caption = element_text(hjust = 0),
-        axis.text.x = element_text(size = rel(.9)),
-        legend.position = 'top',
-        legend.title = element_blank())
-
-```
-
-```{r graf-laboral, fig.cap = 'Situación laboral en 2022, según tipo de votante'}
-
-elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1) %>% 
-  filter(ola == 6) %>% 
-  filter(!is.na(m02), !is.na(pp_3)) %>%
-  mutate(sit_laboral = factor(car::recode(m02, "1:3 = 1; 6 = 2; c(4,5,7,8,9) = 3"),
-                              levels = 1:3,
-                              labels = c('Ocupados',
-                                  'Desocupados',
-                                  'Inactivos'))) %>%
-  mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante\nHabitual", "No-votante", "Votante\nReactivo"))) %>%
-  prop(sit_laboral, by = pp_3, na.rm = TRUE) %>% 
-  ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(sit_laboral), 
-             label = scales::percent(prop, .1))) + 
-  geom_bar(stat = 'identity', position = 'stack') +
-  labs(y = NULL, x = NULL, title = NULL, fill = NULL) +
-  scale_x_continuous(labels = scales::percent) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5), size = 3,
-            color = rep(c('black', 'white', 'white'), 3)) +
-  theme_bw() + 
-  scale_fill_viridis_d(begin = 0, end = .8, option = 'viridis') +
-  theme(plot.caption = element_text(hjust = 0),
-        axis.text.x = element_text(size = rel(.9)),
-        legend.position = 'top',
-        legend.title = element_blank()) 
-
-```
-
-```{r graf-quintil, fig.cap = 'Quintiles de ingreso en 2022, según tipo de votante'}
-
-elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1, !is.na(pp_3)) %>%
-  mutate(
-  m30 = as.numeric(car::recode(m30, "1 = 110000; 2 = 251000; 3 = 305000; 4 = 355000; 5 = 400000; 
-  6 = 445000; 7 = 490000; 8 = 535000; 9 = 585000; 10 = 640000; 
-  11 = 700000; 12 = 765000; 13 = 845000; 14 = 935000; 15 = 1040000;
-  16 = 1180000; 17 = 1375000; 18 = 1670000; 19 = 2275000; 20 = 2700000; -666:-999 = NA; NA = NA")),
-  m30b = as.numeric(car::recode(m30b, "1 = 170000; 2 = 300000; 3 = 400000; 4 = 600000; 
-                                5 = 1200000; -666:-999 = NA; NA = NA")),
-  m29_imp = case_when(is_nsnr(m29) & !is.na(m30) ~ m30,
-                      is_nsnr(m29) & !is.na(m30b) ~ m30b,
-                      TRUE ~ m29),
-  nhogar = case_when(ola == 1 ~ nhogar1,
-                     ola == 2 ~ m46_nhogar,
-                     TRUE ~ m54),
-  nhogar = ifelse(is_nsnr(nhogar), NA, nhogar)) %>% 
-  group_by(idencuesta) %>% 
-  mutate(nhogar = ifelse(is.na(nhogar), lag(nhogar), nhogar)) %>% 
-  ungroup() %>% 
-  mutate(ypc = m29_imp / nhogar) %>% 
-  group_by(ola) %>% 
-  mutate(quintil = xtile(ypc, n = 5, wt = ponderador02),
-         quintil = factor(quintil, levels = 1:5, labels = glue::glue('Quintil {1:5}'))
-         ) %>%
-  ungroup() %>% 
-  mutate(pp_3 = factor(pp_3, labels = c("Votante\nHabitual", "No-votante", "Votante\nReactivo"))) %>%
-  prop(quintil, by = c(pp_3, ola), na.rm = TRUE) %>% 
-  filter(ola == 6) %>% 
-  ggplot(aes(x = prop, y = fct_rev(pp_3), fill = fct_rev(quintil), 
-             label = scales::percent(prop, .1))) + 
-  geom_bar(stat = 'identity', position = 'stack') +
-  labs(y = NULL, x = NULL, title = NULL, fill = NULL) +
-  scale_x_continuous(labels = scales::percent) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  geom_text(position = position_stack(vjust = .5), size = 3,
-            color = rep(c('black', 'black', 'white', 'white', 'white'), 3)) +
   theme_bw() + 
   scale_fill_viridis_d(begin = 0, end = .8, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
@@ -527,7 +485,8 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('', subtitle = 'Porcentaje que votó...')
+  ggtitle('', subtitle = 'Porcentaje que votó...') + 
+  labs(caption = "Nota: El gráfico incluye a la muestra encuestada pre y post-plebiscito. La opción no vota solo fue incorporada post-plebiscito como voto retrospectivo.")
   
 ```
 
@@ -753,7 +712,7 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r graf-consti-2, fig.cap = 'Nueva constitución según tipo de votante'}
+```{r graf-consti-2, fig.cap = 'Nueva constitución, según tipo de votante'}
 
 elsoc_long_2016_2022 %>%
   filter(tipo_atricion == 1) %>% 
@@ -775,7 +734,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  ggtitle('', subtitle = 'De acuerdo o muy de acuerdo con cambiar la constitución')
+  ggtitle('', subtitle = 'De acuerdo o totalmente de acuerdo con cambiar la constitución')
 
 ```
 
@@ -806,7 +765,7 @@ elsoc_long_2016_2022 %>%
 
 ## Actitudes hacia la democracia
 
-```{r graf-leg-dem-2, fig.cap = 'Legitimidad democrática según tipo de votante'}
+```{r graf-leg-dem-2, fig.cap = 'Legitimidad democrática, según tipo de votante'}
 
 elsoc_long_2016_2022 %>%
   filter(tipo_atricion == 1) %>% 
@@ -833,7 +792,40 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r graf-satis-dem-2, fig.cap = 'Satisfacción democrática según tipo de votante'}
+```{r graf-autori, fig.cap = 'Preferencia por el autoritarismo, según tipo de votante'}
+
+
+elsoc_long_2016_2022 %>% 
+  filter(tipo_atricion == 1) %>%
+  as_label(ola) %>%
+  filter(!is.na(c25), !is.na(pp_3)) %>%
+  mutate(pp_3 = factor(pp_3,
+                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
+  mutate(dem = factor(c25, levels = 1:4,
+                       labels = c('x', 'En algunas circunstancias,\nun gobierno autoritario puede ser\npreferible a uno democrático', 'A la gente como uno\nnos da lo mismo un regimen\ndemocrático que uno autoritario', 'y'))) %>%
+  prop(dem, by = c(pp_3, ola), na.rm = TRUE) %>% 
+  filter(dem != "y", dem != "x") %>%
+  ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
+             label = scales::percent(prop, accuracy = .1))) +
+  facet_wrap(~ dem) +
+  theme_bw() + 
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, .7)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') + 
+  geom_text_repel(size = 3, nudge_y = .01) +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) + 
+  ggtitle('', subtitle = 'Porcentaje que responde...')
+
+
+```
+
+```{r graf-satis-dem-2, fig.cap = 'Satisfacción democrática, según tipo de votante'}
 
 elsoc_long_2016_2022 %>%
   filter(tipo_atricion == 1) %>% 
@@ -860,7 +852,7 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r graf-autoritarismo-2, fig.cap = 'Actitudes autoritarias según tipo de votante'}
+```{r graf-autoritarismo-2, fig.cap = 'Actitudes autoritarias, según tipo de votante'}
 
 elsoc_long_2016_2022 %>%
   filter(tipo_atricion == 1) %>% 
@@ -884,7 +876,8 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  ggtitle('', subtitle = 'Bastante o muy autoritario en promedio')
+  ggtitle('', subtitle = 'Bastante o muy autoritario en promedio') + 
+  labs(caption = "Nota: Promedio de nivel de acuerdo con gobierno firme, mandatario fuerte e importancia de la obediencia y disciplina.")
 
 
 ```
@@ -918,34 +911,8 @@ elsoc_long_2016_2022 %>%
         axis.text.x = element_text(size = rel(.9)),
         legend.position = 'top',
         legend.title = element_blank()) +
-  ggtitle('', subtitle = 'Autoposicionamiento político en la escala izquierda-derecha')
-
-```
-
-```{r graf-centro-2, fig.cap = 'Posición política de centro, según tipo de votante'}
-
-elsoc_long_2016_2022 %>%
-  filter(tipo_atricion == 1) %>% 
-  as_label(ola) %>%
-  filter(!is.na(c15), !is.na(pp_3)) %>%
-  mutate(pp_3 = factor(pp_3,
-                       labels = c("Votante Habitual", "No-votante", "Votante Reactivo"))) %>%
-  prop(c15 == 5, by = c(ola, pp_3), na.rm = T)  %>%
-  ggplot(aes(y = prop, x = ola, color = pp_3, group = pp_3,
-             label = scales::percent(prop, accuracy = .1))) +
-  theme_bw() + 
-  geom_text_repel(nudge_y = .01, size = 3) +
-  geom_point(size = 1.75) + 
-  geom_line() + 
-  scale_y_continuous(labels = scales::percent, limits = c(0,.5)) +
-  ylab(label = NULL) +
-  xlab(label = NULL) +
-  scale_color_viridis_d(begin = .0, end = .8, option = 'viridis') +
-  theme(plot.caption = element_text(hjust = 0),
-        legend.position = 'top',
-        legend.title = element_blank()) + 
-  ggtitle('', subtitle = 'Porcentaje que se autoidentifica de centro')
-
+  ggtitle('', subtitle = 'Autoposicionamiento político en la escala izquierda-derecha') + 
+  labs(caption = "Nota: La escala original de 0 a 10 fue recodificada de forma que 0-4 es izquierda, 5 es centro y 6-10 es derecha.")
 
 ```
 
@@ -971,7 +938,8 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  ggtitle('', subtitle = 'Porcentaje que no se autoidentifica en la escala izquierda-derecha')
+  ggtitle('', subtitle = 'Porcentaje que no se autoidentifica en la escala izquierda-derecha') +
+  labs(caption = "Nota: Ausencia de posición política agrupa a quienes responden independiente y ninguna.")
 
 
 ```
@@ -1037,7 +1005,7 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r graf-id-partido-2, fig.cap = 'Partidismo según tipo de votante'}
+```{r graf-id-partido-2, fig.cap = 'Partidismo, según tipo de votante'}
 
 elsoc_long_2016_2022 %>%
   filter(tipo_atricion == 1) %>% 
@@ -1063,7 +1031,7 @@ elsoc_long_2016_2022 %>%
 
 ```
 
-```{r graf-involv-poli-2, fig.cap = 'Involucramiento político según tipo de votante'}
+```{r graf-involv-poli-2, fig.cap = 'Involucramiento político, según tipo de votante'}
 
 elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1) %>%
@@ -1339,7 +1307,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'none',
         legend.title = element_blank()) +
-  ggtitle('', subtitle = 'De acuerdo o muy de acuerdo')
+  ggtitle('', subtitle = 'De acuerdo o totalmente de acuerdo')
   
 ```
 
@@ -1419,7 +1387,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  ggtitle('', subtitle = 'De acuerdo o muy de acuerdo con "Con la llegada de migrantes aumenta el desempleo"')
+  ggtitle('', subtitle = 'De acuerdo o totalmente de acuerdo con "Con la llegada de migrantes aumenta el desempleo"')
   
 ```
 
@@ -1446,7 +1414,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  ggtitle('', subtitle = 'De acuerdo o muy de acuerdo con "Con la llegada de migrantes Chile pierde su identidad"')
+  ggtitle('', subtitle = 'De acuerdo o totalmente de acuerdo con "Con la llegada de migrantes Chile pierde su identidad"')
   
 ```
 
