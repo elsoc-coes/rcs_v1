@@ -67,7 +67,7 @@ elsoc_cohesion <- elsoc_long_2016_2022 %>%
   mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
                        labels = c("Votante\nCrónico", "Desafecto", "No-Votante\nCrónico", "Activado")),
-         pp_3=factor(pp_3,levels = 1:3,labels = c("Votante\nHabitual","No-Votante","Indefinido")))%>%
+         pp_3=factor(pp_3,levels = 1:3,labels = c("Votante Habitual","No-votante","Votante Reactivo")))%>%
   left_join(volumen_red, by=c("idencuesta","ola"))
 
 saveRDS(elsoc_cohesion,file = "inputs/cohesion social/base_cohesion.RDS")
