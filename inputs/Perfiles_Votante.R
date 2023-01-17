@@ -86,7 +86,8 @@ fit <- rbind(fit_3, fit_4, fit_5)
 #SAVE DATABASE.
 
 perfiles <- perfiles %>% 
-  dplyr::select(idencuesta, pp_3, pp_4, pp_5) 
+  dplyr::select(idencuesta, pp_3, pp_4, pp_5) %>%
+  mutate(pp_3 = car::recode(pp_3, "3 = 1; 1 = 3"))
 
 save(perfiles, file = "perfiles.RData")
 
