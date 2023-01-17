@@ -23,7 +23,6 @@ options(dplyr.summarise.inform = FALSE)
 ```
 
 ```{r cargar-datos-3}
-
 load(file.path('..', 'inputs', 'ELSOC_Long_2016_2022_v1.00_R.RData'))
 load(file.path('..', 'inputs', 'ELSOC_Wide_2016_2022_v1.00_R.RData'))
 
@@ -56,10 +55,10 @@ elsoc_long_2016_2022 <- elsoc_long.0 %>%
 load(file.path('..', 'inputs', 'perfiles.RData'))
 
 elsoc_long_2016_2022 <- elsoc_long_2016_2022 %>%
-  left_join(perfiles, by = "idencuesta") %>%
+  left_join(perfiles, by = "idencuesta") %>% 
    mutate(pp_3 = factor(pp_3, 
                        levels = 1:3,
-                       labels = c("Votante Habitual (70.21%)", "No-Votante (17.06%)", "Votante Reactivo (12.73%)"))) %>%
+                       labels = c("Votante Habitual (70.3%)", "No-Votante (17.3%)", "Votante Reactivo (12.3%)"))) %>%
    mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
                        labels = c("1 (10.90%)", "2 (8.29%)", " 3 (69.28%)", "4 (11.53%)"))) %>%
@@ -72,7 +71,7 @@ elsoc_wide_2016_2022 <- elsoc_wide_2016_2022 %>%
   left_join(perfiles, by = "idencuesta") %>%
    mutate(pp_3 = factor(pp_3, 
                        levels = 1:3,
-                       labels = c("Votante\nHabitual (70.21%)", "No-Votante (17.06%)", "Votante Reactivo (12.73%)"))) %>%
+                       labels = c("Votante Habitual (70.3%)", "No-Votante (17.3%)", "Votante Reactivo (12.3%)"))) %>%
    mutate(pp_4 = factor(pp_4, 
                        levels = 1:4,
                        labels = c("1 (10.90%)", "2 (8.29%)", " 3 (69.28%)", "4 (11.53%)"))) %>%

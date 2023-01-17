@@ -11,8 +11,7 @@ pacman::p_load(readxl, data.table, lubridate, stringr, tidyverse, labelled, ggpl
                psych, poLCA, nnet, hrbrthemes, stargazer, elsoc)
 
 Sys.setlocale("LC_ALL","ES_ES.UTF-8")
-
-setwd("/Users/rsalaslewin/Dropbox/ELSOC Personal/Reporte_2022/rcs_v1/inputs")
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 load("ELSOC_Wide_2016_2022_v1.00_R.RData")
 
@@ -67,6 +66,7 @@ perfiles$pp_4 <- as.factor(prof_4$predclass)
 tab_pp_4 <- table(perfiles$pp_4)
 tab_pp_4
 prop.table(tab_pp_4)
+
 
 #5 Classes.
 
