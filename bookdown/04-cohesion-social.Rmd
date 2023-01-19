@@ -44,7 +44,7 @@ perfiles0 <- perfiles
 perfiles <- perfiles0 %>%
    mutate(pp_3 = factor(pp_3, 
                        levels = 1:3,
-                       labels = c("Votante Habitual (70.3%)", "No Votante (17.3%)", "Votante Reactivo (12.3%)")),
+                       labels = c("Votante Habitual", "No Votante", "Votante Reactivo")),
           pp_4 = factor(pp_4, 
                        levels = 1:4,
                        labels = c("Votante\nCrónico (64.24%)", "Desafecto (8.30%)", "No Votante\nCrónico (14.28%)", "Activado (13.17%)"))) %>%
@@ -115,7 +115,7 @@ elsoc_long_2016_2022 %>%
   geom_point(size = 1.75) + 
   geom_line() +
   ggtitle(label = '', 
-          subtitle = 'De acuerdo o totalmente de acuerdo, en promedio, con la aceptación de la diversidad*') +
+          subtitle = 'De acuerdo o totalmente de acuerdo, en promedio, con la aceptación de la diversidad') +
   scale_y_continuous(labels = scales::percent, 
                      limits = c(0, 1)) +
   ylab(label = NULL) +
@@ -339,28 +339,81 @@ elsoc_long_2016_2022 %>%
 ## Bienestar
 
 ```{r, fig.cap = 'Satisfacción con la vida, según perfil de votante'}
-
-print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_satisfaccion_perfiles.RDS") +
-          ggtitle('',
-                  subtitle = 'Se siente satisfecho o totalmente satisfecho con su vida')
-)
-
+elsoc_long_2016_2022 %>%
+  left_join(perfiles, by = 'idencuesta') %>% 
+  filter(tipo_atricion == 1) %>% 
+  sjlabelled::as_label(ola) %>%
+  prop_list(s01 %in% 4:5, by = c(ola, pp_3), na.rm = TRUE) %>% 
+  drop_na() %>% 
+  ggplot(aes(x = ola, y = prop, color = pp_3,group=pp_3,
+             label = scales::percent(prop, accuracy = .1)))+
+  geom_point()+
+  geom_line()+
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  theme_bw()+
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .8, option = 'viridis')+
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1))+
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank())+
+  ggtitle(label = '',
+          subtitle = "Se siente satisfecho o totalmente satisfecho con su vida")
 ```
 
 ```{r, fig.cap = 'Sobrecarga por deudas, según perfil de votante'}
-print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_deuda_perfiles.RDS") +
-          ggtitle('',
-          subtitle = 'Bastante o muy sobrecargado por deudas')
-)
+
+elsoc_long_2016_2022 %>%
+  left_join(perfiles, by = 'idencuesta') %>% 
+  filter(tipo_atricion == 1, ola %in% c(1, 3, 5)) %>% 
+  sjlabelled::as_label(ola) %>%
+  prop_list(m43 %in% 4:5, by = c(ola, pp_3), na.rm = TRUE) %>% 
+  drop_na() %>% 
+  ggplot(aes(x = ola, y = prop, color = pp_3,group=pp_3,
+             label = scales::percent(prop, accuracy = .1)))+
+  geom_point()+
+  geom_line()+
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  theme_bw()+
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(begin = 0, end = .8, option = 'viridis')+
+  scale_y_continuous(labels = scales::percent, limits = c(0, .5))+
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank())+
+  ggtitle(label = '',
+          subtitle = "Bastante o muy sobrecargado por deudas")
+
 ```
 
 
 ```{r fig.cap = 'Perspectiva de movilidad social ascendente, según perfil de votante'}
-print(readRDS("../inputs/cohesion social/bienestar/gf_cs_bienestar_movilidad_perfiles.RDS") + 
-        ggtitle('',
-                subtitle = 'Presenta perspetiva de movilidad ascendente*') +
-          labs(caption = 'Nota: La perspectiva de movilidad social ascendente corresponde a la diferencia entre el estatus social esperado del hijo\ny el estatus social subjetivo del encuestado')
 
-)
+
+elsoc_long_2016_2022 %>% 
+  left_join(perfiles, by = 'idencuesta') %>% 
+  filter(tipo_atricion == 1) %>% 
+  mutate(mov_interg = d01_03 - d01_01) %>% 
+  sjlabelled::as_label(ola) %>% 
+  prop(x = mov_interg %in% 1:10, by = c(ola, pp_3), na.rm = T) %>% 
+  filter(!is.na(pp_3)) %>% 
+  ggplot(aes(y = prop, x = ola, color = pp_3, group=pp_3,
+             label = as.character(scales::percent(prop, accuracy = .1))))+
+  theme_bw() + 
+  geom_text_repel(nudge_y = .01, size = 3, color = 'black') +
+  geom_point(size = 1.75) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::percent,limits = c(0,1)) +
+  ylab(label = NULL) +
+  xlab(label = NULL) +
+  scale_color_viridis_d(end = .75, option = 'viridis') +
+  theme(plot.caption = element_text(hjust = 0),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  ggtitle('', subtitle = 'Presenta perspectiva de movilidad ascendente') +
+  labs(caption = 'Nota: La perspectiva de movilidad social ascendente corresponde a la diferencia entre el estatus social esperado del hijo\ny el estatus social subjetivo del encuestado')
+
 ```
 
