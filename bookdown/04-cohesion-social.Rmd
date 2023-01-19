@@ -44,10 +44,10 @@ perfiles0 <- perfiles
 perfiles <- perfiles0 %>%
    mutate(pp_3 = factor(pp_3, 
                        levels = 1:3,
-                       labels = c("Votante Habitual (70.3%)", "No-Votante (17.3%)", "Votante Reactivo (12.3%)")),
+                       labels = c("Votante Habitual (70.3%)", "No Votante (17.3%)", "Votante Reactivo (12.3%)")),
           pp_4 = factor(pp_4, 
                        levels = 1:4,
-                       labels = c("Votante\nCrónico (64.24%)", "Desafecto (8.30%)", "No-Votante\nCrónico (14.28%)", "Activado (13.17%)"))) %>%
+                       labels = c("Votante\nCrónico (64.24%)", "Desafecto (8.30%)", "No Votante\nCrónico (14.28%)", "Activado (13.17%)"))) %>%
    mutate(pp_5 = factor(pp_5, 
                        levels = 1:5,
                        labels = c("1 (14.27%)", "2 (11.44%)", "3 (4.73%)", 
@@ -132,7 +132,7 @@ elsoc_long_2016_2022 %>%
 
 ## Sentido de pertenencia
 
-```{r graf-orgullochileno-perfil, fig.cap = 'Orgullo de ser chileno, según perfil de votante'}
+```{r graf-orgullochileNo perfil, fig.cap = 'Orgullo de ser chileno, según perfil de votante'}
 elsoc_long_2016_2022 %>% 
   left_join(perfiles, by = 'idencuesta') %>% 
  filter(tipo_atricion == 1, !is_nsnr(c32_01,pp_3)) %>%
