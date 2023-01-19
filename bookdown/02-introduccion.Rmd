@@ -15,6 +15,7 @@ library(elsoc)
 library(lubridate)
 library(viridis)
 library(statar)
+library(bookdown)
 ```
 
 
@@ -391,7 +392,7 @@ bind_rows(
   as_label(m0_sexo) %>% 
   mutate(educ = factor(car::recode(m01, recodes = "1:3 = 1; 4:5 = 2; 6:7 = 3; 8:10 = 4"),
                        levels = 1:4,
-                       labels = c("Basica", "Media", "Tecnica", "Universitaria")),
+                       labels = c("Básica", "Media", "Técnica", "Universitaria")),
           muestra = ifelse(muestra==1,"Original","Refresco"),
          ponderador0 = 1) %>%
   survey_design_elsoc(weights = ponderador0) %>% 
@@ -408,7 +409,7 @@ bind_rows(
   as_label(m0_sexo) %>% 
   mutate(educ = factor(car::recode(m01, recodes = "1:3 = 1; 4:5 = 2; 6:7 = 3; 8:10 = 4"),
                        levels = 1:4,
-                       labels = c("Basica", "Media", "Tecnica", "Universitaria")),
+                       labels = c("Básica", "Media", "Técnica", "Universitaria")),
           muestra = "Total",
          ponderador0 = 1) %>%
   survey_design_elsoc(weights = ponderador0) %>% 
