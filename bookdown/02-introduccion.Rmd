@@ -28,6 +28,8 @@ load(file.path('..', 'inputs', 'ELSOC_Wide_2016_2022_v1.00_R.RData'))
 
 ## Sobre COES
 
+esta es una prueba 
+
 El Centro de Estudios de Conflicto y Cohesión Social ([COES](https://coes.cl/)) desarrolla investigación colaborativa en temas relacionados al conflicto social y la cohesión (convivencia) en Chile, por medio de un equipo multidisciplinario proveniente de las ciencias sociales y humanidades. COES centra sus actividades académicas y de difusión en el análisis de las múltiples manifestaciones del conflicto y cohesión social en Chile, sus causas, así como también su contexto cultural e histórico.
 
 COES está patrocinado por la Universidad de Chile y la Pontificia Universidad Católica de Chile, y como instituciones asociadas se encuentran la Universidad Diego Portales y la Universidad Adolfo Ibáñez. COES cuenta con el apoyo del Fondo de Financiamiento de Centros de Investigación en Áreas Prioritarias ([FONDAP](https://www.conicyt.cl/fondap/sobre-fondap/que-es-fondap/), dependiente de la Agencia Nacional de Investigación y Desarrollo ([ANID](https://www.anid.cl/)) del Ministerio de Ciencia, Tecnología, Conocimiento e Innovación ([MinCiencia](https://www.minciencia.gob.cl/)). ELSOC además cuenta como socio al Instituto Milenio para la Investigación en Depresión y Personalidad ([MIDAP](https://midap.org/)).
