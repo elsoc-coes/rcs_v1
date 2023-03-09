@@ -23,8 +23,9 @@ options(dplyr.summarise.inform = FALSE)
 ```
 
 ```{r cargar-datos-3}
-load(file.path('..', 'inputs', 'ELSOC_Long_2016_2022_v1.00_R.RData'))
-load(file.path('..', 'inputs', 'ELSOC_Wide_2016_2022_v1.00_R.RData'))
+
+load(file.path('..', 'inputs', 'ELSOC_Long.RData'))
+load(file.path('..', 'inputs', 'ELSOC_Wide.RData'))
 
 elsoc_long.0 <- elsoc_long_2016_2022
 elsoc_long_2016_2022 <- elsoc_long.0 %>%

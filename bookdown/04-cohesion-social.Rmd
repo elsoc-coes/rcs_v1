@@ -21,8 +21,8 @@ library(statar)
 
 ```{r cargar-datos-4, include = FALSE}
 
-load(file.path('..', 'inputs', 'ELSOC_Long_2016_2022_v1.00_R.RData'))
-load(file.path('..', 'inputs', 'ELSOC_Wide_2016_2022_v1.00_R.RData'))
+load(file.path('..', 'inputs', 'ELSOC_Long.RData'))
+load(file.path('..', 'inputs', 'ELSOC_Wide.RData'))
 
 # Voto en plebiscito de salida para agregar a toda la muestra:
 voto_salida <- elsoc_long_2016_2022 %>% 

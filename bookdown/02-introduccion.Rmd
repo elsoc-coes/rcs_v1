@@ -21,8 +21,8 @@ library(bookdown)
 
 ```{r cargar-datos-2}
 
-load(file.path('..', 'inputs', 'ELSOC_Long_2016_2022_v1.00_R.RData'))
-load(file.path('..', 'inputs', 'ELSOC_Wide_2016_2022_v1.00_R.RData'))
+load(file.path('..', 'inputs', 'ELSOC_Long.RData'))
+load(file.path('..', 'inputs', 'ELSOC_Wide.RData'))
 
 ```
 
