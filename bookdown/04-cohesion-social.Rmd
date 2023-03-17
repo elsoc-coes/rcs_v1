@@ -84,7 +84,8 @@ elsoc_long_2016_2022 %>%
   scale_color_viridis_d(end = .75, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
-        legend.title = element_blank())
+        legend.title = element_blank()) +
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos).')
   
 ```
 
@@ -124,7 +125,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-  labs(caption = '*Indicador construido con respuesta promedio al grado de confianza en Homosexuales, Mapuche e Inmigrantes')
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota 1: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos).\nNota 2: Indicador construido con respuesta promedio al grado de confianza en Homosexuales, Mapuche e Inmigrantes')
   
 
 ```
@@ -153,7 +154,8 @@ elsoc_long_2016_2022 %>%
   scale_color_viridis_d(end = .75, option = 'viridis') +
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
-        legend.title = element_blank())
+        legend.title = element_blank()) +
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos).')
   
 ```
 
@@ -192,7 +194,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-  labs(caption = 'Nota: Personas que, en promedio, responden más de cinco en el índice construido con el grado de acuerdo con \n"Las personas son recompensadas por sus esfuerzos" y "Las personas son recompensadas por su inteligencia"')
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota 1: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos). \nNota 2: Personas que, en promedio, responden más de tres en el índice construido con el grado de acuerdo con \n"Las personas son recompensadas por sus esfuerzos" y "Las personas son recompensadas por su inteligencia"')
   
   
 
@@ -201,7 +203,7 @@ elsoc_long_2016_2022 %>%
 
 ## Vínculos Territoriales
 
-```{r, fig.cap = 'Elevada vinculación territorial, según perfil de votante'}
+```{r, fig.cap = 'Vinculación territorial, según perfil de votante'}
 
 elsoc_long_2016_2022 %>% 
   left_join(perfiles, by = 'idencuesta') %>% 
@@ -236,7 +238,7 @@ elsoc_long_2016_2022 %>%
   theme(plot.caption = element_text(hjust = 0),
         legend.position = 'top',
         legend.title = element_blank()) +
-    labs(caption = 'Nota: Personas que, en promedio, responden más de cinco en el índice construido con el grado de acuerdo con \n"Este es el barrio ideal para mi", "Me siento integrado/a en este barrio", "Me identifico con la gente de este \nbarrio" y "Este barrio es parte de mí"')
+    labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota 1: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos). \nNota 2: Personas que, en promedio, responden más de cinco en el índice construido con el grado de acuerdo con \n"Este es el barrio ideal para mi", "Me siento integrado/a en este barrio", "Me identifico con la gente de este \nbarrio" y "Este barrio es parte de mí"')
 
   
   
@@ -277,7 +279,7 @@ elsoc_long_2016_2022 %>%
         legend.title = element_blank()) + 
   ggtitle('',
           subtitle = 'Muchas veces o siempre presenta molestia o incomodidad por\n el índice de problemas con sus vecinos') + 
-      labs(caption = 'Nota: Personas que, en promedio, responden más de cinco en el índice construido con el grado de acuerdo con que ha tenido \n problemas con vecinos por "Ruidos molestos", "Tenencia irresponsable de mascotas", "Amenazas, insulos u ofensas" y \n"Basura"')
+      labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota 1: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos). \nNota 2: Personas que, en promedio, responden más de tres punto cinco en el índice construido con el grado de acuerdo con que ha tenido \n problemas con vecinos por "Ruidos molestos", "Tenencia irresponsable de mascotas", "Amenazas, insulos u ofensas" y \n"Basura"')
 
 ```
 
@@ -306,7 +308,8 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   ggtitle(label = '',
-          subtitle = 'Muchas veces o siempre se producen robos o asaltos en su barrio')
+          subtitle = 'Muchas veces o siempre se producen robos o asaltos en su barrio') +
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos).')
 ```
 
 ```{r inseg-part, fig.cap = 'Percepción de inseguridad barrial, según perfil de votante'}
@@ -332,7 +335,8 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) + 
   ggtitle('',
-          subtitle = 'Se siente inseguro o muy inseguro en su barrio')
+          subtitle = 'Se siente inseguro o muy inseguro en su barrio') +
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos).')
 
 ```
 
@@ -359,7 +363,8 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank())+
   ggtitle(label = '',
-          subtitle = "Se siente satisfecho o totalmente satisfecho con su vida")
+          subtitle = "Se siente satisfecho o totalmente satisfecho con su vida") +
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos).')
 ```
 
 ```{r, fig.cap = 'Sobrecarga por deudas, según perfil de votante'}
@@ -384,7 +389,8 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank())+
   ggtitle(label = '',
-          subtitle = "Bastante o muy sobrecargado por deudas")
+          subtitle = "Bastante o muy sobrecargado por deudas") +
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos).')
 
 ```
 
@@ -413,7 +419,7 @@ elsoc_long_2016_2022 %>%
         legend.position = 'top',
         legend.title = element_blank()) +
   ggtitle('', subtitle = 'Presenta perspectiva de movilidad ascendente') +
-  labs(caption = 'Nota: La perspectiva de movilidad social ascendente corresponde a la diferencia entre el estatus social esperado del hijo\ny el estatus social subjetivo del encuestado')
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota 1: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos). \nNota 2: La perspectiva de movilidad social ascendente corresponde a la diferencia entre el estatus social esperado del hijo\ny el estatus social subjetivo del encuestado')
 
 ```
 

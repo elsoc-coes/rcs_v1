@@ -274,110 +274,112 @@ Los resultados presentados a continuación incorporan el diseño muestral comple
 
 
 ```{r graf-edadt-muestra, fig.cap='Composición de muestra longitudinal: Tramo Edad'}
-
-bind_rows(
-  (elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & ola == 6) %>% 
-  as_label(m0_sexo) %>% 
-  mutate(edadt = factor(car::recode(m0_edad, "18:29 = 1; 30:49 = 2; 50:64 = 3; 65:150 = 4"),
-                      levels = 1:4,
-                      labels = c('18-29', '30-49', '50-64', '65 o más')),
-         muestra = ifelse(muestra==1,"Original","Refresco"),
-         ponderador0 = 1) %>%
-  survey_design_elsoc(weights = ponderador0) %>% 
-   group_by(muestra,edadt) %>%
-  summarise(N = n(),
-            pct = srvyr::survey_mean(proportion = TRUE),
-            prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")")) %>%
-    mutate(total = sum(N),
-           muestra = paste0(muestra," (N = ",total,")"))),
-  
-  (elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & ola == 6) %>% 
-  as_label(m0_sexo) %>% 
-  mutate(edadt = factor(car::recode(m0_edad, "18:29 = 1; 30:49 = 2; 50:64 = 3; 65:150 = 4"),
-                      levels = 1:4,
-                      labels = c('18-29', '30-49', '50-64', '65 o más')),
-         muestra = "Total",
-         ponderador0 = 1) %>%
-  survey_design_elsoc(weights = ponderador0) %>% 
-  group_by(muestra,edadt) %>%
-  summarise(N = n(),
-            pct = srvyr::survey_mean(proportion = TRUE),
-            prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
-    mutate(total = sum(N),
-           muestra = paste0(muestra," (N = ",total,")")))
-  
-  ) %>%
-  
-  ggplot(aes(y = pct, x = fct_rev(edadt), fill = edadt,
-             label = prop)) +
-  facet_grid(.~muestra, scales = 'free_y') +
-  theme_bw() + 
-  geom_col(position = 'dodge2',
-           fill = c(viridis(4, begin = .11, end = .85, direction = -1), 
-                    viridis(4, begin= .11, end = .85, direction = -1),
-                    viridis(4, begin = .11, end = .85, direction = -1))) +
-  geom_text(position = position_dodge(.9), hjust = -0.1, size = 3) +
-  coord_flip() +
-  xlab(NULL) + 
-  ylab(NULL) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
-  theme(legend.position = 'none')
-
+# 
+# bind_rows(
+#   (elsoc_long_2016_2022 %>% 
+#   filter(tipo_atricion == 1 & ola == 6) %>% 
+#   as_label(m0_sexo) %>% 
+#   mutate(edadt = factor(car::recode(m0_edad, "18:29 = 1; 30:49 = 2; 50:64 = 3; 65:150 = 4"),
+#                       levels = 1:4,
+#                       labels = c('18-29', '30-49', '50-64', '65 o más')),
+#          muestra = ifelse(muestra==1,"Original","Refresco"),
+#          ponderador0 = 1) %>%
+#   survey_design_elsoc(weights = ponderador0) %>% 
+#    group_by(muestra,edadt) %>%
+#   summarise(N = n(),
+#             pct = srvyr::survey_mean(proportion = TRUE),
+#             prop = paste0(N," (",
+#                           paste0(round(pct[,1]*100,1),"%"),")")) %>%
+#     mutate(total = sum(N),
+#            muestra = paste0(muestra," (N = ",total,")"))),
+#   
+#   (elsoc_long_2016_2022 %>% 
+#   filter(tipo_atricion == 1 & ola == 6) %>% 
+#   as_label(m0_sexo) %>% 
+#   mutate(edadt = factor(car::recode(m0_edad, "18:29 = 1; 30:49 = 2; 50:64 = 3; 65:150 = 4"),
+#                       levels = 1:4,
+#                       labels = c('18-29', '30-49', '50-64', '65 o más')),
+#          muestra = "Total",
+#          ponderador0 = 1) %>%
+#   survey_design_elsoc(weights = ponderador0) %>% 
+#   group_by(muestra,edadt) %>%
+#   summarise(N = n(),
+#             pct = srvyr::survey_mean(proportion = TRUE),
+#             prop = paste0(N," (",
+#                           paste0(round(pct[,1]*100,1),"%"),")"))%>%
+#     mutate(total = sum(N),
+#            muestra = paste0(muestra," (N = ",total,")")))
+#   
+#   ) %>%
+#   
+#   ggplot(aes(y = pct, x = fct_rev(edadt), fill = edadt,
+#              label = prop)) +
+#   facet_grid(.~muestra, scales = 'free_y') +
+#   theme_bw() + 
+#   geom_col(position = 'dodge2',
+#            fill = c(viridis(4, begin = .11, end = .85, direction = -1), 
+#                     viridis(4, begin = .11, end = .85, direction = -1),
+#                     viridis(4, begin = .11, end = .85, direction = -1))) +
+#   geom_text(position = position_dodge(.9), hjust = -0.1, size = 3) +
+#   coord_flip() +
+#   xlab(NULL) + 
+#   ylab(NULL) +
+#   scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
+#   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos)') +
+#   theme(plot.caption = element_text(hjust = 0))
+#   
 
 
 ```
 
 ```{r graf-sexo-muestra, fig.cap='Composición de muestra longitudinal: Sexo'}
-
- bind_rows(
-  (elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & ola == 6) %>% 
-  as_label(m0_sexo) %>% 
-  mutate(muestra = ifelse(muestra==1,"Original","Refresco"),
-         ponderador0 = 1) %>%
-  survey_design_elsoc(weights = ponderador0) %>% 
-  group_by(muestra,m0_sexo) %>%
-  summarise(N = n(),
-            pct = srvyr::survey_mean(proportion = TRUE),
-            prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
-    mutate(total = sum(N),
-           muestra = paste0(muestra," (N = ",total,")"))),
-  
-  (elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & ola == 6) %>% 
-  as_label(m0_sexo) %>% 
-  mutate(muestra = "Total",
-         ponderador0 = 1) %>%
-  survey_design_elsoc(weights = ponderador0) %>% 
-  group_by(muestra,m0_sexo) %>%
-  summarise(N = n(),
-            pct = srvyr::survey_mean(proportion = TRUE),
-            prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
-    mutate(total = sum(N),
-           muestra = paste0(muestra," (N = ",total,")")))
- ) %>%
-  
-  ggplot(aes(y = pct, x = fct_rev(m0_sexo), fill = m0_sexo,
-             label = prop)) +
-  facet_grid(.~muestra, scales = 'free_y') +
-  theme_bw() + 
-  geom_col(position = 'dodge2',
-           fill = c(viridis(2, begin = .11, end = .85, direction = -1), 
-                    viridis(2, begin = .11, end = .85, direction = -1),
-                    viridis(2, begin = .11, end = .85, direction = -1))) +
-  geom_text(position = position_dodge(.9), hjust = -0.1, size = 3) +
-  coord_flip() +
-  xlab(NULL) + 
-  ylab(NULL) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
-  theme(legend.position = 'none')
-
+# 
+#  bind_rows(
+#   (elsoc_long_2016_2022 %>% 
+#   filter(tipo_atricion == 1 & ola == 6) %>% 
+#   as_label(m0_sexo) %>% 
+#   mutate(muestra = ifelse(muestra==1,"Original","Refresco"),
+#          ponderador0 = 1) %>%
+#   survey_design_elsoc(weights = ponderador0) %>% 
+#   group_by(muestra,m0_sexo) %>%
+#   summarise(N = n(),
+#             pct = srvyr::survey_mean(proportion = TRUE),
+#             prop = paste0(N," (",
+#                           paste0(round(pct[,1]*100,1),"%"),")"))%>%
+#     mutate(total = sum(N),
+#            muestra = paste0(muestra," (N = ",total,")"))),
+#   
+#   (elsoc_long_2016_2022 %>% 
+#   filter(tipo_atricion == 1 & ola == 6) %>% 
+#   as_label(m0_sexo) %>% 
+#   mutate(muestra = "Total",
+#          ponderador0 = 1) %>%
+#   survey_design_elsoc(weights = ponderador0) %>% 
+#   group_by(muestra,m0_sexo) %>%
+#   summarise(N = n(),
+#             pct = srvyr::survey_mean(proportion = TRUE),
+#             prop = paste0(N," (",
+#                           paste0(round(pct[,1]*100,1),"%"),")"))%>%
+#     mutate(total = sum(N),
+#            muestra = paste0(muestra," (N = ",total,")")))
+#  ) %>%
+#   
+#   ggplot(aes(y = pct, x = fct_rev(m0_sexo), fill = m0_sexo,
+#              label = prop)) +
+#   facet_grid(.~muestra, scales = 'free_y') +
+#   theme_bw() + 
+#   geom_col(position = 'dodge2',
+#            fill = c(viridis(2, begin = .11, end = .85, direction = -1), 
+#                     viridis(2, begin = .11, end = .85, direction = -1),
+#                     viridis(2, begin = .11, end = .85, direction = -1))) +
+#   geom_text(position = position_dodge(.9), hjust = -0.1, size = 3) +
+#   coord_flip() +
+#   xlab(NULL) + 
+#   ylab(NULL) +
+#   scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
+#   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos)') +
+#   theme(plot.caption = element_text(hjust = 0))
+# 
 
 
 ```
@@ -386,118 +388,163 @@ bind_rows(
 
 ```{r graf-educ-muestra, fig.cap='Composición de muestra longitudinal: Nivel Educacional'}
 
-bind_rows(
-  (elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & ola == 6 & !is.na(m01) & !is_nsnr(m01)) %>% 
-  as_label(m0_sexo) %>% 
-  mutate(educ = factor(car::recode(m01, recodes = "1:3 = 1; 4:5 = 2; 6:7 = 3; 8:10 = 4"),
-                       levels = 1:4,
-                       labels = c("Básica", "Media", "Técnica", "Universitaria")),
-          muestra = ifelse(muestra==1,"Original","Refresco"),
-         ponderador0 = 1) %>%
-  survey_design_elsoc(weights = ponderador0) %>% 
-  group_by(muestra,educ) %>%
-  summarise(N = n(),
-            pct = srvyr::survey_mean(proportion = TRUE),
-            prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
-    mutate(total = sum(N),
-           muestra = paste0(muestra," (N = ",total,")"))),
-  
-  (elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & ola == 6 & !is.na(m01) & !is_nsnr(m01)) %>% 
-  as_label(m0_sexo) %>% 
-  mutate(educ = factor(car::recode(m01, recodes = "1:3 = 1; 4:5 = 2; 6:7 = 3; 8:10 = 4"),
-                       levels = 1:4,
-                       labels = c("Básica", "Media", "Técnica", "Universitaria")),
-          muestra = "Total",
-         ponderador0 = 1) %>%
-  survey_design_elsoc(weights = ponderador0) %>% 
-  group_by(muestra,educ) %>%
-  summarise(N = n(),
-            pct = srvyr::survey_mean(proportion = TRUE),
-            prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
-    mutate(total = sum(N),
-           muestra = paste0(muestra," (N = ",total,")")))
-) %>%
-  
-  ggplot(aes(y = pct, x = fct_rev(educ), fill = educ,
-             label = prop)) +
-  facet_grid(.~muestra, scales = 'free_y') +
-  theme_bw() + 
-  geom_col(position = 'dodge2',
-           fill = c(viridis(4, begin = .11, end = .85, direction = -1), 
-                    viridis(4, begin = .11, end = .85, direction = -1),
-                    viridis(4, begin = .11, end = .85, direction = -1))) +
-  geom_text(position = position_dodge(.9), hjust = -0.1, size = 3) +
-  coord_flip() +
-  xlab(NULL) + 
-  ylab(NULL) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
-  theme(legend.position = 'none')
-
+# bind_rows(
+#   (elsoc_long_2016_2022 %>% 
+#   filter(tipo_atricion == 1 & ola == 6 & !is.na(m01) & !is_nsnr(m01)) %>% 
+#   as_label(m0_sexo) %>% 
+#   mutate(educ = factor(car::recode(m01, recodes = "1:3 = 1; 4:5 = 2; 6:7 = 3; 8:10 = 4"),
+#                        levels = 1:4,
+#                        labels = c("Básica", "Media", "Técnica", "Universitaria")),
+#           muestra = ifelse(muestra==1,"Original","Refresco"),
+#          ponderador0 = 1) %>%
+#   survey_design_elsoc(weights = ponderador0) %>% 
+#   group_by(muestra,educ) %>%
+#   summarise(N = n(),
+#             pct = srvyr::survey_mean(proportion = TRUE),
+#             prop = paste0(N," (",
+#                           paste0(round(pct[,1]*100,1),"%"),")"))%>%
+#     mutate(total = sum(N),
+#            muestra = paste0(muestra," (N = ",total,")"))),
+#   
+#   (elsoc_long_2016_2022 %>% 
+#   filter(tipo_atricion == 1 & ola == 6 & !is.na(m01) & !is_nsnr(m01)) %>% 
+#   as_label(m0_sexo) %>% 
+#   mutate(educ = factor(car::recode(m01, recodes = "1:3 = 1; 4:5 = 2; 6:7 = 3; 8:10 = 4"),
+#                        levels = 1:4,
+#                        labels = c("Básica", "Media", "Técnica", "Universitaria")),
+#           muestra = "Total",
+#          ponderador0 = 1) %>%
+#   survey_design_elsoc(weights = ponderador0) %>% 
+#   group_by(muestra,educ) %>%
+#   summarise(N = n(),
+#             pct = srvyr::survey_mean(proportion = TRUE),
+#             prop = paste0(N," (",
+#                           paste0(round(pct[,1]*100,1),"%"),")"))%>%
+#     mutate(total = sum(N),
+#            muestra = paste0(muestra," (N = ",total,")")))
+# ) %>%
+#   
+#   ggplot(aes(y = pct, x = fct_rev(educ), fill = educ,
+#              label = prop)) +
+#   facet_grid(.~muestra, scales = 'free_y') +
+#   theme_bw() + 
+#   geom_col(position = 'dodge2',
+#            fill = c(viridis(4, begin = .11, end = .85, direction = -1), 
+#                     viridis(4, begin = .11, end = .85, direction = -1),
+#                     viridis(4, begin = .11, end = .85, direction = -1))) +
+#   geom_text(position = position_dodge(.9), hjust = -0.1, size = 3) +
+#   coord_flip() +
+#   xlab(NULL) + 
+#   ylab(NULL) +
+#   scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
+#   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos)') +
+#   theme(plot.caption = element_text(hjust = 0))
+# 
 
 
 ```
 
 
 ```{r graf-estrato-muestra, fig.cap='Composición de muestra longitudinal: Estrato'}
+# 
+# bind_rows(
+#   (elsoc_long_2016_2022 %>% 
+#   filter(tipo_atricion == 1 & ola == 6) %>% 
+#   as_label(m0_sexo) %>% 
+#   mutate(estrato = factor(car::recode(estrato, recodes = "5:6=5"),
+#                        levels = 1:5,
+#                        labels = c("Santiago", "Valparaíso", "Concepción",
+#                                   "Ciudades\ngrandes", "Medianas o\npequeñas")),
+#          muestra = ifelse(muestra==1,"Original","Refresco"),
+#          ponderador0 = 1) %>%
+#   survey_design_elsoc(weights = ponderador0) %>% 
+#   group_by(muestra,estrato) %>%
+#   summarise(N = n(),
+#             pct = srvyr::survey_mean(proportion = TRUE),
+#             prop = paste0(N," (",
+#                           paste0(round(pct[,1]*100,1),"%"),")"))%>%
+#     mutate(total = sum(N),
+#            muestra = paste0(muestra," (N = ",total,")"))),
+#   
+#   (elsoc_long_2016_2022 %>% 
+#   filter(tipo_atricion == 1 & ola == 6) %>% 
+#   as_label(m0_sexo) %>% 
+#   mutate(estrato = factor(car::recode(estrato, recodes = "5:6=5"),
+#                        levels = 1:5,
+#                        labels = c("Santiago", "Valparaíso", "Concepción",
+#                                   "Ciudades\ngrandes", "Medianas o\npequeñas")),
+#          muestra = "Total",
+#          ponderador0 = 1) %>%
+#   survey_design_elsoc(weights = ponderador0) %>% 
+#   group_by(muestra,estrato) %>%
+#   summarise(N = n(),
+#             pct = srvyr::survey_mean(proportion = TRUE),
+#             prop = paste0(N," (",
+#                           paste0(round(pct[,1]*100,1),"%"),")"))%>%
+#     mutate(total = sum(N),
+#            muestra = paste0(muestra," (N = ",total,")")))
+# ) %>%
+#     
+#   ggplot(aes(y = pct, x = fct_rev(estrato), fill = estrato,
+#              label = prop)) +
+#   facet_grid(.~muestra, scales = 'free_y') +
+#   theme_bw() + 
+#   geom_col(position = 'dodge2',
+#            fill = c(viridis(5, begin = .11, end = .85, direction = -1), 
+#                     viridis(5, begin= .11, end = .85, direction = -1),
+#                     viridis(5, begin = .11, end = .85, direction = -1))) +
+#   geom_text(position = position_dodge(.9), hjust = -0.1, size = 3) +
+#   coord_flip() +
+#   xlab(NULL) + 
+#   ylab(NULL) +
+#   scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
+#   labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos)') +
+#   theme(plot.caption = element_text(hjust = 0))
+# 
 
-bind_rows(
-  (elsoc_long_2016_2022 %>% 
+
+```
+
+
+
+
+```{r graf-composicion-muestra, fig.cap='Composición de muestra longitudinal'}
+
+elsoc_long_2016_2022 %>% 
   filter(tipo_atricion == 1 & ola == 6) %>% 
   as_label(m0_sexo) %>% 
-  mutate(estrato = factor(car::recode(estrato, recodes = "5:6=5"),
+  mutate(edadt = factor(car::recode(m0_edad, "18:29 = 1; 30:49 = 2; 50:64 = 3; 65:150 = 4"),
+                      levels = 1:4,
+                      labels = c('18-29', '30-49', '50-64', '65 o más')),
+         educ = factor(car::recode(m01, recodes = "1:3 = 1; 4:5 = 2; 6:7 = 3; 8:10 = 4"),
+                       levels = 1:4,
+                       labels = c("Basica", "Media", "Tecnica", "Universitaria")),
+         estrato = factor(car::recode(estrato, recodes = "5:6=5"),
                        levels = 1:5,
                        labels = c("Santiago", "Valparaíso", "Concepción",
                                   "Ciudades\ngrandes", "Medianas o\npequeñas")),
-         muestra = ifelse(muestra==1,"Original","Refresco"),
          ponderador0 = 1) %>%
   survey_design_elsoc(weights = ponderador0) %>% 
-  group_by(muestra,estrato) %>%
-  summarise(N = n(),
-            pct = srvyr::survey_mean(proportion = TRUE),
-            prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
-    mutate(total = sum(N),
-           muestra = paste0(muestra," (N = ",total,")"))),
-  
-  (elsoc_long_2016_2022 %>% 
-  filter(tipo_atricion == 1 & ola == 6) %>% 
-  as_label(m0_sexo) %>% 
-  mutate(estrato = factor(car::recode(estrato, recodes = "5:6=5"),
-                       levels = 1:5,
-                       labels = c("Santiago", "Valparaíso", "Concepción",
-                                  "Ciudades\ngrandes", "Medianas o\npequeñas")),
-         muestra = "Total",
-         ponderador0 = 1) %>%
-  survey_design_elsoc(weights = ponderador0) %>% 
-  group_by(muestra,estrato) %>%
-  summarise(N = n(),
-            pct = srvyr::survey_mean(proportion = TRUE),
-            prop = paste0(N," (",
-                          paste0(round(pct[,1]*100,1),"%"),")"))%>%
-    mutate(total = sum(N),
-           muestra = paste0(muestra," (N = ",total,")")))
-) %>%
-    
-  ggplot(aes(y = pct, x = fct_rev(estrato), fill = estrato,
-             label = prop)) +
-  facet_grid(.~muestra, scales = 'free_y') +
+  prop_list(m0_sexo, edadt, educ, estrato, na.rm = TRUE) %>% 
+  mutate(name = factor(name, levels = c('m0_sexo', 'edadt', 'educ', 'estrato'),
+                       labels = c('Sexo', 'Tramo de edad', 'Nivel educacional', 'Estrato'))) %>% 
+  ggplot(aes(y = prop, x = fct_rev(value), fill = value,
+             label = scales::percent(prop, .1))) +
+  facet_wrap(.~name, scales = 'free_y') +
   theme_bw() + 
   geom_col(position = 'dodge2',
-           fill = c(viridis(5, begin = .11, end = .85, direction = -1), 
-                    viridis(5, begin= .11, end = .85, direction = -1),
-                    viridis(5, begin = .11, end = .85, direction = -1))) +
+           fill = c(viridis(2, begin = .33, end = .66, direction = -1), 
+                    viridis(4, end = .85, direction = -1), 
+                    viridis(4, end = .85, direction = -1), 
+                    viridis(5, end = .85, direction = -1))) +
   geom_text(position = position_dodge(.9), hjust = -0.1, size = 3) +
   coord_flip() +
   xlab(NULL) + 
   ylab(NULL) +
   scale_y_continuous(labels = scales::percent, limits = c(0,1)) + 
-  theme(legend.position = 'none')
-
-
+  theme(legend.position = 'none') + 
+  labs(caption = 'Fuente: Elaboración propia en base a datos ELSOC 2016-2022.\nNota: Se consideran observaciones de individuos sin atrición entre olas. N=10.912 (2.076 individuos)') +
+  theme(plot.caption = element_text(hjust = 0))
 
 ```
 
