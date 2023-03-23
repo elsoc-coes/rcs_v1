@@ -14,7 +14,7 @@ linestretch: 1.5
 toc-depth: 1
 lof: True
 lot: True
-# author: "González, Roberto; Bargsted, Matías; Figuereido, Ana; Miranda, Daniel; Cerda, Edgardo; Plaza, Alejandro; Salas-Lewin, Rocío"
+# author: "González, Roberto; Bargsted, Matías; Figuereido, Ana; Miranda, Daniel; Cerda, Edgardo; Salas-Lewin, Rocío; Delgado, Carlos"
 description: "Resultados ELSOC 2016-2022"
 github-repo: "elsoc-coes/rcs_v1"
 always_allow_html: true
@@ -28,13 +28,35 @@ editor_options:
 
 <div style="text-align: justify">
 
-El Centro de Estudios de Conflicto y Cohesión Social ([COES](https://coes.cl/)) tiene el agrado de publicar el informe “Radiografía del Cambio Social”, el cual consolida los principales hallazgos longitudinales de cinco mediciones anuales del Estudio Longitudinal Social de Chile ([ELSOC](https://coes.cl/encuesta-panel/)).
+El Centro de Estudios de Conflicto y Cohesión Social ([COES](https://coes.cl/)) tiene el agrado de publicar el informe “Radiografía del Cambio Social”, que consolida los principales hallazgos longitudinales de seis mediciones anuales del Estudio Longitudinal Social de Chile ([ELSOC](https://coes.cl/encuesta-panel/)). ELSOC es una encuesta panel que analiza longitudinalmente la evolución del conflicto y cohesión social en la sociedad chilena, tomando en cuenta los aportes disciplinares de la Economía, Sociología, Psicología, Ciencia Política y Estudios Urbanos. El panel se orienta a examinar los principales antecedentes, factores moderadores y mediadores, así como las principales consecuencias asociadas al desarrollo de distintas formas de sociabilidad en Chile. Este estudio representa las tendencias entre los respondentes del panel, por lo que la prioridad consiste en observar su variación a lo largo del tiempo y no como mediciones representativas en cada año. 
 
-ELSOC es una encuesta desarrollada para analizar longitudinalmente, en un estudio panel, la evolución del conflicto y cohesión social en la sociedad chilena, basándose en modelos conceptuales descritos en la literatura nacional e internacional de las disciplinas del ámbito de la Economía, Sociología, Psicología, Ciencia Política y Estudios Urbanos. Se orienta a examinar los principales antecedentes, factores moderadores y mediadores, así como las principales consecuencias asociadas al desarrollo de distintas formas de sociabilidad en Chile.
+Durante los últimos cinco años, Chile se ha visto remecido por importantes eventos que han afectado aspectos sociales, políticos, económicos y culturales de la vida nacional. Dada su metodología, ELSOC presenta una oportunidad única para observar los efectos que estos fenómenos tienen sobre la población chilena desde una perspectiva longitudinal, analizando el cambio y persistencia de comportamientos, creencias y percepciones presentes en la sociedad. 
 
-Durante los últimos años, Chile se ha visto remecido por importantes eventos que han alterado aspectos sociales, políticos y económicos de la vida nacional: la pandemia asociada al COVID-19; el estallido social más grande de las últimas décadas, ocurrido a partir de octubre de 2019; el proceso constituyente, inédito en la historia de Chile, que se desencadenó a partir de dicho estallido, y el plebiscito de salida, con el resultado de rechazo a dicho intento.
+Uno de los eventos que han marcado la vida política del país en el último tiempo – además de la pandemia del COVID-19 – es el proceso constituyente nacido a partir de las protestas de 2019. Este proceso constituyente estuvo delimitado por dos plebiscitos: un plebiscito de entrada de 2020 y un plebiscito de salida de 2022. Este último reintrodujo el voto obligatorio al sistema electoral por primera vez desde 2009, aunque esta vez con inscripción automática. En este contexto, todas aquellas personas mayores de 18 años habilitadas para sufragar tenían la obligación de hacerlo, pues de lo contrario arriesgaban sanciones monetarias. Así, la participación electoral pasó de un 55,65% en la segunda vuelta electoral de 2021 –elección con voto voluntario que alcanzó el mayor nivel de votación en el país– a un 85,86% en el plebiscito constituyente de salida en 2022.
 
-Estos fenómenos han significado un desafío para ELSOC y para la comunidad académica, ya que afecta tanto la forma en que son levantados los datos, como las temáticas que el estudio debe abordar. Sin embargo, ELSOC presenta una oportunidad única: la posibilidad de observar el efecto que éstos fenómenos tienen sobre la población chilena desde una perspectiva longitudinal, analizando el cambio y persistencia de comportamientos, creencias y percepciones presentes en la sociedad.
+Es decir, el plebiscito de 2022 incorporó masivamente al sistema electoral a personas que, por diversos motivos, nunca habían votado en el pasado: no tenían la edad para hacerlo, no estaban inscritos en el padrón previo a la elección presidencial de 2009 o habían decidido conscientemente no participar desde las primeras elecciones con voto voluntario e inscripción automática en 2012. La introducción de este nuevo grupo de votantes trajo consigo una reestructuración en la diversidad del electorado. En este contexto, el proyecto de Constitución redactado por la Convención Constitucional fue rechazado por un 61,89% con el mayor nivel de participación electoral en la historia de Chile.
+
+El presente informe busca precisamente analizar al nuevo grupo de votantes, en comparación a quienes siempre han participado en elecciones o lo han hecho de forma intermitente. En un contexto de elevada desafección política, el objetivo es detectar patrones o variaciones temporales en la evolución de actitudes políticas, orientaciones socio-económicas y posicionamientos socio-culturales que permitan dar cuenta de los potenciales impactos que este nuevo grupo de electores podría tener en la arena política nacional, la democracia y la cohesión social.
+
+El informe se divide en tres grandes secciones. La primera presenta los aspectos técnicos y metodológicos del estudio. Posteriormente, se analizan las transformaciones políticas en el país representadas en las actitudes y opiniones de los distintos tipos de electores. Finalmente, se presentan diversos aspectos de la cohesión social que pueden ser indicativos de la conducta electoral de estos individuos. Con ello, esperamos contribuir al desarrollo científico y entregar un aporte empírico al análisis político nacional que sustente potenciales hipótesis sobre el comportamiento y preferencias de la nueva composición de electores, así como sobre desafíos que existirán en futuros procesos electorales.
 
 
 
+## Autores {-}
+- Roberto González. *Profesor Titular Escuela de Psicología PUC. Investigador Principal COES. Coordinador estudio ELSOC*
+- Matías Bargsted. *Profesor Asociado Instituto de Sociología PUC. Investigador Asociado COES*
+- Ana Figuereido. *Profesora Asociada Instituto de Ciencias Sociales UOH. Investigadora Asociada COES*
+- Daniel Miranda. *Investigador Centro Medición MIDE UC. Investigador Asociado COES*
+- Edgardo Cerda. *Coordinador Técnico ELSOC*
+- Rocío Salas-Lewin. *Asistente de investigación ELSOC*
+- Carlos Delgado. *Asistente de investigación ELSOC*
+
+**Investigadores Colaboradores**: 
+
+- Vicente Espinoza. *Investigador Adjunto COES*
+- Valentina Paredes. *Profesora Asistente, Facultad de Economía y Negocios UCh. Investigadora Asociada COES*
+- Daniela Olivares. *Asistente de investigación ELSOC*
+- Andrés González. *Asistente de investigación ELSOC*
+- Gustavo Ahumada. *Asistente de investigación ELSOC*
+- Francine Montecinos. *Practicante ELSOC*
+- Federico Díaz. *Practicante ELSOC*
