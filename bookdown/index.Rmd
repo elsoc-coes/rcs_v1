@@ -14,7 +14,6 @@ linestretch: 1.5
 toc-depth: 1
 lof: True
 lot: True
-# author: "González, Roberto; Bargsted, Matías; Figuereido, Ana; Miranda, Daniel; Cerda, Edgardo; Salas-Lewin, Rocío; Delgado, Carlos"
 description: "Resultados ELSOC 2016-2022"
 github-repo: "elsoc-coes/rcs_v1"
 always_allow_html: true
@@ -45,7 +44,7 @@ El informe se divide en tres grandes secciones. La primera presenta los aspectos
 ## Autores {-}
 - Roberto González. *Profesor Titular Escuela de Psicología PUC. Investigador Principal COES. Coordinador estudio ELSOC*
 - Matías Bargsted. *Profesor Asociado Instituto de Sociología PUC. Investigador Asociado COES*
-- Ana Figuereido. *Profesora Asociada Instituto de Ciencias Sociales UOH. Investigadora Asociada COES*
+- Ana Figueiredo. *Profesora Asociada Instituto de Ciencias Sociales UOH. Investigadora Asociada COES*
 - Daniel Miranda. *Investigador Centro Medición MIDE UC. Investigador Asociado COES*
 - Edgardo Cerda. *Coordinador Técnico ELSOC*
 - Rocío Salas-Lewin. *Asistente de investigación ELSOC*

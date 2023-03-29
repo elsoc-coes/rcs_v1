@@ -41,7 +41,7 @@ https://dataverse.harvard.edu/dataverse/elsoc
 
 En este sitio se obtendrá acceso a los datos de las 6 mediciones transversales de ELSOC, así como bases longitudinales que integran las distintas mediciones. En colaboración con el Centro de Inteligencia Territorial ([CIT](https://cit.uai.cl/)), se pone también a disposición las bases ELSOC-CIT. Estas bases de datos permiten combinar la información de ELSOC, y estimaciones e indicadores territoriales y geoespaciales de distinta índole, proveniente de diversas fuentes de información nacional para los períodos 2016 a 2019.
 
-ELSOC tiene un compromiso con los más altos estándares científicos en términos de producción y análisis de datos. Dentro de esta visión global, ELSOC se guía por las principales pautas de Transparencia y Apertura en la investigación científica. Por esta misma razón, los códigos utilizados para el desarrollo de este documento se encontrarán disponibles en (xxxx).
+ELSOC tiene un compromiso con los más altos estándares científicos en términos de producción y análisis de datos. Dentro de esta visión global, ELSOC se guía por las principales pautas de Transparencia y Apertura en la investigación científica. Por esta misma razón, los códigos utilizados para el desarrollo de este documento se encontrarán disponibles en https://github.com/elsoc-coes/rcs_v1.
 
 ### Características del diseño muestral {-}
 
@@ -322,5 +322,26 @@ bind_rows(
 
 
 ```
+
+
+# Cómo citar este informe {-}
+
+:::{.blue-box}
+> COES (2023). Radiografía del Cambio Social: Análisis de Resultados Longitudinales ELSOC 2016-2022. Presentación de Resultados COES. Marzo, Santiago de Chile.
+:::
+
+**Entrada Bibtex:**
+
+```{r, echo = TRUE, eval = FALSE}
+@techreport{coes_Radiografia_2022,
+  title = {Radiograf\'ia Del {{Cambio Social}}: {{An\'alisis}} de {{Resultados Longitudinales ELSOC}} 2016-2021.},
+  author = {COES},
+  year = {2023},
+  month = mar,
+  address = {{Santiago de Chile, Chile}},
+  institution = {{Centro de Estudios de Conflicto y Cohesi\'on Social}}
+}
+```
+
 
 
