@@ -39,7 +39,7 @@ El [Estudio Longitudinal Social de Chile (ELSOC)](https://coes.cl/encuesta-panel
 
 Este estudio sigue la evolución de cerca de 4.500 chilenos y chilenas a lo largo de los últimos 7 años. Actualmente, se encuentran disponibles 6 olas del estudio, abarcando el período entre 2016 y 2022. Sus temas de estudio y su aspecto longitudinal convierten a ELSOC en un recurso único en Chile y América Latina para analizar la evolución de la sociedad chilena y para el desarrollo de las ciencias sociales en Chile.
 
-Durante los últimos años, ELSOC se ha consolidado como un importante insumo para el desarrollo de investigación científica y aplicada en ciencias sociales. En el sitio web de (ELSOC)(https://coes.cl/encuesta-panel/) se puede acceder a más información sobre el estudio. 
+Durante los últimos años, ELSOC se ha consolidado como un importante insumo para el desarrollo de investigación científica y aplicada en ciencias sociales. En el sitio web de (ELSOC)(https://coes.cl/encuesta-panel/) se puede acceder a más información y a la documentación metodológica del estudio. 
 
 
 ## Foco en el cambio longitudinal
